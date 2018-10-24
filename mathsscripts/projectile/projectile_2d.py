@@ -1,4 +1,4 @@
-import maths.projectile.moving_2d as moving2d
+import mathsscripts.projectile.moving_2d as moving2d
 
 g = 9.8
 
