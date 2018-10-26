@@ -2,13 +2,13 @@ import sys
 
 from PyQt5 import QtWidgets
 
-import login_ui as login_ui
+import window as login_ui
 
 
 # Generic code to start the program UI
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    window = login_ui.LoginWindow()
+    window = login_ui.Window()
     window.show()
     sys.exit(app.exec_())
 

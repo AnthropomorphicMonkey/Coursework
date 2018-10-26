@@ -5,7 +5,7 @@ import login_scripts
 
 
 # Window class to control uid
-class LoginWindow(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
+class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
     def __init__(self):
         # Inherits from generic window class from QT
         super().__init__()
@@ -108,6 +108,6 @@ if __name__ == '__main__':
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    window = LoginWindow()
+    window = Window()
     window.show()
     sys.exit(app.exec_())
