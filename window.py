@@ -13,32 +13,82 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         # Declare constants related to page indexes of different sections of the program
         self.login_page = 0
         self.create_account_page = 1
+        self.student_main_menu_page = 2
+        self.teacher_main_menu_page = 3
+        self.question_page = 4
         # Set start page to login screen
         self.change_page(self.login_page)
+        self.button_setup()
+        self.reset_pages()
+        # Disables logout button until logged in
+        self.hide_logout_button()
+        # Holds ID of active user
+        self.current_user = 1
+
+    def logout(self):
+        self.current_user = 1
+        self.change_page(self.login_page)
+        self.hide_logout_button()
+
+    def button_setup(self):
         # If login submit button clicked runs scripts to verify login
         self.login_submit_button.clicked.connect(self.login)
         # If create account submit button clicked runs scripts to create account
         self.create_account_submit_button.clicked.connect(self.create_account)
+        # If logout button clicked runs logout scripts
+        self.logout_button.clicked.connect(self.logout)
         # If create account clicked runs scripts to change screen
         # Error passing arguments fixed using https://stackoverflow.com/questions/45793966/clicked-connect-error
         self.login_create_account_button.clicked.connect(lambda: self.change_page(self.create_account_page))
         # If return to login clicked runs scripts to change screen
         self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
-        # Sets the default selected account type as student
+
+    def reset_pages(self):
+        # Sets radios to default selection
         self.create_account_radio_student.setChecked(True)
-        # Sets feedback output labels to blank as default
+        self.question_radio_a.setChecked(True)
+        # Sets input boxes to blank
+        self.login_username_input.setText("")
+        self.login_password_input.setText("")
+        self.create_account_first_name_input.setText("")
+        self.create_account_last_name_input.setText("")
+        self.create_account_username_input.setText("")
+        self.create_account_password_input.setText("")
+        self.create_account_password_verify_input.setText("")
+        self.question_topic_output.setText("")
+        self.question_question_output.setText("")
+        self.question_radio_a.setText("")
+        self.question_radio_b.setText("")
+        self.question_radio_c.setText("")
+        self.question_radio_d.setText("")
+        # Sets output labels to blank
         self.login_success_output.setText("")
         self.create_account_success_output.setText("")
         self.question_feedback_output.setText("")
 
+    def hide_logout_button(self):
+        self.logout_button.setEnabled(False)
+        self.logout_button.setVisible(False)
+        self.username_label.setText("")
+
+    def show_logout_button(self):
+        self.logout_button.setEnabled(True)
+        self.logout_button.setVisible(True)
+        self.username_label.setText(login_scripts.get_first_name(self.current_user).title())
+
     def login(self):
         # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)
         if login_scripts.check_user_exists(self.login_username_input.text().casefold()):
-            # Checks if password is correct
-            # If password correct next screen loaded
+            # Checks if password is correct. If password correct next screen loaded
             if login_scripts.check_password(self.login_username_input.text().casefold(),
                                             self.login_password_input.text()):
                 self.login_success_output.setText("Success")
+                self.current_user = login_scripts.get_user_id(self.login_username_input.text().casefold())
+                self.show_logout_button()
+                if login_scripts.get_account_type(self.current_user) == 't':
+                    self.change_page(self.teacher_main_menu_page)
+                elif login_scripts.get_account_type(self.current_user) == 's':
+                    self.change_page(self.student_main_menu_page)
             # If password incorrect, invalid password error is displayed and password box is cleared
             else:
                 self.login_success_output.setText("Invalid password")
@@ -49,6 +99,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
 
     def change_page(self, index):
         # Changes the current page index to the value passed
+        self.reset_pages()
         self.main_widget.setCurrentIndex(index)
 
     def get_account_type_selected(self):
@@ -69,10 +120,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         elif login_scripts.check_user_exists(self.create_account_username_input.text().casefold()):
             self.create_account_success_output.setText("User already exists")
         # Error if no first name entered
-        elif self.create_account_first_name_input.text() == '':
+        elif self.create_account_first_name_input.text() == '' or len(self.create_account_first_name_input.text()) > 10:
             self.create_account_success_output.setText("Invalid first name")
         # Error if no last name is entered
-        elif self.create_account_last_name_input.text() == '':
+        elif self.create_account_last_name_input.text() == '' or len(self.create_account_last_name_input.text()) > 10:
             self.create_account_success_output.setText("Invalid last name")
         # Error if password too short
         elif len(self.create_account_password_input.text()) < 8:
@@ -92,19 +143,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
                                          self.create_account_last_name_input.text(),
                                          self.get_account_type_selected())
             # Resets create account page once account successfully created
-            self.clear_create_account_page()
+            self.reset_pages()
             # Account creation success outputted
             self.create_account_success_output.setText("Account created")
-
-    def clear_create_account_page(self):
-        # Resets all user inputs to default values
-        self.create_account_first_name_input.setText("")
-        self.create_account_last_name_input.setText("")
-        self.create_account_username_input.setText("")
-        self.create_account_password_input.setText("")
-        self.create_account_password_verify_input.setText("")
-        self.create_account_success_output.setText("")
-        self.create_account_radio_student.setChecked(True)
 
 
 # If run as main launch into test conditions

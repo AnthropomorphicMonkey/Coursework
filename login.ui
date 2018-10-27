@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>783</height>
+    <width>882</width>
+    <height>785</height>
    </rect>
   </property>
   <property name="font">
@@ -22,26 +22,80 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QLabel" name="logo_widget">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>50</width>
-        <height>50</height>
-       </size>
-      </property>
-      <property name="pixmap">
-       <pixmap resource="login.qrc">:/images/logo.png</pixmap>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_11">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <item>
+         <widget class="QLabel" name="logo_widget">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="pixmap">
+           <pixmap resource="login.qrc">:/images/logo.png</pixmap>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="username_label">
+          <property name="font">
+           <font>
+            <pointsize>16</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Usernamexx</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_17">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="logout_button">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Logout</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </item>
     <item>
      <widget class="QStackedWidget" name="main_widget">
@@ -738,27 +792,6 @@
                 </property>
                </spacer>
               </item>
-              <item alignment="Qt::AlignHCenter">
-               <widget class="QPushButton" name="create_account_login_button">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>11</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Login</string>
-                </property>
-                <property name="flat">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
             <item>
@@ -775,6 +808,57 @@
              </spacer>
             </item>
            </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <spacer name="horizontalSpacer_15">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="create_account_login_button">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Login</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_16">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
@@ -848,27 +932,6 @@
               </property>
               <property name="text">
                <string>Previous Scores</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="create_account_login_button_2">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Logout</string>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -963,27 +1026,6 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QPushButton" name="create_account_login_button_3">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>11</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Logout</string>
-              </property>
-              <property name="flat">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
           <item>
@@ -1019,7 +1061,7 @@
       <widget class="QWidget" name="question_page">
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="question_topic_output">
           <property name="font">
            <font>
             <pointsize>11</pointsize>
@@ -1066,7 +1108,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_14">
               <item>
-               <widget class="QLabel" name="label_5">
+               <widget class="QLabel" name="question_question_output">
                 <property name="font">
                  <font>
                   <pointsize>13</pointsize>
@@ -1080,7 +1122,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_15">
                 <item>
-                 <widget class="QRadioButton" name="radioButton">
+                 <widget class="QRadioButton" name="question_radio_a">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -1092,7 +1134,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_2">
+                 <widget class="QRadioButton" name="question_radio_b">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -1104,7 +1146,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_3">
+                 <widget class="QRadioButton" name="question_radio_c">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -1116,7 +1158,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_4">
+                 <widget class="QRadioButton" name="question_radio_d">
                   <property name="font">
                    <font>
                     <pointsize>16</pointsize>
@@ -1205,6 +1247,7 @@
  <resources>
   <include location="login.qrc"/>
   <include location="login.qrc"/>
+  <include location="../../../../login.qrc"/>
  </resources>
  <connections/>
 </ui>

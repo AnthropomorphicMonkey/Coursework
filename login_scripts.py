@@ -10,7 +10,7 @@ c = conn.cursor()
 
 def check_user_exists(username):
     # Finds the number of occurrences in the users table of the inputted username. If 0 returned, username is not in DB
-    sql = "SELECT COUNT(1) FROM users WHERE username = ?;"
+    sql = 'SELECT COUNT(1) FROM users WHERE username = ?;'
     c.execute(sql, (username,))
     if c.fetchall()[0][0] > 0:
         return True
@@ -21,7 +21,7 @@ def check_user_exists(username):
 # Assumes valid username provided
 def find_salt(username):
     # Finds the salt for the given username
-    sql = "SELECT password_salt FROM users WHERE username = ?;"
+    sql = 'SELECT password_salt FROM users WHERE username = ?;'
     c.execute(sql, (username,))
     salt = c.fetchall()[0][0]
     # Takes the SQL output and formats appropriately to give just a string
@@ -66,6 +66,30 @@ def create_account(username, password, first_name, last_name, account_type):
               (username.casefold(), salt, generate_hash(password, salt), first_name.casefold(), last_name.casefold(),
                account_type))
     conn.commit()
+
+
+def get_user_id(username):
+    sql = 'SELECT user_id FROM users WHERE username = ?;'
+    c.execute(sql, (username,))
+    return c.fetchall()[0][0]
+
+
+def get_account_type(user_id):
+    sql = 'SELECT account_type FROM users WHERE user_id = ?;'
+    c.execute(sql, (user_id,))
+    return c.fetchall()[0][0]
+
+
+def get_username(user_id):
+    sql = 'SELECT username FROM users WHERE user_id = ?;'
+    c.execute(sql, (user_id,))
+    return c.fetchall()[0][0]
+
+
+def get_first_name(user_id):
+    sql = 'SELECT first_name FROM users WHERE user_id = ?;'
+    c.execute(sql, (user_id,))
+    return c.fetchall()[0][0]
 
 
 if __name__ == '__main__':
