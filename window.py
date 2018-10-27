@@ -26,6 +26,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
         # Sets the default selected account type as student
         self.create_account_radio_student.setChecked(True)
+        # Sets feedback output labels to blank as default
+        self.login_success_output.setText("")
+        self.create_account_success_output.setText("")
+        self.question_feedback_output.setText("")
 
     def login(self):
         # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)

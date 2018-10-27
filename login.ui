@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>984</width>
-    <height>805</height>
+    <width>504</width>
+    <height>783</height>
    </rect>
   </property>
   <property name="font">
@@ -264,7 +264,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string/>
+                 <string>Result</string>
                 </property>
                 <property name="buddy">
                  <cstring>login_submit_button</cstring>
@@ -718,7 +718,7 @@
                  </font>
                 </property>
                 <property name="text">
-                 <string/>
+                 <string>Result</string>
                 </property>
                </widget>
               </item>
@@ -787,10 +787,13 @@
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>283</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -848,6 +851,27 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="create_account_login_button_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Logout</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -887,10 +911,13 @@
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>305</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -936,6 +963,27 @@
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QPushButton" name="create_account_login_button_3">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Logout</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
           <item>
@@ -971,14 +1019,29 @@
       <widget class="QWidget" name="question_page">
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
+         <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Topic</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_17">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>20</width>
-            <height>325</height>
+            <width>0</width>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -992,8 +1055,8 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -1001,9 +1064,94 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_13">
             <item>
+             <layout class="QVBoxLayout" name="verticalLayout_14">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Question</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_15">
+                <item>
+                 <widget class="QRadioButton" name="radioButton">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Answer A</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Answer B</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_3">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Answer C</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="radioButton_4">
+                  <property name="font">
+                   <font>
+                    <pointsize>16</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Answer D</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QPushButton" name="pushButton_6">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
               <property name="text">
-               <string>PushButton</string>
+               <string>Submit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="question_feedback_output">
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Feedback</string>
               </property>
              </widget>
             </item>
@@ -1016,8 +1164,8 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -1031,8 +1179,8 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>20</width>
-            <height>324</height>
+            <width>0</width>
+            <height>0</height>
            </size>
           </property>
          </spacer>
