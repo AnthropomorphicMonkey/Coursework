@@ -80,10 +80,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)
         if login_scripts.check_user_exists(self.login_username_input.text().casefold()):
             # Checks if password is correct. If password correct next screen loaded
-            if login_scripts.check_password(self.login_username_input.text().casefold(),
-                                            self.login_password_input.text()):
+            user_id = login_scripts.get_user_id(self.login_username_input.text().casefold())
+            if login_scripts.check_password(user_id, self.login_password_input.text()):
                 self.login_success_output.setText("Success")
-                self.current_user = login_scripts.get_user_id(self.login_username_input.text().casefold())
+                self.current_user = user_id
                 self.show_logout_button()
                 if login_scripts.get_account_type(self.current_user) == 't':
                     self.change_page(self.teacher_main_menu_page)
@@ -97,12 +97,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         else:
             self.login_success_output.setText("Invalid username")
 
-    def change_page(self, index):
+    def change_page(self, index: int):
         # Changes the current page index to the value passed
         self.reset_pages()
         self.main_widget.setCurrentIndex(index)
 
-    def get_account_type_selected(self):
+    def get_account_type_selected(self) -> str:
         # Returns whether student or teacher is selected (or neither, though this should never occur)
         if self.create_account_radio_student.isChecked():
             return 's'
@@ -120,10 +120,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         elif login_scripts.check_user_exists(self.create_account_username_input.text().casefold()):
             self.create_account_success_output.setText("User already exists")
         # Error if no first name entered
-        elif self.create_account_first_name_input.text() == '' or len(self.create_account_first_name_input.text()) > 10:
+        elif self.create_account_first_name_input.text() == '' or len(
+                self.create_account_first_name_input.text()) > 100:
             self.create_account_success_output.setText("Invalid first name")
         # Error if no last name is entered
-        elif self.create_account_last_name_input.text() == '' or len(self.create_account_last_name_input.text()) > 10:
+        elif self.create_account_last_name_input.text() == '' or len(self.create_account_last_name_input.text()) > 100:
             self.create_account_success_output.setText("Invalid last name")
         # Error if password too short
         elif len(self.create_account_password_input.text()) < 8:

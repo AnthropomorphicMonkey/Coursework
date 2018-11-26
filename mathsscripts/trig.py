@@ -2,7 +2,7 @@ from math import pi, asin, acos, atan
 
 
 # Values should be in radians, max and min are inclusive. Function returns sorted array of all solutions within range
-def solutions_in_range(trig_function: str, value: float, minimum: float, maximum: float):
+def solutions_in_range(trig_function: str, value: float, minimum: float, maximum: float) -> list:
     # Initialise unsorted solution array
     unsorted_values = []
 
