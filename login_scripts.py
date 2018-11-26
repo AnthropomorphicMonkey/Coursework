@@ -59,7 +59,7 @@ def generate_salt():
 def create_account(username, password, first_name, last_name, account_type):
     # Generates a unique random salt
     salt = generate_salt()
-    sql = "INSERT INTO users(username, password_salt, password_hash, first_name, last_name, account_type) " \
+    sql = "INSERT INTO users(username, password_salt, password_hash, first_name, last_name, type) " \
           "VALUES(?, ?, ?, ?, ?, ?);"
     # Executes SQL to insert a correctly formatted record into the users table
     c.execute(sql,
@@ -69,25 +69,25 @@ def create_account(username, password, first_name, last_name, account_type):
 
 
 def get_user_id(username):
-    sql = 'SELECT user_id FROM users WHERE username = ?;'
+    sql = 'SELECT id FROM users WHERE username = ?;'
     c.execute(sql, (username,))
     return c.fetchall()[0][0]
 
 
 def get_account_type(user_id):
-    sql = 'SELECT account_type FROM users WHERE user_id = ?;'
+    sql = 'SELECT type FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
 def get_username(user_id):
-    sql = 'SELECT username FROM users WHERE user_id = ?;'
+    sql = 'SELECT username FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
 def get_first_name(user_id):
-    sql = 'SELECT first_name FROM users WHERE user_id = ?;'
+    sql = 'SELECT first_name FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
