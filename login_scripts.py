@@ -8,7 +8,7 @@ conn = sqlite3.connect('database.db')
 c = conn.cursor()
 
 
-def check_user_exists(username):
+def check_user_exists(username) -> bool:
     # Finds the number of occurrences in the users table of the inputted username. If 0 returned, username is not in DB
     sql = 'SELECT COUNT(1) FROM users WHERE username = ?;'
     c.execute(sql, (username,))
@@ -19,7 +19,7 @@ def check_user_exists(username):
 
 
 # Assumes valid username provided
-def find_salt(username):
+def find_salt(username) -> str:
     # Finds the salt for the given username
     sql = 'SELECT password_salt FROM users WHERE username = ?;'
     c.execute(sql, (username,))
@@ -29,7 +29,7 @@ def find_salt(username):
 
 
 # Assumes valid username and salt provided
-def check_hash(username, password, salt):
+def check_hash(username, password, salt) -> bool:
     generated_hash = generate_hash(password, salt)
     # Verifies username and hash are in database by counting number of times they occur together
     # This will be either 0 or 1 (not present, present)
@@ -42,17 +42,17 @@ def check_hash(username, password, salt):
         return False
 
 
-def generate_hash(password, salt):
+def generate_hash(password, salt) -> str:
     # Combines password and salt and generates SHA256 hash of combined phrase
     return hashlib.sha256((password + salt).encode('utf-8')).hexdigest()
 
 
 # Assumes valid username
-def check_password(username, password):
+def check_password(username, password) -> bool:
     return check_hash(username, password, find_salt(username))
 
 
-def generate_salt():
+def generate_salt() -> str:
     return uuid.uuid4().hex
 
 
@@ -68,25 +68,25 @@ def create_account(username, password, first_name, last_name, account_type):
     conn.commit()
 
 
-def get_user_id(username):
+def get_user_id(username) -> int:
     sql = 'SELECT id FROM users WHERE username = ?;'
     c.execute(sql, (username,))
     return c.fetchall()[0][0]
 
 
-def get_account_type(user_id):
+def get_account_type(user_id) -> str:
     sql = 'SELECT type FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
-def get_username(user_id):
+def get_username(user_id) -> str:
     sql = 'SELECT username FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
-def get_first_name(user_id):
+def get_first_name(user_id) -> str:
     sql = 'SELECT first_name FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
