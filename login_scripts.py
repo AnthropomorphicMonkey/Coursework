@@ -92,6 +92,12 @@ def get_first_name(user_id: int) -> str:
     return c.fetchall()[0][0]
 
 
+def get_last_name(user_id: int) -> str:
+    sql = 'SELECT last_name FROM users WHERE id = ?;'
+    c.execute(sql, (user_id,))
+    return c.fetchall()[0][0]
+
+
 if __name__ == '__main__':
     # Area to be used for testing purposes use username test, password test12345
     un = input("Enter username: ")
