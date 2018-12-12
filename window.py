@@ -26,8 +26,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         self.current_user = 1
 
     def logout(self):
+        # Resets current user to a default value
         self.current_user = 1
+        # Returns to login page
         self.change_page(self.login_page)
+        # Hides login button
         self.hide_logout_button()
 
     def button_setup(self):
@@ -67,13 +70,17 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
         self.question_feedback_output.setText("")
 
     def hide_logout_button(self):
+        # Disables and hides the logout button
         self.logout_button.setEnabled(False)
         self.logout_button.setVisible(False)
+        # Stops showing the user's first name
         self.username_label.setText("")
 
     def show_logout_button(self):
+        # Enables and shows logout button
         self.logout_button.setEnabled(True)
         self.logout_button.setVisible(True)
+        # Makes the user's first name show in the top left corner
         self.username_label.setText(login_scripts.get_first_name(self.current_user).title())
 
     def login(self):
