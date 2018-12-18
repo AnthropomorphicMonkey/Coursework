@@ -1,10 +1,17 @@
 import random
 import math
+import sqlite3
+
+# Connects to database
+conn = sqlite3.connect('database.db')
+c = conn.cursor()
 
 
 class Question:
-    def __init__(self, difficulty: int, question_text: str, correct_answer, **kwargs: str):
+    def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, **kwargs: str):
         # Difficulty should be greater than or equal to 1, this should be verified before using function
+        self.name = name
+        self.type_id = type_id
         self.difficulty = difficulty
         self.question_text = question_text
         self.correct_answer = correct_answer
@@ -52,25 +59,34 @@ class Question:
         return round(value, significant_figures - int(math.floor(math.log10(abs(value)))) - 1)
 
 
+def save_question(question):
+    sql = 'INSERT INTO questions(name, type_id, question_text, correct_answer, answer_b, answer_c, answer_d)' \
+          'VALUES(?, ?, ?, ?, ?, ?, ?);'
+    c.execute(sql, (question.name, question.type_id, question.question_text, question.correct_answer, question.answer_b,
+                    question.answer_c, question.answer_d))
+    conn.commit()
+
+
 if __name__ == '__main__':
-    test_question = Question(1, "Correct answer is 5.87", 5.87, answer_b="Hello")
+    test_question = Question("Question", 1, 1, "Correct answer is 5.87", 5.87, answer_b="Hello")
     print("Difficulty:", test_question.difficulty)
     print("Question:", test_question.question_text)
     print("Correct answer:", test_question.correct_answer)
     print("Answer B:", test_question.answer_b)
     print("Answer C:", test_question.answer_c)
     print("Answer D:", test_question.answer_d)
-    test_question = Question(1, "Correct answer is qwerty", "qwerty", answer_c="Hello")
+    test_question = Question("Question", 1, 1, "Correct answer is qwerty", "qwerty", answer_c="Hello")
     print("Difficulty:", test_question.difficulty)
     print("Question:", test_question.question_text)
     print("Correct answer:", test_question.correct_answer)
     print("Answer B:", test_question.answer_b)
     print("Answer C:", test_question.answer_c)
     print("Answer D:", test_question.answer_d)
-    test_question = Question(100, "Correct answer is 5.87", "5.8734", answer_d="Hello")
+    test_question = Question("Question", 1, 100, "Correct answer is 5.87", "5.8734", answer_d="Hello")
     print("Difficulty:", test_question.difficulty)
     print("Question:", test_question.question_text)
     print("Correct answer:", test_question.correct_answer)
     print("Answer B:", test_question.answer_b)
     print("Answer C:", test_question.answer_c)
     print("Answer D:", test_question.answer_d)
+    save_question(test_question)

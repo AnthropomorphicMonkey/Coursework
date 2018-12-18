@@ -59,8 +59,8 @@ def generate_salt() -> str:
 def create_account(username: str, password: str, first_name: str, last_name: str, account_type: str):
     # Generates a unique random salt
     salt = generate_salt()
-    sql = "INSERT INTO users(username, password_salt, password_hash, first_name, last_name, type) " \
-          "VALUES(?, ?, ?, ?, ?, ?);"
+    sql = 'INSERT INTO users(username, password_salt, password_hash, first_name, last_name, type)' \
+          'VALUES(?, ?, ?, ?, ?, ?);'
     # Executes SQL to insert a correctly formatted record into the users table
     c.execute(sql,
               (username.casefold(), salt, generate_hash(password, salt), first_name.casefold(), last_name.casefold(),
