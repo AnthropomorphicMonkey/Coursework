@@ -1,11 +1,11 @@
 from PyQt5 import QtWidgets
 from PyQt5 import uic
-
+# pyrcc5 -o window_rc.py window.qrc
 import login_scripts
 
 
 # Window class to control uid
-class Window(QtWidgets.QMainWindow, uic.loadUiType('login.ui')[0]):
+class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def __init__(self):
         # Inherits from generic window class from QT
         super().__init__()
