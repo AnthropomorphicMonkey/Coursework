@@ -1,4 +1,4 @@
-from mathsscripts.projectile.force_functions import *
+from maths_scripts.projectile.force_functions import *
 
 
 class BasicObject:

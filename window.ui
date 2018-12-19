@@ -40,7 +40,7 @@
            </size>
           </property>
           <property name="pixmap">
-           <pixmap resource="login.qrc">:/images/logo.png</pixmap>
+           <pixmap resource="window_elements/window.qrc">:/images/logo.png</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -1245,9 +1245,7 @@
   </widget>
  </widget>
  <resources>
-  <include location="login.qrc"/>
-  <include location="login.qrc"/>
-  <include location="../../../../login.qrc"/>
+  <include location="window_elements/window.qrc"/>
  </resources>
  <connections/>
 </ui>
