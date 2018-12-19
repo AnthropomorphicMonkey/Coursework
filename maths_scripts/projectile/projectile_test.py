@@ -1,4 +1,4 @@
-import mathsscripts.projectile.projectile_2d as projectile2d
+import maths_scripts.projectile.projectile_2d as projectile2d
 
 
 def tests(object_1):

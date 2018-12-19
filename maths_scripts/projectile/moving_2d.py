@@ -1,5 +1,5 @@
-import mathsscripts.projectile.base_2d as base2d
-from mathsscripts.projectile.force_functions import *
+import maths_scripts.projectile.base_2d as base2d
+from maths_scripts.projectile.force_functions import *
 
 
 class MovingObject(base2d.BasicObject):
