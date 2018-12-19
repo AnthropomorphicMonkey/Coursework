@@ -1,6 +1,6 @@
 import sympy
 import random
-import question_scripts
+from scripts import question_scripts
 
 
 def generate_polynomial(max_exponent):

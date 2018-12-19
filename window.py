@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5 import uic
 # pyrcc5 -o window_rc.py window.qrc
-import login_scripts
+from scripts import login_scripts
 
 
 # Window class to control uid
