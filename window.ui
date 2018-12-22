@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
-    <height>785</height>
+       <width>959</width>
+       <height>849</height>
    </rect>
   </property>
   <property name="font">
@@ -73,26 +73,47 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="logout_button">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Logout</string>
-          </property>
-          <property name="flat">
-           <bool>true</bool>
-          </property>
-         </widget>
+            <widget class="QPushButton" name="main_menu_button">
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="font">
+                    <font>
+                        <pointsize>11</pointsize>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>Main Menu</string>
+                </property>
+                <property name="flat">
+                    <bool>true</bool>
+                </property>
+            </widget>
         </item>
+           <item>
+               <widget class="QPushButton" name="logout_button">
+                   <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                       </sizepolicy>
+                   </property>
+                   <property name="font">
+                       <font>
+                           <pointsize>11</pointsize>
+                       </font>
+                   </property>
+                   <property name="text">
+                       <string>Logout</string>
+                   </property>
+                   <property name="flat">
+                       <bool>true</bool>
+                   </property>
+               </widget>
+           </item>
        </layout>
       </item>
      </layout>
@@ -900,7 +921,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
-             <widget class="QPushButton" name="pushButton">
+                <widget class="QPushButton" name="student_main_menu_homework_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -912,7 +933,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="student_main_menu_browse_quizzes_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -924,7 +945,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+                <widget class="QPushButton" name="student_main_menu_previous_scores_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -1003,7 +1024,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_12">
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+                <widget class="QPushButton" name="teacher_main_menu_set_homework_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -1015,7 +1036,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_5">
+                <widget class="QPushButton" name="teacher_main_menu_view_classes_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -1089,128 +1110,178 @@
          </spacer>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <spacer name="horizontalSpacer_9">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_13">
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-              <item>
-               <widget class="QLabel" name="question_question_output">
-                <property name="font">
-                 <font>
-                  <pointsize>13</pointsize>
-                 </font>
-                </property>
-                <property name="text">
-                 <string>Question</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_15">
+            <layout class="QVBoxLayout" name="verticalLayout_13">
                 <item>
-                 <widget class="QRadioButton" name="question_radio_a">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Answer A</string>
-                  </property>
-                 </widget>
+                    <layout class="QHBoxLayout" name="horizontalLayout_10">
+                        <item>
+                            <spacer name="horizontalSpacer_12">
+                                <property name="orientation">
+                                    <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                    <size>
+                                        <width>0</width>
+                                        <height>0</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </item>
+                        <item>
+                            <layout class="QVBoxLayout" name="verticalLayout_17">
+                                <item>
+                                    <layout class="QVBoxLayout" name="verticalLayout_18">
+                                        <item>
+                                            <widget class="QLabel" name="question_question_output">
+                                                <property name="font">
+                                                    <font>
+                                                        <pointsize>13</pointsize>
+                                                    </font>
+                                                </property>
+                                                <property name="text">
+                                                    <string>Question</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <layout class="QVBoxLayout" name="verticalLayout_19">
+                                                <item>
+                                                    <widget class="QRadioButton" name="question_radio_a">
+                                                        <property name="font">
+                                                            <font>
+                                                                <pointsize>16</pointsize>
+                                                            </font>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Answer A</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QRadioButton" name="question_radio_b">
+                                                        <property name="font">
+                                                            <font>
+                                                                <pointsize>16</pointsize>
+                                                            </font>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Answer B</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QRadioButton" name="question_radio_c">
+                                                        <property name="font">
+                                                            <font>
+                                                                <pointsize>16</pointsize>
+                                                            </font>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Answer C</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QRadioButton" name="question_radio_d">
+                                                        <property name="font">
+                                                            <font>
+                                                                <pointsize>16</pointsize>
+                                                            </font>
+                                                        </property>
+                                                        <property name="text">
+                                                            <string>Answer D</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                        </item>
+                                    </layout>
+                                </item>
+                                <item>
+                                    <widget class="QPushButton" name="question_submit_button">
+                                        <property name="font">
+                                            <font>
+                                                <pointsize>16</pointsize>
+                                            </font>
+                                        </property>
+                                        <property name="text">
+                                            <string>Submit</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QLabel" name="question_feedback_output">
+                                        <property name="font">
+                                            <font>
+                                                <pointsize>12</pointsize>
+                                            </font>
+                                        </property>
+                                        <property name="text">
+                                            <string>Feedback</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <spacer name="horizontalSpacer_13">
+                                <property name="orientation">
+                                    <enum>Qt::Horizontal</enum>
+                                </property>
+                                <property name="sizeHint" stdset="0">
+                                    <size>
+                                        <width>0</width>
+                                        <height>0</height>
+                                    </size>
+                                </property>
+                            </spacer>
+                        </item>
+                    </layout>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="question_radio_b">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Answer B</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="question_radio_c">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Answer C</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QRadioButton" name="question_radio_d">
-                  <property name="font">
-                   <font>
-                    <pointsize>16</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Answer D</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_6">
-              <property name="font">
-               <font>
-                <pointsize>16</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Submit</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="question_feedback_output">
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Feedback</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_12">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-           </spacer>
+                    <layout class="QHBoxLayout" name="horizontalLayout">
+                        <item>
+                            <widget class="QPushButton" name="question_previous_question_button">
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="font">
+                                    <font>
+                                        <pointsize>16</pointsize>
+                                    </font>
+                                </property>
+                                <property name="text">
+                                    <string>Previous Question</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QPushButton" name="question_next_question_button">
+                                <property name="enabled">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="sizePolicy">
+                                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                                        <horstretch>0</horstretch>
+                                        <verstretch>0</verstretch>
+                                    </sizepolicy>
+                                </property>
+                                <property name="font">
+                                    <font>
+                                        <pointsize>16</pointsize>
+                                    </font>
+                                </property>
+                                <property name="text">
+                                    <string>Next Question</string>
+                                </property>
+                            </widget>
+                        </item>
+                    </layout>
           </item>
          </layout>
         </item>
@@ -1229,6 +1300,37 @@
         </item>
        </layout>
       </widget>
+         <widget class="QWidget" name="homework_select_page">
+             <layout class="QVBoxLayout" name="verticalLayout_16">
+                 <item>
+                     <spacer name="verticalSpacer_20">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                     </spacer>
+                 </item>
+                 <item>
+                     <widget class="QLabel" name="label_3">
+                         <property name="text">
+                             <string>Homework</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_19">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
+         <widget class="QWidget" name="browse_quizzes_page"/>
+         <widget class="QWidget" name="previous_scores_page"/>
+         <widget class="QWidget" name="set_homework_page"/>
+         <widget class="QWidget" name="admin_page"/>
+         <widget class="QWidget" name="account_management_page"/>
+         <widget class="QWidget" name="page"/>
      </widget>
     </item>
     <item>

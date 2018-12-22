@@ -18,6 +18,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.student_main_menu_page = 2
         self.teacher_main_menu_page = 3
         self.question_page = 4
+        self.homework_select_page = 5
+        self.browse_quizzes_page = 6
+        self.previous_scores_page = 7
+        self.set_homework_page = 8
+        self.admin_page = 9
+        self.account_management_page = 10
+        self.view_classes_page = 11
         # Set start page to login screen
         self.change_page(self.login_page)
         self.button_setup()
@@ -35,18 +42,43 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Hides login button
         self.hide_logout_button()
 
-    def button_setup(self):
+    def go_to_main_menu(self):
+        if login_scripts.get_account_type(self.current_user) == 't':
+            self.change_page(self.teacher_main_menu_page)
+        else:
+            self.change_page(self.student_main_menu_page)
+
+    def login_page_button_setup(self):
         # If login submit button clicked runs scripts to verify login
         self.login_submit_button.clicked.connect(self.login)
-        # If create account submit button clicked runs scripts to create account
-        self.create_account_submit_button.clicked.connect(self.create_account)
-        # If logout button clicked runs logout scripts
-        self.logout_button.clicked.connect(self.logout)
         # If create account clicked runs scripts to change screen
         # Error passing arguments fixed using https://stackoverflow.com/questions/45793966/clicked-connect-error
         self.login_create_account_button.clicked.connect(lambda: self.change_page(self.create_account_page))
+
+    def create_account_page_button_setup(self):
+        # If create account submit button clicked runs scripts to create account
+        self.create_account_submit_button.clicked.connect(self.create_account)
         # If return to login clicked runs scripts to change screen
         self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
+
+    def student_main_menu_page_button_setup(self):
+        self.student_main_menu_browse_quizzes_button.clicked.connect(lambda: self.change_page(self.browse_quizzes_page))
+        self.student_main_menu_homework_button.clicked.connect(lambda: self.change_page(self.homework_select_page))
+        self.student_main_menu_previous_scores_button.clicked.connect(
+            lambda: self.change_page(self.previous_scores_page))
+
+    def teacher_main_menu_page_button_setup(self):
+        self.teacher_main_menu_set_homework_button.clicked.connect(lambda: self.change_page(self.set_homework_page))
+        self.teacher_main_menu_view_classes_button.clicked.connect(lambda: self.change_page(self.view_classes_page))
+
+    def button_setup(self):
+        # If logout button clicked runs logout scripts
+        self.logout_button.clicked.connect(self.logout)
+        self.main_menu_button.clicked.connect(self.go_to_main_menu)
+        self.login_page_button_setup()
+        self.create_account_page_button_setup()
+        self.student_main_menu_page_button_setup()
+        self.teacher_main_menu_page_button_setup()
 
     def reset_pages(self):
         # Sets radios to default selection
@@ -75,6 +107,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Disables and hides the logout button
         self.logout_button.setEnabled(False)
         self.logout_button.setVisible(False)
+        # Disables amd hides main menu button
+        self.main_menu_button.setEnabled(False)
+        self.main_menu_button.setVisible(False)
         # Stops showing the user's first name
         self.username_label.setText("")
 
@@ -82,6 +117,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Enables and shows logout button
         self.logout_button.setEnabled(True)
         self.logout_button.setVisible(True)
+        # Enables and shows main menu button
+        self.main_menu_button.setEnabled(True)
+        self.main_menu_button.setVisible(True)
         # Makes the user's first name show in the top left corner
         self.username_label.setText(login_scripts.get_first_name(self.current_user).title())
 

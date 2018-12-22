@@ -99,7 +99,7 @@ def get_last_name(user_id: int) -> str:
 
 
 if __name__ == '__main__':
-    # Area to be used for testing prposes use username test, password test12345
+    # Area to be used for testing purposes use username test, password test12345
     print(get_first_name(1))
     un = input("Enter username: ")
     pw = input("Enter password: ")
