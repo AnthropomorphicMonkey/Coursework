@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import uic
 
 # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
-from scripts import login_scripts
+from scripts import login_scripts, ui_scripts
 
 
 # Window class to control uid
@@ -210,11 +210,19 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Sets output labels to blank
         self.question_feedback_output.setText("")
 
+    def reset_previous_scores_page(self):
+        # Clears class selection combo box
+        self.previous_scores_class_combo_box.clear()
+        user_classes = ui_scripts.get_classes_of_user(self.current_user)
+        for each_class in user_classes:
+            self.previous_scores_class_combo_box.addItem(each_class[1])
+
     def reset_pages(self):
         # Runs all page reset scripts
         self.reset_login_page()
         self.reset_create_account_page()
         self.reset_question_page()
+        self.reset_previous_scores_page()
 
     def create_account(self):
         # Various error checks before creating account (error type is outputted in a label):
