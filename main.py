@@ -25,28 +25,110 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_page = 9
         self.account_management_page = 10
         self.view_classes_page = 11
-        # Set start page to login screen
-        self.change_page(self.login_page)
+        # Holds ID of active user
+        self.current_user = -1
+        # Sets up all pages
         self.button_setup()
         self.reset_pages()
-        # Disables logout button until logged in
-        self.hide_logout_button()
-        # Holds ID of active user
-        self.current_user = 1
+        # Sets program to logged out state (and hides logged out message)
+        self.logout()
+        self.login_success_output.setText("")
+
+    def change_page(self, index: int):
+        # Changes the current page index to the value passed
+        self.reset_pages()
+        self.main_widget.setCurrentIndex(index)
+
+    def get_account_type_selected(self) -> str:
+        # Returns whether student or teacher is selected (or neither, though this should never occur)
+        if self.create_account_radio_student.isChecked():
+            return 's'
+        elif self.create_account_radio_teacher.isChecked():
+            return 't'
+        else:
+            return ''
+
+    def login(self):
+        # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)
+        if login_scripts.check_user_exists(self.login_username_input.text().casefold()):
+            # Checks if password is correct
+            user_id = login_scripts.get_user_id(self.login_username_input.text().casefold())
+            if login_scripts.check_password(user_id, self.login_password_input.text()):
+                # Checks user type to decide which main menu to load
+                if login_scripts.get_account_type(user_id) in ['s', 't']:
+                    self.login_success_output.setText("Success")
+                    self.current_user = user_id
+                    self.show_logout_button()
+                    self.show_main_menu_button()
+                    self.show_username_text()
+                    # Main menu loaded
+                    self.go_to_main_menu()
+                # If the stored user type is for some reason invalid, login is cancelled and error shown
+                else:
+                    self.login_success_output.setText("User type error")
+            # If password incorrect, invalid password error is displayed and password box is cleared
+            else:
+                self.login_success_output.setText("Invalid password")
+                self.login_password_input.setText("")
+        # If username did not exist, invalid username error is displayed
+        else:
+            self.login_success_output.setText("Invalid username")
+            self.login_username_input.setText("")
 
     def logout(self):
         # Resets current user to a default value
-        self.current_user = 1
-        # Returns to login page
-        self.change_page(self.login_page)
-        # Hides login button
+        self.current_user = -1
+        # Hides logged in  navigation buttons button
         self.hide_logout_button()
+        self.hide_main_menu_button()
+        self.hide_username_text()
+        # Returns to login page and sets logout success message
+        self.change_page(self.login_page)
+        self.login_success_output.setText("Logout successful")
+
+    def hide_main_menu_button(self):
+        # Disables amd hides main menu button
+        self.main_menu_button.setEnabled(False)
+        self.main_menu_button.setVisible(False)
+
+    def show_main_menu_button(self):
+        # Enables and shows main menu button
+        self.main_menu_button.setEnabled(True)
+        self.main_menu_button.setVisible(True)
+
+    def show_username_text(self):
+        # Makes the user's first name show in ui
+        self.username_label.setText(login_scripts.get_first_name(self.current_user).title())
+
+    def hide_username_text(self):
+        # Stops showing the user's first name in ui
+        self.username_label.setText("")
+
+    def hide_logout_button(self):
+        # Disables and hides the logout button
+        self.logout_button.setEnabled(False)
+        self.logout_button.setVisible(False)
+
+    def show_logout_button(self):
+        # Enables and shows logout button
+        self.logout_button.setEnabled(True)
+        self.logout_button.setVisible(True)
 
     def go_to_main_menu(self):
+        # Returns to the correct main menu page for the given user
         if login_scripts.get_account_type(self.current_user) == 't':
             self.change_page(self.teacher_main_menu_page)
-        else:
+        elif login_scripts.get_account_type(self.current_user) == 's':
             self.change_page(self.student_main_menu_page)
+        # If data in DB is for some reason invalid, user is logged out and error shown
+        else:
+            self.logout()
+            self.login_success_output.setText("User type error, user has been logged out")
+
+    def navigation_button_setup(self):
+        # If logout button clicked runs logout scripts
+        self.logout_button.clicked.connect(self.logout)
+        self.main_menu_button.clicked.connect(self.go_to_main_menu)
 
     def login_page_button_setup(self):
         # If login submit button clicked runs scripts to verify login
@@ -62,36 +144,50 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
 
     def student_main_menu_page_button_setup(self):
+        # If browse quizzes clicked runs scripts to change screen
         self.student_main_menu_browse_quizzes_button.clicked.connect(lambda: self.change_page(self.browse_quizzes_page))
+        # If homework clicked runs scripts to change screen
         self.student_main_menu_homework_button.clicked.connect(lambda: self.change_page(self.homework_select_page))
+        # If previous scores clicked runs scripts to change screen
         self.student_main_menu_previous_scores_button.clicked.connect(
             lambda: self.change_page(self.previous_scores_page))
 
     def teacher_main_menu_page_button_setup(self):
+        # If set homework clicked runs scripts to change screen
         self.teacher_main_menu_set_homework_button.clicked.connect(lambda: self.change_page(self.set_homework_page))
+        # If view classes clicked runs scripts to change screen
         self.teacher_main_menu_view_classes_button.clicked.connect(lambda: self.change_page(self.view_classes_page))
 
     def button_setup(self):
-        # If logout button clicked runs logout scripts
-        self.logout_button.clicked.connect(self.logout)
-        self.main_menu_button.clicked.connect(self.go_to_main_menu)
+        # Runs all button setups
+        self.navigation_button_setup()
         self.login_page_button_setup()
         self.create_account_page_button_setup()
         self.student_main_menu_page_button_setup()
         self.teacher_main_menu_page_button_setup()
 
-    def reset_pages(self):
-        # Sets radios to default selection
-        self.create_account_radio_student.setChecked(True)
-        self.question_radio_a.setChecked(True)
+    def reset_login_page(self):
         # Sets input boxes to blank
         self.login_username_input.setText("")
         self.login_password_input.setText("")
+        # Sets output labels to blank
+        self.login_success_output.setText("")
+
+    def reset_create_account_page(self):
+        # Sets radios to default selection
+        self.create_account_radio_student.setChecked(True)
+        # Sets input boxes to blank
         self.create_account_first_name_input.setText("")
         self.create_account_last_name_input.setText("")
         self.create_account_username_input.setText("")
         self.create_account_password_input.setText("")
         self.create_account_password_verify_input.setText("")
+        # Sets output labels to blank
+        self.create_account_success_output.setText("")
+
+    def reset_question_page(self):
+        self.question_radio_a.setChecked(True)
+        # Sets input boxes to blank
         self.question_topic_output.setText("")
         self.question_question_output.setText("")
         self.question_radio_a.setText("")
@@ -99,64 +195,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.question_radio_c.setText("")
         self.question_radio_d.setText("")
         # Sets output labels to blank
-        self.login_success_output.setText("")
-        self.create_account_success_output.setText("")
         self.question_feedback_output.setText("")
 
-    def hide_logout_button(self):
-        # Disables and hides the logout button
-        self.logout_button.setEnabled(False)
-        self.logout_button.setVisible(False)
-        # Disables amd hides main menu button
-        self.main_menu_button.setEnabled(False)
-        self.main_menu_button.setVisible(False)
-        # Stops showing the user's first name
-        self.username_label.setText("")
-
-    def show_logout_button(self):
-        # Enables and shows logout button
-        self.logout_button.setEnabled(True)
-        self.logout_button.setVisible(True)
-        # Enables and shows main menu button
-        self.main_menu_button.setEnabled(True)
-        self.main_menu_button.setVisible(True)
-        # Makes the user's first name show in the top left corner
-        self.username_label.setText(login_scripts.get_first_name(self.current_user).title())
-
-    def login(self):
-        # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)
-        if login_scripts.check_user_exists(self.login_username_input.text().casefold()):
-            # Checks if password is correct. If password correct next screen loaded
-            user_id = login_scripts.get_user_id(self.login_username_input.text().casefold())
-            if login_scripts.check_password(user_id, self.login_password_input.text()):
-                self.login_success_output.setText("Success")
-                self.current_user = user_id
-                self.show_logout_button()
-                if login_scripts.get_account_type(self.current_user) == 't':
-                    self.change_page(self.teacher_main_menu_page)
-                elif login_scripts.get_account_type(self.current_user) == 's':
-                    self.change_page(self.student_main_menu_page)
-            # If password incorrect, invalid password error is displayed and password box is cleared
-            else:
-                self.login_success_output.setText("Invalid password")
-                self.login_password_input.setText("")
-        # If username did not exist, invalid username error is displayed
-        else:
-            self.login_success_output.setText("Invalid username")
-
-    def change_page(self, index: int):
-        # Changes the current page index to the value passed
-        self.reset_pages()
-        self.main_widget.setCurrentIndex(index)
-
-    def get_account_type_selected(self) -> str:
-        # Returns whether student or teacher is selected (or neither, though this should never occur)
-        if self.create_account_radio_student.isChecked():
-            return 's'
-        elif self.create_account_radio_teacher.isChecked():
-            return 't'
-        else:
-            return ''
+    def reset_pages(self):
+        # Runs all page reset scripts
+        self.reset_login_page()
+        self.reset_create_account_page()
+        self.reset_question_page()
 
     def create_account(self):
         # Various error checks before creating account (error type is outputted in a label):
@@ -196,7 +241,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.create_account_success_output.setText("Account created")
 
 
-# If run as main launch into test conditions
+# Runs program
 if __name__ == '__main__':
     import sys
 
