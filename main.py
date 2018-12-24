@@ -35,8 +35,22 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.login_success_output.setText("")
 
     def change_page(self, index: int):
-        # Changes the current page index to the value passed
+        # Restores all pages to default state
         self.reset_pages()
+        # Enables all navigation buttons to then be disabled as needed
+        self.show_main_menu_button()
+        self.show_logout_button()
+        # Only tries to show username if logged in
+        if self.current_user != -1:
+            self.show_username_text()
+        # If a logged out page or menu page, hides main menu button
+        if index in [0, 1, 2, 3]:
+            self.hide_main_menu_button()
+            # If a logged out page, hide logout button
+            if index in [0, 1]:
+                self.hide_logout_button()
+                self.hide_username_text()
+        # Changes the current page index to the value passed
         self.main_widget.setCurrentIndex(index)
 
     def get_account_type_selected(self) -> str:
@@ -58,9 +72,6 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 if login_scripts.get_account_type(user_id) in ['s', 't']:
                     self.login_success_output.setText("Success")
                     self.current_user = user_id
-                    self.show_logout_button()
-                    self.show_main_menu_button()
-                    self.show_username_text()
                     # Main menu loaded
                     self.go_to_main_menu()
                 # If the stored user type is for some reason invalid, login is cancelled and error shown
@@ -78,10 +89,6 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def logout(self):
         # Resets current user to a default value
         self.current_user = -1
-        # Hides logged in  navigation buttons button
-        self.hide_logout_button()
-        self.hide_main_menu_button()
-        self.hide_username_text()
         # Returns to login page and sets logout success message
         self.change_page(self.login_page)
         self.login_success_output.setText("Logout successful")
@@ -151,12 +158,18 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # If previous scores clicked runs scripts to change screen
         self.student_main_menu_previous_scores_button.clicked.connect(
             lambda: self.change_page(self.previous_scores_page))
+        # If account management clicked runs scripts to change screen
+        self.student_main_menu_account_management_button.clicked.connect(
+            lambda: self.change_page(self.account_management_page))
 
     def teacher_main_menu_page_button_setup(self):
         # If set homework clicked runs scripts to change screen
         self.teacher_main_menu_set_homework_button.clicked.connect(lambda: self.change_page(self.set_homework_page))
         # If view classes clicked runs scripts to change screen
         self.teacher_main_menu_view_classes_button.clicked.connect(lambda: self.change_page(self.view_classes_page))
+        # If account management clicked runs scripts to change screen
+        self.teacher_main_menu_account_management_button.clicked.connect(
+            lambda: self.change_page(self.account_management_page))
 
     def button_setup(self):
         # Runs all button setups

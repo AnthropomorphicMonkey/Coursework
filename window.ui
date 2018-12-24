@@ -121,28 +121,40 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>4</number>
+          <number>3</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <layout class="QVBoxLayout" name="login_vertical_container">
           <item>
-           <spacer name="verticalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
+              <widget class="QLabel" name="label_10">
+                  <property name="font">
+                      <font>
+                          <pointsize>11</pointsize>
+                      </font>
+                  </property>
+                  <property name="text">
+                      <string>Login</string>
+                  </property>
+              </widget>
           </item>
+             <item>
+                 <spacer name="verticalSpacer_6">
+                     <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeType">
+                         <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                         <size>
+                             <width>20</width>
+                             <height>40</height>
+                         </size>
+                     </property>
+                 </spacer>
+             </item>
           <item>
            <layout class="QHBoxLayout" name="login_horizontal_container">
             <item>
@@ -408,6 +420,18 @@
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+                 <widget class="QLabel" name="label_11">
+                     <property name="font">
+                         <font>
+                             <pointsize>11</pointsize>
+                         </font>
+                     </property>
+                     <property name="text">
+                         <string>Create Account</string>
+                     </property>
+                 </widget>
+             </item>
           <item>
            <spacer name="verticalSpacer_4">
             <property name="orientation">
@@ -888,21 +912,33 @@
       <widget class="QWidget" name="student_main_menu_page">
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <spacer name="verticalSpacer_5">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
+            <widget class="QLabel" name="label_12">
+                <property name="font">
+                    <font>
+                        <pointsize>11</pointsize>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>Main Menu</string>
+                </property>
+            </widget>
         </item>
+           <item>
+               <spacer name="verticalSpacer_5">
+                   <property name="orientation">
+                       <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                       <enum>QSizePolicy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                       <size>
+                           <width>20</width>
+                           <height>40</height>
+                       </size>
+                   </property>
+               </spacer>
+           </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
@@ -956,56 +992,89 @@
               </property>
              </widget>
             </item>
+               <item>
+                   <spacer name="verticalSpacer_7">
+                       <property name="orientation">
+                           <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                           <size>
+                               <width>20</width>
+                               <height>40</height>
+                           </size>
+                       </property>
+                   </spacer>
+               </item>
+               <item>
+                   <widget class="QPushButton" name="student_main_menu_account_management_button">
+                       <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                           </sizepolicy>
+                       </property>
+                       <property name="font">
+                           <font>
+                               <pointsize>11</pointsize>
+                           </font>
+                       </property>
+                       <property name="text">
+                           <string>Account Management</string>
+                       </property>
+                       <property name="flat">
+                           <bool>true</bool>
+                       </property>
+                   </widget>
+               </item>
            </layout>
           </item>
-          <item>
-           <spacer name="horizontalSpacer_8">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
+             <item>
+                 <spacer name="horizontalSpacer_8">
+                     <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                         <size>
+                             <width>40</width>
+                             <height>20</height>
+                         </size>
+                     </property>
+                 </spacer>
+             </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
       <widget class="QWidget" name="teacher_main_menu_page">
        <layout class="QVBoxLayout" name="verticalLayout_11">
         <item>
-         <spacer name="verticalSpacer_14">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
+            <widget class="QLabel" name="label_13">
+                <property name="font">
+                    <font>
+                        <pointsize>11</pointsize>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>Main Menu</string>
+                </property>
+            </widget>
         </item>
+           <item>
+               <spacer name="verticalSpacer_14">
+                   <property name="orientation">
+                       <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeType">
+                       <enum>QSizePolicy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                       <size>
+                           <width>20</width>
+                           <height>40</height>
+                       </size>
+                   </property>
+               </spacer>
+           </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
@@ -1047,35 +1116,56 @@
               </property>
              </widget>
             </item>
+               <item>
+                   <spacer name="verticalSpacer_15">
+                       <property name="orientation">
+                           <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                           <size>
+                               <width>20</width>
+                               <height>40</height>
+                           </size>
+                       </property>
+                   </spacer>
+               </item>
+               <item>
+                   <widget class="QPushButton" name="teacher_main_menu_account_management_button">
+                       <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                               <horstretch>0</horstretch>
+                               <verstretch>0</verstretch>
+                           </sizepolicy>
+                       </property>
+                       <property name="font">
+                           <font>
+                               <pointsize>11</pointsize>
+                           </font>
+                       </property>
+                       <property name="text">
+                           <string>Account Management</string>
+                       </property>
+                       <property name="flat">
+                           <bool>true</bool>
+                       </property>
+                   </widget>
+               </item>
            </layout>
           </item>
-          <item>
-           <spacer name="horizontalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
+             <item>
+                 <spacer name="horizontalSpacer_6">
+                     <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                         <size>
+                             <width>40</width>
+                             <height>20</height>
+                         </size>
+                     </property>
+                 </spacer>
+             </item>
          </layout>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_15">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>
@@ -1303,14 +1393,12 @@
          <widget class="QWidget" name="homework_select_page">
              <layout class="QVBoxLayout" name="verticalLayout_16">
                  <item>
-                     <spacer name="verticalSpacer_20">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                     </spacer>
-                 </item>
-                 <item>
                      <widget class="QLabel" name="label_3">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
                          <property name="text">
                              <string>Homework</string>
                          </property>
@@ -1321,16 +1409,190 @@
                          <property name="orientation">
                              <enum>Qt::Vertical</enum>
                          </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>0</width>
+                                 <height>0</height>
+                             </size>
+                         </property>
                      </spacer>
                  </item>
              </layout>
          </widget>
-         <widget class="QWidget" name="browse_quizzes_page"/>
-         <widget class="QWidget" name="previous_scores_page"/>
-         <widget class="QWidget" name="set_homework_page"/>
-         <widget class="QWidget" name="admin_page"/>
-         <widget class="QWidget" name="account_management_page"/>
-         <widget class="QWidget" name="page"/>
+         <widget class="QWidget" name="browse_quizzes_page">
+             <layout class="QVBoxLayout" name="verticalLayout_14">
+                 <item>
+                     <widget class="QLabel" name="label_4">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
+                         <property name="text">
+                             <string>Browse Quizzes</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_22">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>20</width>
+                                 <height>705</height>
+                             </size>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
+         <widget class="QWidget" name="previous_scores_page">
+             <layout class="QVBoxLayout" name="verticalLayout_15">
+                 <item>
+                     <widget class="QLabel" name="label_5">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
+                         <property name="text">
+                             <string>Previous Scores</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_24">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>20</width>
+                                 <height>705</height>
+                             </size>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
+         <widget class="QWidget" name="set_homework_page">
+             <layout class="QVBoxLayout" name="verticalLayout_20">
+                 <item>
+                     <widget class="QLabel" name="label_6">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
+                         <property name="text">
+                             <string>Set Homework</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_26">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>20</width>
+                                 <height>705</height>
+                             </size>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
+         <widget class="QWidget" name="admin_page">
+             <layout class="QVBoxLayout" name="verticalLayout_21">
+                 <item>
+                     <widget class="QLabel" name="label_7">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
+                         <property name="text">
+                             <string>Admin</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_28">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>20</width>
+                                 <height>705</height>
+                             </size>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
+         <widget class="QWidget" name="account_management_page">
+             <layout class="QVBoxLayout" name="verticalLayout_22">
+                 <item>
+                     <widget class="QLabel" name="label_8">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
+                         <property name="text">
+                             <string>Account Management</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_30">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>20</width>
+                                 <height>705</height>
+                             </size>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
+         <widget class="QWidget" name="view_classes_page">
+             <layout class="QVBoxLayout" name="verticalLayout_23">
+                 <item>
+                     <widget class="QLabel" name="label_9">
+                         <property name="font">
+                             <font>
+                                 <pointsize>11</pointsize>
+                             </font>
+                         </property>
+                         <property name="text">
+                             <string>Classes</string>
+                         </property>
+                     </widget>
+                 </item>
+                 <item>
+                     <spacer name="verticalSpacer_32">
+                         <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                             <size>
+                                 <width>20</width>
+                                 <height>705</height>
+                             </size>
+                         </property>
+                     </spacer>
+                 </item>
+             </layout>
+         </widget>
      </widget>
     </item>
     <item>
