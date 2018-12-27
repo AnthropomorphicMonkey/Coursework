@@ -171,6 +171,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.teacher_main_menu_account_management_button.clicked.connect(
             lambda: self.change_page(self.account_management_page))
 
+    def previous_scores_page_button_setup(self):
+        # When selected class is changed, score table is updated
+        self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.update_previous_scores_table())
+
     def button_setup(self):
         # Runs all button setups
         self.navigation_button_setup()
@@ -178,6 +182,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.create_account_page_button_setup()
         self.student_main_menu_page_button_setup()
         self.teacher_main_menu_page_button_setup()
+        self.previous_scores_page_button_setup()
 
     def reset_login_page(self):
         # Sets input boxes to blank
@@ -213,9 +218,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def reset_previous_scores_page(self):
         # Clears class selection combo box
         self.previous_scores_class_combo_box.clear()
+        # Inserts class list into combo box
         user_classes = ui_scripts.get_classes_of_user(self.current_user)
         for each_class in user_classes:
             self.previous_scores_class_combo_box.addItem(each_class[1])
+        # Updates score table to first class selected
+        self.update_previous_scores_table()
 
     def reset_pages(self):
         # Runs all page reset scripts
@@ -260,6 +268,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.reset_pages()
             # Account creation success outputted
             self.create_account_success_output.setText("Account created")
+
+    def update_previous_scores_table(self):
+        self.previous_scores_table.clearContents()
+        self.previous_scores_table.insertRow(0)
+        # FINISHFINSIHNBGSBSURIBNUBFR
 
 
 # Runs program

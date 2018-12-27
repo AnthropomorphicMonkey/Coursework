@@ -1485,12 +1485,6 @@
                                  <property name="orientation">
                                      <enum>Qt::Horizontal</enum>
                                  </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>40</width>
-                                         <height>20</height>
-                                     </size>
-                                 </property>
                              </spacer>
                          </item>
                          <item>
@@ -1498,7 +1492,13 @@
                                  <item>
                                      <layout class="QHBoxLayout" name="horizontalLayout_12">
                                          <item>
-                                             <widget class="QComboBox" name="previous_scores_class_combo_box"/>
+                                             <widget class="QComboBox" name="previous_scores_class_combo_box">
+                                                 <item>
+                                                     <property name="text">
+                                                         <string>Class</string>
+                                                     </property>
+                                                 </item>
+                                             </widget>
                                          </item>
                                          <item>
                                              <spacer name="horizontalSpacer_18">
@@ -1516,10 +1516,22 @@
                                      </layout>
                                  </item>
                                  <item>
-                                     <widget class="QLabel" name="label_14">
-                                         <property name="text">
-                                             <string>TextLabel</string>
-                                         </property>
+                                     <widget class="QTableWidget" name="previous_scores_table">
+                                         <column>
+                                             <property name="text">
+                                                 <string>Homework</string>
+                                             </property>
+                                         </column>
+                                         <column>
+                                             <property name="text">
+                                                 <string>Score</string>
+                                             </property>
+                                         </column>
+                                         <column>
+                                             <property name="text">
+                                                 <string>Date</string>
+                                             </property>
+                                         </column>
                                      </widget>
                                  </item>
                              </layout>
@@ -1528,12 +1540,6 @@
                              <spacer name="horizontalSpacer_14">
                                  <property name="orientation">
                                      <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>40</width>
-                                         <height>20</height>
-                                     </size>
                                  </property>
                              </spacer>
                          </item>
