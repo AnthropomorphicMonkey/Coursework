@@ -95,6 +95,12 @@ def remove_user_from_class(student_id: int, class_id: int):
     conn.commit()
 
 
+def create_class(teacher_id: int, class_name: str):
+    sql = 'INSERT INTO classes(name, teacher) VALUES(?, ?);'
+    c.execute(sql, (class_name, teacher_id))
+    conn.commit()
+
+
 if __name__ == '__main__':
     print(get_classes_of_user(1))
     print(get_homeworks_of_class(486))

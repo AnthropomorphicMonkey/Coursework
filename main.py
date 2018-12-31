@@ -240,6 +240,14 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Updates score table to first class selected
         self.update_previous_scores_table()
 
+    def clear_admin_labels(self):
+        self.admin_username_input.setText("")
+        self.admin_class_input.setText("")
+        self.admin_add_user_status_label.setText("")
+        self.admin_remove_user_status_label.setText("")
+        self.admin_create_class_status_label.setText("")
+        self.admin_delete_class_status_label.setText("")
+
     def reset_admin_page(self):
         self.admin_class_user_combo_box.clear()
         self.admin_delete_class_combo_box.clear()
@@ -248,12 +256,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.admin_class_user_combo_box.addItem(each_class[1])
             self.admin_delete_class_combo_box.addItem(each_class[1])
         self.update_admin_username_combo_box()
-        self.admin_username_input.setText("")
-        self.admin_class_input.setText("")
-        self.admin_add_user_status_label.setText("")
-        self.admin_remove_user_status_label.setText("")
-        self.admin_create_class_status_label.setText("")
-        self.admin_delete_class_status_label.setText("")
+        self.clear_admin_labels()
 
     def reset_pages(self, target_page):
         # Runs all page reset scripts
@@ -330,6 +333,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
             for each_user in self.class_users:
                 self.admin_username_combo_box.addItem(each_user[1])
+        self.clear_admin_labels()
 
     def add_user_to_class(self):
         user = self.admin_username_input.text()
@@ -345,6 +349,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                     self.reset_admin_page()
                     self.admin_add_user_status_label.setText("Success")
             else:
+                self.clear_admin_labels()
                 self.admin_add_user_status_label.setText("User does not exist")
         self.admin_username_input.setText("")
 
@@ -357,10 +362,17 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.reset_admin_page()
             self.admin_remove_user_status_label.setText("Success")
         else:
-            self.admin_remove_user_status_label.setText("")
+            self.clear_admin_labels()
+            self.admin_remove_user_status_label.setText("Select class and user")
 
     def admin_create_class(self):
-        pass
+        if self.admin_class_input.text() != '':
+            ui_scripts.create_class(self.current_user, self.admin_class_input.text())
+            self.reset_admin_page()
+            self.admin_create_class_status_label.setText("Success")
+        else:
+            self.clear_admin_labels()
+            self.admin_create_class_status_label.setText("Class must have name")
 
     def remove_class(self):
         pass
