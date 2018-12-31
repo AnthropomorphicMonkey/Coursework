@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-          <number>7</number>
+          <number>3</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1114,8 +1114,20 @@
               <property name="text">
                <string>View Classes</string>
               </property>
-             </widget>
+                </widget>
             </item>
+               <item>
+                   <widget class="QPushButton" name="teacher_main_menu_admin_button">
+                       <property name="font">
+                           <font>
+                               <pointsize>16</pointsize>
+                           </font>
+                       </property>
+                       <property name="text">
+                           <string>Admin</string>
+                       </property>
+                   </widget>
+               </item>
                <item>
                    <spacer name="verticalSpacer_15">
                        <property name="orientation">
@@ -1485,6 +1497,15 @@
                                  <property name="orientation">
                                      <enum>Qt::Horizontal</enum>
                                  </property>
+                                 <property name="sizeType">
+                                     <enum>QSizePolicy::Maximum</enum>
+                                 </property>
+                                 <property name="sizeHint" stdset="0">
+                                     <size>
+                                         <width>200</width>
+                                         <height>0</height>
+                                     </size>
+                                 </property>
                              </spacer>
                          </item>
                          <item>
@@ -1517,6 +1538,12 @@
                                  </item>
                                  <item>
                                      <widget class="QTableWidget" name="previous_scores_table">
+                                         <property name="sizePolicy">
+                                             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                                                 <horstretch>0</horstretch>
+                                                 <verstretch>0</verstretch>
+                                             </sizepolicy>
+                                         </property>
                                          <column>
                                              <property name="text">
                                                  <string>Homework</string>
@@ -1541,6 +1568,15 @@
                                  <property name="orientation">
                                      <enum>Qt::Horizontal</enum>
                                  </property>
+                                 <property name="sizeType">
+                                     <enum>QSizePolicy::Maximum</enum>
+                                 </property>
+                                 <property name="sizeHint" stdset="0">
+                                     <size>
+                                         <width>200</width>
+                                         <height>0</height>
+                                     </size>
+                                 </property>
                              </spacer>
                          </item>
                      </layout>
@@ -1549,6 +1585,9 @@
                      <spacer name="verticalSpacer_24">
                          <property name="orientation">
                              <enum>Qt::Vertical</enum>
+                         </property>
+                         <property name="sizeType">
+                             <enum>QSizePolicy::Maximum</enum>
                          </property>
                          <property name="sizeHint" stdset="0">
                              <size>

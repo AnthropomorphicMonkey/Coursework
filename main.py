@@ -27,16 +27,18 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.view_classes_page = 11
         # Holds ID of active user
         self.current_user = -1
+        # Clears list of user classes
+        self.user_classes = []
         # Sets up all pages
         self.button_setup()
-        self.reset_pages()
+        self.reset_pages(self.login_page)
         # Sets program to logged out state (and hides logged out message)
         self.logout()
         self.login_success_output.setText("")
 
     def change_page(self, index: int):
-        # Restores all pages to default state
-        self.reset_pages()
+        # Restores target page to default state
+        self.reset_pages(index)
         # Enables all navigation buttons to then be disabled as needed
         self.show_main_menu_button()
         self.show_logout_button()
@@ -163,13 +165,16 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             lambda: self.change_page(self.account_management_page))
 
     def teacher_main_menu_page_button_setup(self):
-        # If set homework clicked runs scripts to change screen
+        # If 'set homework' clicked runs scripts to change screen
         self.teacher_main_menu_set_homework_button.clicked.connect(lambda: self.change_page(self.set_homework_page))
-        # If view classes clicked runs scripts to change screen
+        # If 'view classes' clicked runs scripts to change screen
         self.teacher_main_menu_view_classes_button.clicked.connect(lambda: self.change_page(self.view_classes_page))
-        # If account management clicked runs scripts to change screen
+        # If 'account management' clicked runs scripts to change screen
         self.teacher_main_menu_account_management_button.clicked.connect(
             lambda: self.change_page(self.account_management_page))
+        # If 'admin' clicked runs scripts to change screen
+        self.teacher_main_menu_admin_button.clicked.connect(
+            lambda: self.change_page(self.admin_page))
 
     def previous_scores_page_button_setup(self):
         # When selected class is changed, score table is updated
@@ -219,18 +224,24 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears class selection combo box
         self.previous_scores_class_combo_box.clear()
         # Inserts class list into combo box
-        user_classes = ui_scripts.get_classes_of_user(self.current_user)
-        for each_class in user_classes:
+        self.user_classes = ui_scripts.get_classes_of_user(self.current_user)
+        for each_class in self.user_classes:
             self.previous_scores_class_combo_box.addItem(each_class[1])
         # Updates score table to first class selected
         self.update_previous_scores_table()
 
-    def reset_pages(self):
+    def reset_pages(self, target_page):
         # Runs all page reset scripts
-        self.reset_login_page()
-        self.reset_create_account_page()
-        self.reset_question_page()
-        self.reset_previous_scores_page()
+        if target_page == self.login_page:
+            self.reset_login_page()
+        elif target_page == self.create_account_page:
+            self.reset_create_account_page()
+        elif target_page == self.question_page:
+            self.reset_question_page()
+        elif target_page == self.previous_scores_page:
+            self.reset_previous_scores_page()
+        else:
+            pass
 
     def create_account(self):
         # Various error checks before creating account (error type is outputted in a label):
@@ -265,14 +276,23 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                                          self.create_account_last_name_input.text(),
                                          self.get_account_type_selected())
             # Resets create account page once account successfully created
-            self.reset_pages()
+            self.reset_pages(self.create_account_page)
             # Account creation success outputted
             self.create_account_success_output.setText("Account created")
 
     def update_previous_scores_table(self):
         self.previous_scores_table.clearContents()
-        self.previous_scores_table.insertRow(0)
-        # FINISHFINSIHNBGSBSURIBNUBFR
+        if len(self.user_classes) != 0:
+            homework_ids = ui_scripts.get_homework_ids(
+                self.user_classes[self.previous_scores_class_combo_box.currentIndex()][0])
+            self.previous_scores_table.setRowCount(len(homework_ids))
+            row_counter = -1
+            for each_homework in homework_ids:
+                row_counter += 1
+                data = ui_scripts.get_homework_score(self.current_user, each_homework)
+                self.previous_scores_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(data[0]))
+                self.previous_scores_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem("{}%".format(data[1])))
+                self.previous_scores_table.setItem(row_counter, 2, QtWidgets.QTableWidgetItem(data[2]))
 
 
 # Runs program
