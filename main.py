@@ -29,6 +29,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.current_user = -1
         # Clears list of user classes
         self.user_classes = []
+        self.teacher_classes = []
+        self.class_users = []
         # Sets up all pages
         self.button_setup()
         self.reset_pages(self.login_page)
@@ -180,6 +182,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # When selected class is changed, score table is updated
         self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.update_previous_scores_table())
 
+    def admin_page_button_setup(self):
+        self.admin_class_user_combo_box.currentIndexChanged.connect(lambda: self.update_admin_username_combo_box())
+        self.admin_username_submit_button.clicked.connect(lambda: self.add_user_to_class())
+        self.admin_create_class_submit_button.clicked.connect(lambda: self.admin_create_class())
+        self.admin_remove_user_button.clicked.connect(lambda: self.remove_user_from_class())
+        self.admin_remove_class_button.clicked.connect(lambda: self.remove_class())
+
     def button_setup(self):
         # Runs all button setups
         self.navigation_button_setup()
@@ -188,6 +197,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.student_main_menu_page_button_setup()
         self.teacher_main_menu_page_button_setup()
         self.previous_scores_page_button_setup()
+        self.admin_page_button_setup()
 
     def reset_login_page(self):
         # Sets input boxes to blank
@@ -230,6 +240,21 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Updates score table to first class selected
         self.update_previous_scores_table()
 
+    def reset_admin_page(self):
+        self.admin_class_user_combo_box.clear()
+        self.admin_delete_class_combo_box.clear()
+        self.teacher_classes = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.teacher_classes:
+            self.admin_class_user_combo_box.addItem(each_class[1])
+            self.admin_delete_class_combo_box.addItem(each_class[1])
+        self.update_admin_username_combo_box()
+        self.admin_username_input.setText("")
+        self.admin_class_input.setText("")
+        self.admin_add_user_status_label.setText("")
+        self.admin_remove_user_status_label.setText("")
+        self.admin_create_class_status_label.setText("")
+        self.admin_delete_class_status_label.setText("")
+
     def reset_pages(self, target_page):
         # Runs all page reset scripts
         if target_page == self.login_page:
@@ -240,6 +265,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.reset_question_page()
         elif target_page == self.previous_scores_page:
             self.reset_previous_scores_page()
+        elif target_page == self.admin_page:
+            self.reset_admin_page()
         else:
             pass
 
@@ -283,8 +310,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def update_previous_scores_table(self):
         self.previous_scores_table.clearContents()
         if len(self.user_classes) != 0:
-            homework_ids = ui_scripts.get_homework_ids(
-                self.user_classes[self.previous_scores_class_combo_box.currentIndex()][0])
+            homework_ids = []
+            for each_homework in ui_scripts.get_homeworks_of_class(
+                    self.user_classes[self.previous_scores_class_combo_box.currentIndex()][0]):
+                homework_ids.append(each_homework[0])
             self.previous_scores_table.setRowCount(len(homework_ids))
             row_counter = -1
             for each_homework in homework_ids:
@@ -293,6 +322,48 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.previous_scores_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(data[0]))
                 self.previous_scores_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem("{}%".format(data[1])))
                 self.previous_scores_table.setItem(row_counter, 2, QtWidgets.QTableWidgetItem(data[2]))
+
+    def update_admin_username_combo_box(self):
+        self.admin_username_combo_box.clear()
+        if len(self.teacher_classes) != 0:
+            self.class_users = ui_scripts.get_users_of_class(
+                self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
+            for each_user in self.class_users:
+                self.admin_username_combo_box.addItem(each_user[1])
+
+    def add_user_to_class(self):
+        user = self.admin_username_input.text()
+        # Stops scripts being able to run if the teacher has no classes to add a student to
+        if len(self.teacher_classes) > 0:
+            if login_scripts.check_user_exists(user):
+                user_id = login_scripts.get_user_id(user)
+                class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
+                if ui_scripts.check_user_in_class(user_id, class_id):
+                    self.admin_add_user_status_label.setText("User already in class")
+                else:
+                    ui_scripts.add_user_to_class(user_id, class_id)
+                    self.reset_admin_page()
+                    self.admin_add_user_status_label.setText("Success")
+            else:
+                self.admin_add_user_status_label.setText("User does not exist")
+        self.admin_username_input.setText("")
+
+    def remove_user_from_class(self):
+        # Stops scripts being able to run if a student and/or class is not selected
+        if len(self.class_users) > 0 and len(self.teacher_classes) > 0:
+            user_id = self.class_users[self.admin_username_combo_box.currentIndex()][0]
+            class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
+            ui_scripts.remove_user_from_class(user_id, class_id)
+            self.reset_admin_page()
+            self.admin_remove_user_status_label.setText("Success")
+        else:
+            self.admin_remove_user_status_label.setText("")
+
+    def admin_create_class(self):
+        pass
+
+    def remove_class(self):
+        pass
 
 
 # Runs program

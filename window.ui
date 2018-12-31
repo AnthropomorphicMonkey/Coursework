@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-          <number>3</number>
+          <number>9</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1641,6 +1641,200 @@
                              <string>Admin</string>
                          </property>
                      </widget>
+                 </item>
+                 <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_13">
+                         <item>
+                             <spacer name="horizontalSpacer_19">
+                                 <property name="orientation">
+                                     <enum>Qt::Horizontal</enum>
+                                 </property>
+                                 <property name="sizeHint" stdset="0">
+                                     <size>
+                                         <width>40</width>
+                                         <height>20</height>
+                                     </size>
+                                 </property>
+                             </spacer>
+                         </item>
+                         <item>
+                             <layout class="QHBoxLayout" name="horizontalLayout_14">
+                                 <item>
+                                     <layout class="QVBoxLayout" name="verticalLayout_24">
+                                         <item>
+                                             <layout class="QVBoxLayout" name="verticalLayout_26">
+                                                 <item>
+                                                     <widget class="QComboBox" name="admin_class_user_combo_box">
+                                                         <item>
+                                                             <property name="text">
+                                                                 <string>Class</string>
+                                                             </property>
+                                                         </item>
+                                                     </widget>
+                                                 </item>
+                                             </layout>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="label_14">
+                                                 <property name="text">
+                                                     <string>Add user:</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                         <item>
+                                             <layout class="QHBoxLayout" name="horizontalLayout_15">
+                                                 <item>
+                                                     <widget class="QLineEdit" name="admin_username_input">
+                                                         <property name="text">
+                                                             <string/>
+                                                         </property>
+                                                         <property name="placeholderText">
+                                                             <string>Username</string>
+                                                         </property>
+                                                     </widget>
+                                                 </item>
+                                                 <item>
+                                                     <widget class="QPushButton" name="admin_username_submit_button">
+                                                         <property name="text">
+                                                             <string>Submit</string>
+                                                         </property>
+                                                     </widget>
+                                                 </item>
+                                             </layout>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="admin_add_user_status_label">
+                                                 <property name="text">
+                                                     <string>Add user status</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="label_15">
+                                                 <property name="text">
+                                                     <string>Remove User:</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                         <item>
+                                             <layout class="QHBoxLayout" name="horizontalLayout_16">
+                                                 <item>
+                                                     <widget class="QComboBox" name="admin_username_combo_box">
+                                                         <item>
+                                                             <property name="text">
+                                                                 <string>Username</string>
+                                                             </property>
+                                                         </item>
+                                                     </widget>
+                                                 </item>
+                                                 <item>
+                                                     <widget class="QPushButton" name="admin_remove_user_button">
+                                                         <property name="text">
+                                                             <string>REMOVE</string>
+                                                         </property>
+                                                     </widget>
+                                                 </item>
+                                             </layout>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="admin_remove_user_status_label">
+                                                 <property name="text">
+                                                     <string>Remove user status</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                     </layout>
+                                 </item>
+                                 <item>
+                                     <layout class="QVBoxLayout" name="verticalLayout_27">
+                                         <item>
+                                             <widget class="QLabel" name="label_16">
+                                                 <property name="text">
+                                                     <string>Create Class:</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                         <item>
+                                             <layout class="QHBoxLayout" name="horizontalLayout_17">
+                                                 <item>
+                                                     <widget class="QLineEdit" name="admin_class_input">
+                                                         <property name="text">
+                                                             <string/>
+                                                         </property>
+                                                         <property name="placeholderText">
+                                                             <string>Class Name</string>
+                                                         </property>
+                                                     </widget>
+                                                 </item>
+                                                 <item>
+                                                     <widget class="QPushButton"
+                                                             name="admin_create_class_submit_button">
+                                                         <property name="text">
+                                                             <string>Submit</string>
+                                                         </property>
+                                                     </widget>
+                                                 </item>
+                                             </layout>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="admin_create_class_status_label">
+                                                 <property name="text">
+                                                     <string>Create class status</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="label_17">
+                                                 <property name="text">
+                                                     <string>Delete Class:</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                         <item>
+                                             <layout class="QHBoxLayout" name="horizontalLayout_18">
+                                                 <item>
+                                                     <widget class="QComboBox" name="admin_delete_class_combo_box">
+                                                         <item>
+                                                             <property name="text">
+                                                                 <string>Class</string>
+                                                             </property>
+                                                         </item>
+                                                     </widget>
+                                                 </item>
+                                                 <item>
+                                                     <widget class="QPushButton" name="admin_remove_class_button">
+                                                         <property name="text">
+                                                             <string>REMOVE</string>
+                                                         </property>
+                                                     </widget>
+                                                 </item>
+                                             </layout>
+                                         </item>
+                                         <item>
+                                             <widget class="QLabel" name="admin_delete_class_status_label">
+                                                 <property name="text">
+                                                     <string>Delete class status</string>
+                                                 </property>
+                                             </widget>
+                                         </item>
+                                     </layout>
+                                 </item>
+                             </layout>
+                         </item>
+                         <item>
+                             <spacer name="horizontalSpacer_20">
+                                 <property name="orientation">
+                                     <enum>Qt::Horizontal</enum>
+                                 </property>
+                                 <property name="sizeHint" stdset="0">
+                                     <size>
+                                         <width>40</width>
+                                         <height>20</height>
+                                     </size>
+                                 </property>
+                             </spacer>
+                         </item>
+                     </layout>
                  </item>
                  <item>
                      <spacer name="verticalSpacer_28">
