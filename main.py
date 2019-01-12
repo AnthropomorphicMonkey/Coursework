@@ -183,13 +183,19 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.update_previous_scores_table())
 
     def admin_page_button_setup(self):
+        # If class selection changed, changes usernames shown in username combo box to those in class
         self.admin_class_user_combo_box.currentIndexChanged.connect(lambda: self.update_admin_username_combo_box())
+        # If add user to class clicked runs scripts to add user to the class
         self.admin_username_submit_button.clicked.connect(lambda: self.add_user_to_class())
+        # If create class clicked runs scripts to create a new class
         self.admin_create_class_submit_button.clicked.connect(lambda: self.admin_create_class())
+        # If remove user clicked runs scripts to remove a user from a class
         self.admin_remove_user_button.clicked.connect(lambda: self.remove_user_from_class())
+        # If remove class clicked runs scripts to delete class
         self.admin_remove_class_button.clicked.connect(lambda: self.remove_class())
 
     def account_management_page_button_setup(self):
+        # If submit clicked runs scripts to update user details
         self.account_management_submit_button.clicked.connect(lambda: self.account_management_detail_update())
 
     def button_setup(self):
@@ -245,24 +251,30 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.update_previous_scores_table()
 
     def clear_admin_labels(self):
+        # Sets input boxes to blank
         self.admin_username_input.setText("")
         self.admin_class_input.setText("")
         self.admin_add_user_status_label.setText("")
+        # Sets status outputs to blank
         self.admin_remove_user_status_label.setText("")
         self.admin_create_class_status_label.setText("")
         self.admin_delete_class_status_label.setText("")
 
     def reset_admin_page(self):
+        # Resets all combo boxes to contain no values
         self.admin_class_user_combo_box.clear()
         self.admin_delete_class_combo_box.clear()
+        # Updates combo boxes to contain relevant values for current user
         self.teacher_classes = ui_scripts.get_classes_of_teacher(self.current_user)
         for each_class in self.teacher_classes:
             self.admin_class_user_combo_box.addItem(each_class[1])
             self.admin_delete_class_combo_box.addItem(each_class[1])
         self.update_admin_username_combo_box()
+        # Sets all labels to default values
         self.clear_admin_labels()
 
     def reset_account_management_page(self):
+        # Sets input boxes to blank
         self.account_management_first_name_input.setText("")
         self.account_management_last_name_input.setText("")
         self.account_management_old_password_input.setText("")
@@ -325,12 +337,16 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.create_account_success_output.setText("Account created")
 
     def update_previous_scores_table(self):
+        # Clears table to allow for new values
         self.previous_scores_table.clearContents()
+        # If user is any classes, populates table with homework scores
         if len(self.user_classes) != 0:
             homework_ids = []
+            # For selected, id of every homework is appended to an array
             for each_homework in ui_scripts.get_homeworks_of_class(
                     self.user_classes[self.previous_scores_class_combo_box.currentIndex()][0]):
                 homework_ids.append(each_homework[0])
+            # Inserts all homework data for class into table
             self.previous_scores_table.setRowCount(len(homework_ids))
             row_counter = -1
             for each_homework in homework_ids:
@@ -341,7 +357,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.previous_scores_table.setItem(row_counter, 2, QtWidgets.QTableWidgetItem(data[2]))
 
     def update_admin_username_combo_box(self):
+        # Clears class users combo box
         self.admin_username_combo_box.clear()
+        # If a class is selected, stores all user ids in a list anf adds each corresponding username to the combo box
         if len(self.teacher_classes) != 0:
             self.class_users = ui_scripts.get_users_of_class(
                 self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
@@ -353,37 +371,47 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         user = self.admin_username_input.text()
         # Stops scripts being able to run if the teacher has no classes to add a student to
         if len(self.teacher_classes) > 0:
+            # If username exists runs scripts to add user to class
             if login_scripts.check_user_exists(user):
                 user_id = login_scripts.get_user_id(user)
                 class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
+                # If user already in class outputs error
                 if ui_scripts.check_user_in_class(user_id, class_id):
                     self.admin_add_user_status_label.setText("User already in class")
+                # If user not already in class runs scripts to add to class and outputs success message when done
                 else:
                     ui_scripts.add_user_to_class(user_id, class_id)
                     self.reset_admin_page()
                     self.admin_add_user_status_label.setText("Success")
+            # If username does not exist outputs error
             else:
                 self.clear_admin_labels()
                 self.admin_add_user_status_label.setText("User does not exist")
+        # Clears input box
         self.admin_username_input.setText("")
 
     def remove_user_from_class(self):
         # Stops scripts being able to run if a student and/or class is not selected
         if len(self.class_users) > 0 and len(self.teacher_classes) > 0:
+            # Gets the currently selected user and class and runs scripts to remove user from the class
             user_id = self.class_users[self.admin_username_combo_box.currentIndex()][0]
             class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
             ui_scripts.remove_user_from_class(user_id, class_id)
+            # Outputs success message
             self.reset_admin_page()
             self.admin_remove_user_status_label.setText("Success")
+        # If student and/or class not selected outputs error
         else:
             self.clear_admin_labels()
             self.admin_remove_user_status_label.setText("Select class and user")
 
     def admin_create_class(self):
+        # If a name is entered for the class runs scripts to set it up in database and outputs success message when done
         if self.admin_class_input.text() != '':
             ui_scripts.create_class(self.current_user, self.admin_class_input.text())
             self.reset_admin_page()
             self.admin_create_class_status_label.setText("Success")
+        # If no class name is entered outputs error
         else:
             self.clear_admin_labels()
             self.admin_create_class_status_label.setText("Class must have name")
@@ -392,31 +420,64 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         pass
 
     def account_management_detail_update(self):
-        # User details will only update if password is correct
+        # User details will only update if current password is correct
         if login_scripts.check_password(self.current_user, self.account_management_old_password_input.text()):
-            if self.account_management_first_name_input.text() != '':
-                login_scripts.update_first_name(self.current_user, self.account_management_first_name_input.text())
-                self.account_management_success_output.setText("Success")
-            if self.account_management_last_name_input.text() != '':
-                login_scripts.update_last_name(self.current_user, self.account_management_last_name_input.text())
-                self.account_management_success_output.setText("Success")
-                print("yes")
-            if self.account_management_new_password_input.text() != '':
+            # If a potential new password is entered, runs scripts to validate
+            if self.account_management_new_password_input.text() != '' or self.account_management_new_password_verify_input.text() != '':
+                # If new password and new password verification match goes to scripts to validate new password
                 if self.account_management_new_password_input.text() == self.account_management_new_password_verify_input.text():
+                    # If new password is invalid outputs error
                     if len(self.account_management_new_password_input.text()) < 8:
                         self.reset_account_management_page()
                         self.account_management_success_output.setText(
                             "Invalid password (Must be at least 8 characters)")
+                    # If new password entered is valid updates user data
                     else:
+                        # Updates first and last names using function
+                        self.update_first_and_last_names()
+                        # Generates new hashed password and stores
                         login_scripts.update_password(self.current_user,
                                                       self.account_management_new_password_input.text())
+                        # Outputs success
+                        self.reset_account_management_page()
                         self.account_management_success_output.setText("Success")
+                # If new password and verification mismatch outputs error
                 else:
                     self.reset_account_management_page()
                     self.account_management_success_output.setText("New password fields must match")
+            # If no new password is entered runs scripts to update first and last name
+            else:
+                first_or_last_updated = self.update_first_and_last_names()
+                self.reset_account_management_page()
+                # If any data was updated outputs a success message
+                if first_or_last_updated:
+                    self.account_management_success_output.setText("Success")
+                # If no changes were made no output
+                else:
+                    self.account_management_success_output.setText("")
+        # If current password incorrect outputs and error
         else:
             self.reset_account_management_page()
-            self.account_management_success_output.setText("Current password required to change user data")
+            self.account_management_success_output.setText("Correct current password required to change user data")
+
+    def update_first_and_last_names(self) -> bool:
+        # Updating of first and last names placed in own function
+        # as there are multiple routes to needing to do this in account_management_detail_update function
+        # Boolean value stored and returned to indicate if any values were updated
+        # in order to be able to determine if a success message should be shown in account_management_detail_update
+        value_updated = False
+        # If a new first name was entered, value is updated in db for current user
+        if self.account_management_first_name_input.text() != '':
+            login_scripts.update_first_name(self.current_user, self.account_management_first_name_input.text())
+            # Value updated marked as true
+            value_updated = True
+        # If a new last name was entered, value is updated in db for current user
+        if self.account_management_last_name_input.text() != '':
+            login_scripts.update_last_name(self.current_user, self.account_management_last_name_input.text())
+            # Value updated marked as true
+            value_updated = True
+        # Returns whether a first an/or last name update occurred
+        return value_updated
 
 
 # Runs program

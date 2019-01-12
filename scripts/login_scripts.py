@@ -49,10 +49,12 @@ def generate_hash(password: str, salt: str) -> str:
 
 # Assumes valid username
 def check_password(user_id: int, password: str) -> bool:
+    # Returns whether password entered for given user id is valid
     return check_hash(user_id, password, find_salt(user_id))
 
 
 def generate_salt() -> str:
+    # Securely generates a random salt
     return uuid.uuid4().hex
 
 
@@ -69,52 +71,61 @@ def create_account(username: str, password: str, first_name: str, last_name: str
 
 
 def get_user_id(username: str) -> int:
+    # Returns user id from database for given username
     sql = 'SELECT id FROM users WHERE username = ?;'
     c.execute(sql, (username,))
     return c.fetchall()[0][0]
 
 
 def get_account_type(user_id: int) -> str:
+    # Returns account type from database for given id
     sql = 'SELECT type FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
 def get_username(user_id: int) -> str:
+    # Returns username from database for given id
     sql = 'SELECT username FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
 def get_first_name(user_id: int) -> str:
+    # Returns first name from database for given id
     sql = 'SELECT first_name FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
 def get_last_name(user_id: int) -> str:
+    # Returns last name from database for given id
     sql = 'SELECT last_name FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
 
 
 def update_first_name(user_id: int, new_first_name: str):
+    # Updates value for first name in database for given id
     sql = 'UPDATE users SET first_name = ? WHERE id = ?;'
     c.execute(sql, (format_name(new_first_name), user_id))
     conn.commit()
 
 
 def update_last_name(user_id: int, new_last_name: str):
+    # Updates value for last name in database for given id
     sql = 'UPDATE users SET last_name = ? WHERE id = ?;'
     c.execute(sql, (format_name(new_last_name), user_id))
     conn.commit()
 
 
 def format_name(first_name: str) -> str:
+    # Formats a first or last name for the database (all lowercase)
     return first_name.casefold()
 
 
 def update_password(user_id: int, password: str):
+    # Updates value for hashed password in database for given id
     sql = 'UPDATE users SET password_hash = ? WHERE id = ?;'
     c.execute(sql, (generate_hash(password, find_salt(user_id)), user_id))
     conn.commit()
