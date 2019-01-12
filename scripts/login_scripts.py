@@ -63,8 +63,8 @@ def create_account(username: str, password: str, first_name: str, last_name: str
           'VALUES(?, ?, ?, ?, ?, ?);'
     # Executes SQL to insert a correctly formatted record into the users table
     c.execute(sql,
-              (username.casefold(), salt, generate_hash(password, salt), first_name.casefold(), last_name.casefold(),
-               account_type))
+              (username.casefold(), salt, generate_hash(password, salt), format_name(first_name),
+               format_name(last_name), account_type))
     conn.commit()
 
 
@@ -96,6 +96,28 @@ def get_last_name(user_id: int) -> str:
     sql = 'SELECT last_name FROM users WHERE id = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()[0][0]
+
+
+def update_first_name(user_id: int, new_first_name: str):
+    sql = 'UPDATE users SET first_name = ? WHERE id = ?;'
+    c.execute(sql, (format_name(new_first_name), user_id))
+    conn.commit()
+
+
+def update_last_name(user_id: int, new_last_name: str):
+    sql = 'UPDATE users SET last_name = ? WHERE id = ?;'
+    c.execute(sql, (format_name(new_last_name), user_id))
+    conn.commit()
+
+
+def format_name(first_name: str) -> str:
+    return first_name.casefold()
+
+
+def update_password(user_id: int, password: str):
+    sql = 'UPDATE users SET password_hash = ? WHERE id = ?;'
+    c.execute(sql, (generate_hash(password, find_salt(user_id)), user_id))
+    conn.commit()
 
 
 if __name__ == '__main__':

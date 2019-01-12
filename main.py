@@ -189,6 +189,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_remove_user_button.clicked.connect(lambda: self.remove_user_from_class())
         self.admin_remove_class_button.clicked.connect(lambda: self.remove_class())
 
+    def account_management_page_button_setup(self):
+        self.account_management_submit_button.clicked.connect(lambda: self.account_management_detail_update())
+
     def button_setup(self):
         # Runs all button setups
         self.navigation_button_setup()
@@ -198,6 +201,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.teacher_main_menu_page_button_setup()
         self.previous_scores_page_button_setup()
         self.admin_page_button_setup()
+        self.account_management_page_button_setup()
 
     def reset_login_page(self):
         # Sets input boxes to blank
@@ -258,6 +262,14 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.update_admin_username_combo_box()
         self.clear_admin_labels()
 
+    def reset_account_management_page(self):
+        self.account_management_first_name_input.setText("")
+        self.account_management_last_name_input.setText("")
+        self.account_management_old_password_input.setText("")
+        self.account_management_new_password_input.setText("")
+        self.account_management_new_password_verify_input.setText("")
+        self.account_management_success_output.setText("")
+
     def reset_pages(self, target_page):
         # Runs all page reset scripts
         if target_page == self.login_page:
@@ -270,6 +282,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.reset_previous_scores_page()
         elif target_page == self.admin_page:
             self.reset_admin_page()
+        elif target_page == self.account_management_page:
+            self.reset_account_management_page()
         else:
             pass
 
@@ -376,6 +390,33 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def remove_class(self):
         pass
+
+    def account_management_detail_update(self):
+        # User details will only update if password is correct
+        if login_scripts.check_password(self.current_user, self.account_management_old_password_input.text()):
+            if self.account_management_first_name_input.text() != '':
+                login_scripts.update_first_name(self.current_user, self.account_management_first_name_input.text())
+                self.account_management_success_output.setText("Success")
+            if self.account_management_last_name_input.text() != '':
+                login_scripts.update_last_name(self.current_user, self.account_management_last_name_input.text())
+                self.account_management_success_output.setText("Success")
+                print("yes")
+            if self.account_management_new_password_input.text() != '':
+                if self.account_management_new_password_input.text() == self.account_management_new_password_verify_input.text():
+                    if len(self.account_management_new_password_input.text()) < 8:
+                        self.reset_account_management_page()
+                        self.account_management_success_output.setText(
+                            "Invalid password (Must be at least 8 characters)")
+                    else:
+                        login_scripts.update_password(self.current_user,
+                                                      self.account_management_new_password_input.text())
+                        self.account_management_success_output.setText("Success")
+                else:
+                    self.reset_account_management_page()
+                    self.account_management_success_output.setText("New password fields must match")
+        else:
+            self.reset_account_management_page()
+            self.account_management_success_output.setText("Current password required to change user data")
 
 
 # Runs program
