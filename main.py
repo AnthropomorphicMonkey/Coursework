@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 from PyQt5 import uic
 
 # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
-from scripts import login_scripts, ui_scripts
+from scripts import db_scripts, ui_scripts
 
 
 # Window class to control uid
@@ -68,12 +68,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def login(self):
         # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)
-        if login_scripts.check_user_exists(self.login_username_input.text().casefold()):
+        if db_scripts.check_user_exists(self.login_username_input.text().casefold()):
             # Checks if password is correct
-            user_id = login_scripts.get_user_id(self.login_username_input.text().casefold())
-            if login_scripts.check_password(user_id, self.login_password_input.text()):
+            user_id = db_scripts.get_user_id(self.login_username_input.text().casefold())
+            if db_scripts.check_password(user_id, self.login_password_input.text()):
                 # Checks user type to decide which main menu to load
-                if login_scripts.get_account_type(user_id) in ['s', 't']:
+                if db_scripts.get_account_type(user_id) in ['s', 't']:
                     self.login_success_output.setText("Success")
                     self.current_user = user_id
                     # Main menu loaded
@@ -109,7 +109,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def show_username_text(self):
         # Makes the user's first name show in ui
-        self.username_label.setText(login_scripts.get_first_name(self.current_user).title())
+        self.username_label.setText(db_scripts.get_first_name(self.current_user).title())
 
     def hide_username_text(self):
         # Stops showing the user's first name in ui
@@ -127,9 +127,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def go_to_main_menu(self):
         # Returns to the correct main menu page for the given user
-        if login_scripts.get_account_type(self.current_user) == 't':
+        if db_scripts.get_account_type(self.current_user) == 't':
             self.change_page(self.teacher_main_menu_page)
-        elif login_scripts.get_account_type(self.current_user) == 's':
+        elif db_scripts.get_account_type(self.current_user) == 's':
             self.change_page(self.student_main_menu_page)
         # If data in DB is for some reason invalid, user is logged out and error shown
         else:
@@ -305,7 +305,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         if self.create_account_username_input.text() == '':
             self.create_account_success_output.setText("Invalid username")
         # Error if username already taken
-        elif login_scripts.check_user_exists(self.create_account_username_input.text().casefold()):
+        elif db_scripts.check_user_exists(self.create_account_username_input.text().casefold()):
             self.create_account_success_output.setText("User already exists")
         # Error if no first name entered
         elif self.create_account_first_name_input.text() == '' or len(
@@ -326,11 +326,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # If passes all validation, account is created
         else:
             # Passes all relevant data into create account function
-            login_scripts.create_account(self.create_account_username_input.text().casefold(),
-                                         self.create_account_password_input.text(),
-                                         self.create_account_first_name_input.text(),
-                                         self.create_account_last_name_input.text(),
-                                         self.get_account_type_selected())
+            db_scripts.create_account(self.create_account_username_input.text().casefold(),
+                                      self.create_account_password_input.text(),
+                                      self.create_account_first_name_input.text(),
+                                      self.create_account_last_name_input.text(),
+                                      self.get_account_type_selected())
             # Resets create account page once account successfully created
             self.reset_pages(self.create_account_page)
             # Account creation success outputted
@@ -372,8 +372,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Stops scripts being able to run if the teacher has no classes to add a student to
         if len(self.teacher_classes) > 0:
             # If username exists runs scripts to add user to class
-            if login_scripts.check_user_exists(user):
-                user_id = login_scripts.get_user_id(user)
+            if db_scripts.check_user_exists(user):
+                user_id = db_scripts.get_user_id(user)
                 class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
                 # If user already in class outputs error
                 if ui_scripts.check_user_in_class(user_id, class_id):
@@ -417,15 +417,27 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.admin_create_class_status_label.setText("Class must have name")
 
     def remove_class(self):
-        pass
+        # If there are no classes to select does not attempt to remove class
+        if len(self.teacher_classes) > 0:
+            # Runs scripts to remove class from database
+            ui_scripts.remove_class(self.teacher_classes[self.admin_delete_class_combo_box.currentIndex()][0])
+            self.reset_admin_page()
+            # Outputs success message
+            self.admin_delete_class_status_label.setText("Success")
+        # If no class selected outputs error
+        else:
+            self.reset_admin_page()
+            self.admin_delete_class_status_label.setText("No class selected")
 
     def account_management_detail_update(self):
         # User details will only update if current password is correct
-        if login_scripts.check_password(self.current_user, self.account_management_old_password_input.text()):
+        if db_scripts.check_password(self.current_user, self.account_management_old_password_input.text()):
             # If a potential new password is entered, runs scripts to validate
-            if self.account_management_new_password_input.text() != '' or self.account_management_new_password_verify_input.text() != '':
+            if (self.account_management_new_password_input.text() != ''
+                    or self.account_management_new_password_verify_input.text() != ''):
                 # If new password and new password verification match goes to scripts to validate new password
-                if self.account_management_new_password_input.text() == self.account_management_new_password_verify_input.text():
+                if (self.account_management_new_password_input.text()
+                        == self.account_management_new_password_verify_input.text()):
                     # If new password is invalid outputs error
                     if len(self.account_management_new_password_input.text()) < 8:
                         self.reset_account_management_page()
@@ -436,8 +448,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                         # Updates first and last names using function
                         self.update_first_and_last_names()
                         # Generates new hashed password and stores
-                        login_scripts.update_password(self.current_user,
-                                                      self.account_management_new_password_input.text())
+                        db_scripts.update_password(self.current_user,
+                                                   self.account_management_new_password_input.text())
                         # Outputs success
                         self.reset_account_management_page()
                         self.account_management_success_output.setText("Success")
@@ -468,12 +480,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         value_updated = False
         # If a new first name was entered, value is updated in db for current user
         if self.account_management_first_name_input.text() != '':
-            login_scripts.update_first_name(self.current_user, self.account_management_first_name_input.text())
+            db_scripts.update_first_name(self.current_user, self.account_management_first_name_input.text())
             # Value updated marked as true
             value_updated = True
         # If a new last name was entered, value is updated in db for current user
         if self.account_management_last_name_input.text() != '':
-            login_scripts.update_last_name(self.current_user, self.account_management_last_name_input.text())
+            db_scripts.update_last_name(self.current_user, self.account_management_last_name_input.text())
             # Value updated marked as true
             value_updated = True
         # Returns whether a first an/or last name update occurred

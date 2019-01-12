@@ -101,6 +101,16 @@ def create_class(teacher_id: int, class_name: str):
     conn.commit()
 
 
+def remove_class(class_id: int):
+    sql = 'DELETE FROM class_user WHERE class_id = ?'
+    c.execute(sql, (class_id,))
+    sql = 'DELETE FROM class_homework WHERE class_id = ?'
+    c.execute(sql, (class_id,))
+    sql = 'DELETE FROM classes WHERE id = ?;'
+    c.execute(sql, (class_id,))
+    conn.commit()
+
+
 if __name__ == '__main__':
     print(get_classes_of_user(1))
     print(get_homeworks_of_class(486))

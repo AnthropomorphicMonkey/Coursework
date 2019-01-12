@@ -1,7 +1,7 @@
 import random
 import sqlite3
 
-import scripts.login_scripts
+import scripts.db_scripts
 
 # Connects to database
 conn = sqlite3.connect('database.db')
@@ -12,8 +12,8 @@ def user():
     identity = 1
     while identity <= 100:
         username = 'student{}'.format(identity)
-        password_salt = scripts.login_scripts.generate_salt()
-        password_hash = scripts.login_scripts.generate_hash('password', password_salt)
+        password_salt = scripts.db_scripts.generate_salt()
+        password_hash = scripts.db_scripts.generate_hash('password', password_salt)
         first_name = 'first{}'.format(identity)
         last_name = 'last{}'.format(identity)
         user_type = 's'
@@ -24,8 +24,8 @@ def user():
     identity = 1
     while identity <= 100:
         username = 'teacher{}'.format(identity)
-        password_salt = scripts.login_scripts.generate_salt()
-        password_hash = scripts.login_scripts.generate_hash('password', password_salt)
+        password_salt = scripts.db_scripts.generate_salt()
+        password_hash = scripts.db_scripts.generate_hash('password', password_salt)
         first_name = 'first{}'.format(identity)
         last_name = 'last{}'.format(identity)
         user_type = 't'
