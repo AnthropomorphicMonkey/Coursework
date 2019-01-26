@@ -5,7 +5,7 @@ conn = sqlite3.connect('database.db')
 c = conn.cursor()
 
 
-def get_classes_of_user(user_id: int) -> list:
+def get_classes_of_student(user_id: int) -> list:
     sql = 'SELECT classes.id, classes.name ' \
           'FROM ((class_user INNER JOIN classes ON class_user.class_id = classes.id)' \
           'INNER JOIN users ON users.id = class_user.student_id) ' \
@@ -54,7 +54,7 @@ def get_classes_of_teacher(user_id: int) -> list:
     return c.fetchall()
 
 
-def get_users_of_class(class_id: int) -> list:
+def get_students_of_class(class_id: int) -> list:
     sql = 'SELECT users.id, users.username ' \
           'FROM class_user INNER JOIN users ON class_user.student_id = users.id ' \
           'WHERE class_user.class_id = ?;'
@@ -70,7 +70,7 @@ def get_questions_of_homework(homework_id: int) -> list:
     return c.fetchall()
 
 
-def add_user_to_class(student_id: int, class_id: int):
+def add_student_to_class(student_id: int, class_id: int):
     sql = 'INSERT INTO class_user(class_id, student_id) VALUES(?, ?);'
     c.execute(sql, (class_id, student_id))
     sql = 'INSERT INTO question_results(user_id, question_id, attempts, correct) VALUES (?, ?, ?, ?)'
@@ -80,7 +80,7 @@ def add_user_to_class(student_id: int, class_id: int):
     conn.commit()
 
 
-def check_user_in_class(student_id: int, class_id: int) -> bool:
+def check_student_in_class(student_id: int, class_id: int) -> bool:
     sql = 'SELECT COUNT(1) FROM class_user WHERE class_id = ? AND student_id = ?;'
     c.execute(sql, (class_id, student_id))
     if c.fetchall()[0][0] > 0:
@@ -89,7 +89,7 @@ def check_user_in_class(student_id: int, class_id: int) -> bool:
         return False
 
 
-def remove_user_from_class(student_id: int, class_id: int):
+def remove_student_from_class(student_id: int, class_id: int):
     sql = 'DELETE FROM class_user WHERE student_id = ? AND class_id = ?;'
     c.execute(sql, (student_id, class_id))
     conn.commit()
@@ -112,10 +112,10 @@ def remove_class(class_id: int):
 
 
 if __name__ == '__main__':
-    print(get_classes_of_user(1))
+    print(get_classes_of_student(1))
     print(get_homeworks_of_class(486))
     print(get_homework_score(1, 486))
     print(get_classes_of_teacher(156))
-    print(get_users_of_class(1))
+    print(get_students_of_class(1))
     print(get_questions_of_homework(4))
-    print(check_user_in_class(1, 486))
+    print(check_student_in_class(1, 486))

@@ -28,7 +28,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Holds ID of active user
         self.current_user = -1
         # Clears list of user classes
-        self.user_classes = []
+        self.student_classes = []
         self.teacher_classes = []
         self.class_users = []
         # Sets up all pages
@@ -198,6 +198,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # If submit clicked runs scripts to update user details
         self.account_management_submit_button.clicked.connect(lambda: self.account_management_detail_update())
 
+    def view_classes_page_button_setup(self):
+        self.view_classes_view_type_combo_box.currentIndexChanged.connect(
+            lambda: self.view_classes_class_or_type_change())
+        self.view_classes_class_combo_box.currentIndexChanged.connect(lambda: self.view_classes_class_or_type_change())
+        self.view_classes_homework_or_student_combo_box.currentIndexChanged.connect(
+            lambda: self.view_classes_update_table())
+
     def button_setup(self):
         # Runs all button setups
         self.navigation_button_setup()
@@ -208,6 +215,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.previous_scores_page_button_setup()
         self.admin_page_button_setup()
         self.account_management_page_button_setup()
+        self.view_classes_page_button_setup()
 
     def reset_login_page(self):
         # Sets input boxes to blank
@@ -244,8 +252,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears class selection combo box
         self.previous_scores_class_combo_box.clear()
         # Inserts class list into combo box
-        self.user_classes = ui_scripts.get_classes_of_user(self.current_user)
-        for each_class in self.user_classes:
+        self.student_classes = ui_scripts.get_classes_of_student(self.current_user)
+        for each_class in self.student_classes:
             self.previous_scores_class_combo_box.addItem(each_class[1])
         # Updates score table to first class selected
         self.update_previous_scores_table()
@@ -282,6 +290,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.account_management_new_password_verify_input.setText("")
         self.account_management_success_output.setText("")
 
+    def reset_view_classes_page(self):
+        self.view_classes_view_type_combo_box.setCurrentIndex(0)
+        self.view_classes_class_combo_box.clear()
+        self.teacher_classes = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.teacher_classes:
+            self.view_classes_class_combo_box.addItem(each_class[1])
+
     def reset_pages(self, target_page):
         # Runs all page reset scripts
         if target_page == self.login_page:
@@ -296,6 +311,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.reset_admin_page()
         elif target_page == self.account_management_page:
             self.reset_account_management_page()
+        elif target_page == self.view_classes_page:
+            self.reset_view_classes_page()
         else:
             pass
 
@@ -340,11 +357,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears table to allow for new values
         self.previous_scores_table.clearContents()
         # If user is any classes, populates table with homework scores
-        if len(self.user_classes) != 0:
+        if len(self.student_classes) != 0:
             homework_ids = []
             # For selected, id of every homework is appended to an array
             for each_homework in ui_scripts.get_homeworks_of_class(
-                    self.user_classes[self.previous_scores_class_combo_box.currentIndex()][0]):
+                    self.student_classes[self.previous_scores_class_combo_box.currentIndex()][0]):
                 homework_ids.append(each_homework[0])
             # Inserts all homework data for class into table
             self.previous_scores_table.setRowCount(len(homework_ids))
@@ -361,7 +378,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_username_combo_box.clear()
         # If a class is selected, stores all user ids in a list anf adds each corresponding username to the combo box
         if len(self.teacher_classes) != 0:
-            self.class_users = ui_scripts.get_users_of_class(
+            self.class_users = ui_scripts.get_students_of_class(
                 self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
             for each_user in self.class_users:
                 self.admin_username_combo_box.addItem(each_user[1])
@@ -376,11 +393,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 user_id = db_scripts.get_user_id(user)
                 class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
                 # If user already in class outputs error
-                if ui_scripts.check_user_in_class(user_id, class_id):
+                if ui_scripts.check_student_in_class(user_id, class_id):
                     self.admin_add_user_status_label.setText("User already in class")
                 # If user not already in class runs scripts to add to class and outputs success message when done
                 else:
-                    ui_scripts.add_user_to_class(user_id, class_id)
+                    ui_scripts.add_student_to_class(user_id, class_id)
                     self.reset_admin_page()
                     self.admin_add_user_status_label.setText("Success")
             # If username does not exist outputs error
@@ -396,7 +413,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             # Gets the currently selected user and class and runs scripts to remove user from the class
             user_id = self.class_users[self.admin_username_combo_box.currentIndex()][0]
             class_id = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
-            ui_scripts.remove_user_from_class(user_id, class_id)
+            ui_scripts.remove_student_from_class(user_id, class_id)
             # Outputs success message
             self.reset_admin_page()
             self.admin_remove_user_status_label.setText("Success")
@@ -490,6 +507,24 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             value_updated = True
         # Returns whether a first an/or last name update occurred
         return value_updated
+
+    def view_classes_class_or_type_change(self):
+        self.view_classes_homework_or_student_combo_box.clear()
+        if len(self.teacher_classes) > 0:
+            if self.view_classes_view_type_combo_box.currentIndex() == 0:
+                for each_homework in ui_scripts.get_homeworks_of_class(
+                        self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
+                    self.view_classes_homework_or_student_combo_box.addItem(each_homework[1])
+            else:
+                for each_student in ui_scripts.get_students_of_class(
+                        self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
+                    self.view_classes_homework_or_student_combo_box.addItem(each_student[1])
+
+    def view_classes_update_table(self):
+        if self.view_classes_view_type_combo_box.currentIndex() == 0:
+            pass
+        else:
+            pass
 
 
 # Runs program

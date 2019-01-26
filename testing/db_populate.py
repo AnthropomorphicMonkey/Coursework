@@ -9,6 +9,7 @@ c = conn.cursor()
 
 
 def user():
+    # Creates 100 unique valid entries in user table with type student
     identity = 1
     while identity <= 100:
         username = 'student{}'.format(identity)
@@ -21,6 +22,7 @@ def user():
               'VALUES(?, ?, ?, ?, ?, ?);'
         c.execute(sql, (username, password_salt, password_hash, first_name, last_name, user_type))
         identity += 1
+    # Creates 100 unique valid entries in user table with type teacher
     identity = 1
     while identity <= 100:
         username = 'teacher{}'.format(identity)
@@ -37,6 +39,7 @@ def user():
 
 
 def classes():
+    # Creates 1000 unique valid entries in classes table with a randomly assigned teacher
     identity = 1
     while identity <= 1000:
         name = 'class{}'.format(identity)
@@ -49,6 +52,8 @@ def classes():
 
 
 def class_user():
+    # Creates 10000 unique valid entries in class_user table
+    # with a randomly chosen student assigned to a randomly chosen class
     identity = 1
     while identity <= 10000:
         class_id = random.randint(1, 1000)
@@ -61,6 +66,7 @@ def class_user():
 
 
 def question_types():
+    # Creates 100 unique valid entries in question_types table
     identity = 1
     while identity <= 100:
         question_type = 'type{}'.format(identity)
@@ -72,6 +78,7 @@ def question_types():
 
 
 def homework():
+    # Creates 10000 unique valid entries in homework table
     identity = 1
     while identity <= 10000:
         name = 'name{}'.format(identity)
@@ -84,6 +91,7 @@ def homework():
 
 
 def questions():
+    # Creates 100000 unique valid entries in homework table
     identity = 1
     while identity <= 100000:
         name = 'question{}'.format(identity)
@@ -101,6 +109,8 @@ def questions():
 
 
 def homework_questions():
+    # Creates 100000 unique valid entries in homework_questions table
+    # with each question in the question table being assigned to a random class
     identity = 1
     while identity <= 100000:
         homework_id = random.randint(1, 10000)
@@ -113,6 +123,8 @@ def homework_questions():
 
 
 def class_homework():
+    # Creates 10000 unique valid entries in class_homework table
+    # with each homework in the homework table assigned to a random task and with a random due date
     identity = 1
     while identity <= 10000:
         class_id = random.randint(1, 1000)
@@ -126,6 +138,10 @@ def class_homework():
 
 
 def question_results():
+    # Creates 100 unique valid entries in question_results table
+    # with each question applicable to each user given a random attempt count (0 to 5)
+    # and whether it has been successfully completed randomly picked from True or False
+    # (If attempts is 0 False is always picked as question cannot be completed)
     identity = 1
     while identity <= 100:
         user_id = identity
@@ -150,12 +166,13 @@ def question_results():
         identity += 1
     conn.commit()
 
-# user()
-# classes()
-# class_user()
-# question_types()
-# homework()
-# questions()
-# homework_questions()
-# class_homework()
-# question_results()
+
+user()
+classes()
+class_user()
+question_types()
+homework()
+questions()
+homework_questions()
+class_homework()
+question_results()
