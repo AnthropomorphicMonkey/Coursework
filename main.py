@@ -13,23 +13,23 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         super().__init__()
         self.setupUi(self)
         # Declare constants related to page indexes of different sections of the program
-        self.login_page = 0
-        self.create_account_page = 1
-        self.student_main_menu_page = 2
-        self.teacher_main_menu_page = 3
-        self.question_page = 4
-        self.homework_select_page = 5
-        self.browse_quizzes_page = 6
-        self.previous_scores_page = 7
-        self.set_homework_page = 8
-        self.admin_page = 9
-        self.account_management_page = 10
-        self.view_classes_page = 11
+        self.login_page: int = 0
+        self.create_account_page: int = 1
+        self.student_main_menu_page: int = 2
+        self.teacher_main_menu_page: int = 3
+        self.question_page: int = 4
+        self.homework_select_page: int = 5
+        self.browse_quizzes_page: int = 6
+        self.previous_scores_page: int = 7
+        self.set_homework_page: int = 8
+        self.admin_page: int = 9
+        self.account_management_page: int = 10
+        self.view_classes_page: int = 11
         # Holds ID of active user
-        self.current_user = -1
+        self.current_user: int = -1
         # Clears list of user classes
-        self.student_classes = []
-        self.teacher_classes = []
+        self.student_classes: list = []
+        self.teacher_classes: list = []
         self.class_users = []
         # Sets up all pages
         self.button_setup()
