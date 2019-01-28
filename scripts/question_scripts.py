@@ -10,47 +10,47 @@ c = conn.cursor()
 class Question:
     def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, **kwargs: str):
         # Difficulty should be greater than or equal to 1, this should be verified before using function
-        self.name = name
-        self.type_id = type_id
-        self.difficulty = difficulty
-        self.question_text = question_text
-        self.correct_answer = correct_answer
-        self.answer_b = ()
-        self.answer_c = ()
-        self.answer_d = ()
+        self.name: str = name
+        self.type_id: int = type_id
+        self.difficulty: int = difficulty
+        self.question_text: str = question_text
+        self.correct_answer: str = correct_answer
+        self.answer_b: str = ()
+        self.answer_c: str = ()
+        self.answer_d: str = ()
         try:
-            self.correct_answer = float(self.correct_answer)
+            self.correct_answer: float = float(self.correct_answer)
             self.set_incorrect_numerical_answers()
-        except:
+        except ValueError:
             self.set_incorrect_answers("N/A", "N/A", "N/A")
         if 'answer_b' in kwargs:
-            self.answer_b = kwargs.get('answer_b')
+            self.answer_b: str = kwargs.get('answer_b')
         if 'answer_c' in kwargs:
-            self.answer_c = kwargs.get('answer_c')
+            self.answer_c: str = kwargs.get('answer_c')
         if 'answer_d' in kwargs:
-            self.answer_d = kwargs.get('answer_d')
+            self.answer_d: str = kwargs.get('answer_d')
 
     def set_incorrect_answers(self, answer_b, answer_c, answer_d):
-        self.answer_b = answer_b
-        self.answer_c = answer_c
-        self.answer_d = answer_d
+        self.answer_b: str = answer_b
+        self.answer_c: str = answer_c
+        self.answer_d: str = answer_d
 
     def set_incorrect_numerical_answers(self):
-        significant_figures = len(str(self.correct_answer).replace('.', ''))
-        answer_b = self.correct_answer
-        answer_c = self.correct_answer
-        answer_d = self.correct_answer
+        significant_figures: int = len(str(self.correct_answer).replace('.', ''))
+        answer_b: float = self.correct_answer
+        answer_c: float = self.correct_answer
+        answer_d: float = self.correct_answer
         while answer_b == self.correct_answer:
-            answer_b = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
+            answer_b: float = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
         while answer_c in [self.correct_answer, answer_b]:
-            answer_c = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
+            answer_c: float = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
         while answer_d in [self.correct_answer, answer_b, answer_c]:
-            answer_d = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
+            answer_d: float = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
         self.set_incorrect_answers(answer_b, answer_c, answer_d)
 
     def generate_incorrect_numerical_value(self) -> float:
-        incorrect_answer = random.uniform((self.correct_answer - (self.correct_answer * (1 / self.difficulty))),
-                                          (self.correct_answer + (self.correct_answer * (1 / self.difficulty))))
+        incorrect_answer: float = random.uniform((self.correct_answer - (self.correct_answer * (1 / self.difficulty))),
+                                                 (self.correct_answer + (self.correct_answer * (1 / self.difficulty))))
         return incorrect_answer
 
     @staticmethod
@@ -60,8 +60,8 @@ class Question:
 
 
 def save_question(question):
-    sql = 'INSERT INTO questions(name, type_id, question_text, correct_answer, answer_b, answer_c, answer_d)' \
-          'VALUES(?, ?, ?, ?, ?, ?, ?);'
+    sql: str = 'INSERT INTO questions(name, type_id, question_text, correct_answer, answer_b, answer_c, answer_d)' \
+               'VALUES(?, ?, ?, ?, ?, ?, ?);'
     c.execute(sql, (question.name, question.type_id, question.question_text, question.correct_answer, question.answer_b,
                     question.answer_c, question.answer_d))
     conn.commit()
