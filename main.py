@@ -161,7 +161,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def create_account_page_button_setup(self):
         # If create account submit button clicked runs scripts to create account
-        self.create_account_submit_button.clicked.connect(self.create_account)
+        self.create_account_submit_button.clicked.connect(self.create_account_create_account)
         # If return to login clicked runs scripts to change screen
         self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
 
@@ -191,19 +191,19 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def previous_scores_page_button_setup(self):
         # When selected class is changed, score table is updated
-        self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.update_previous_scores_table())
+        self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.previous_scores_update_table())
 
     def admin_page_button_setup(self):
         # If class selection changed, changes usernames shown in username combo box to those in class
-        self.admin_class_user_combo_box.currentIndexChanged.connect(lambda: self.update_admin_username_combo_box())
+        self.admin_class_user_combo_box.currentIndexChanged.connect(lambda: self.admin_update_username_combo_box())
         # If add user to class clicked runs scripts to add user to the class
-        self.admin_username_submit_button.clicked.connect(lambda: self.add_user_to_class())
+        self.admin_username_submit_button.clicked.connect(lambda: self.admin_add_user_to_class())
         # If create class clicked runs scripts to create a new class
         self.admin_create_class_submit_button.clicked.connect(lambda: self.admin_create_class())
         # If remove user clicked runs scripts to remove a user from a class
-        self.admin_remove_user_button.clicked.connect(lambda: self.remove_user_from_class())
+        self.admin_remove_user_button.clicked.connect(lambda: self.admin_remove_user_from_class())
         # If remove class clicked runs scripts to delete class
-        self.admin_remove_class_button.clicked.connect(lambda: self.remove_class())
+        self.admin_remove_class_button.clicked.connect(lambda: self.admin_remove_class())
 
     def account_management_page_button_setup(self):
         # If submit clicked runs scripts to update user details
@@ -228,14 +228,14 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.account_management_page_button_setup()
         self.view_classes_page_button_setup()
 
-    def reset_login_page(self):
+    def login_reset_page(self):
         # Sets input boxes to blank
         self.login_username_input.setText("")
         self.login_password_input.setText("")
         # Sets output labels to blank
         self.login_success_output.setText("")
 
-    def reset_create_account_page(self):
+    def create_account_reset_page(self):
         # Sets radios to default selection
         self.create_account_radio_student.setChecked(True)
         # Sets input boxes to blank
@@ -247,7 +247,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Sets output labels to blank
         self.create_account_success_output.setText("")
 
-    def reset_question_page(self):
+    def question_reset_page(self):
         self.question_radio_a.setChecked(True)
         # Sets input boxes to blank
         self.question_topic_output.setText("")
@@ -259,7 +259,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Sets output labels to blank
         self.question_feedback_output.setText("")
 
-    def reset_previous_scores_page(self):
+    def previous_scores_reset_page(self):
         # Clears class selection combo box
         self.previous_scores_class_combo_box.clear()
         # Inserts class list into combo box
@@ -267,9 +267,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         for each_class in self.student_classes:
             self.previous_scores_class_combo_box.addItem(each_class[1])
         # Updates score table to first class selected
-        self.update_previous_scores_table()
+        self.previous_scores_update_table()
 
-    def clear_admin_labels(self):
+    def admin_clear_labels(self):
         # Sets input boxes to blank
         self.admin_username_input.setText("")
         self.admin_class_input.setText("")
@@ -279,7 +279,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_create_class_status_label.setText("")
         self.admin_delete_class_status_label.setText("")
 
-    def reset_admin_page(self):
+    def admin_reset_page(self):
         # Resets all combo boxes to contain no values
         self.admin_class_user_combo_box.clear()
         self.admin_delete_class_combo_box.clear()
@@ -288,11 +288,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         for each_class in self.teacher_classes:
             self.admin_class_user_combo_box.addItem(each_class[1])
             self.admin_delete_class_combo_box.addItem(each_class[1])
-        self.update_admin_username_combo_box()
+        self.admin_update_username_combo_box()
         # Sets all labels to default values
-        self.clear_admin_labels()
+        self.admin_clear_labels()
 
-    def reset_account_management_page(self):
+    def account_management_reset_page(self):
         # Sets input boxes to blank
         self.account_management_first_name_input.setText("")
         self.account_management_last_name_input.setText("")
@@ -301,7 +301,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.account_management_new_password_verify_input.setText("")
         self.account_management_success_output.setText("")
 
-    def reset_view_classes_page(self):
+    def view_classes_reset_page(self):
         self.view_classes_view_type_combo_box.setCurrentIndex(0)
         self.view_classes_class_combo_box.clear()
         self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
@@ -311,23 +311,23 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def reset_pages(self, target_page):
         # Runs all page reset scripts
         if target_page == self.login_page:
-            self.reset_login_page()
+            self.login_reset_page()
         elif target_page == self.create_account_page:
-            self.reset_create_account_page()
+            self.create_account_reset_page()
         elif target_page == self.question_page:
-            self.reset_question_page()
+            self.question_reset_page()
         elif target_page == self.previous_scores_page:
-            self.reset_previous_scores_page()
+            self.previous_scores_reset_page()
         elif target_page == self.admin_page:
-            self.reset_admin_page()
+            self.admin_reset_page()
         elif target_page == self.account_management_page:
-            self.reset_account_management_page()
+            self.account_management_reset_page()
         elif target_page == self.view_classes_page:
-            self.reset_view_classes_page()
+            self.view_classes_reset_page()
         else:
             pass
 
-    def create_account(self):
+    def create_account_create_account(self):
         # Various error checks before creating account (error type is outputted in a label):
         # Error if username field is blank
         if self.create_account_username_input.text() == '':
@@ -364,7 +364,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             # Account creation success outputted
             self.create_account_success_output.setText("Account created")
 
-    def update_previous_scores_table(self):
+    def previous_scores_update_table(self):
         # Clears table to allow for new values
         self.previous_scores_table.clearContents()
         # If user is any classes, populates table with homework scores
@@ -384,7 +384,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.previous_scores_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem("{}%".format(data[1])))
                 self.previous_scores_table.setItem(row_counter, 2, QtWidgets.QTableWidgetItem(data[2]))
 
-    def update_admin_username_combo_box(self):
+    def admin_update_username_combo_box(self):
         # Clears class users combo box
         self.admin_username_combo_box.clear()
         # If a class is selected, stores all user ids in a list anf adds each corresponding username to the combo box
@@ -393,9 +393,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
             for each_user in self.class_users:
                 self.admin_username_combo_box.addItem(each_user[1])
-        self.clear_admin_labels()
+        self.admin_clear_labels()
 
-    def add_user_to_class(self):
+    def admin_add_user_to_class(self):
         user: str = self.admin_username_input.text()
         # Stops scripts being able to run if the teacher has no classes to add a student to
         if len(self.teacher_classes) > 0:
@@ -409,16 +409,16 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 # If user not already in class runs scripts to add to class and outputs success message when done
                 else:
                     ui_scripts.add_student_to_class(user_id, class_id)
-                    self.reset_admin_page()
+                    self.admin_reset_page()
                     self.admin_add_user_status_label.setText("Success")
             # If username does not exist outputs error
             else:
-                self.clear_admin_labels()
+                self.admin_clear_labels()
                 self.admin_add_user_status_label.setText("User does not exist")
         # Clears input box
         self.admin_username_input.setText("")
 
-    def remove_user_from_class(self):
+    def admin_remove_user_from_class(self):
         # Stops scripts being able to run if a student and/or class is not selected
         if len(self.class_users) > 0 and len(self.teacher_classes) > 0:
             # Gets the currently selected user and class and runs scripts to remove user from the class
@@ -426,35 +426,35 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             class_id: int = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
             ui_scripts.remove_student_from_class(user_id, class_id)
             # Outputs success message
-            self.reset_admin_page()
+            self.admin_reset_page()
             self.admin_remove_user_status_label.setText("Success")
         # If student and/or class not selected outputs error
         else:
-            self.clear_admin_labels()
+            self.admin_clear_labels()
             self.admin_remove_user_status_label.setText("Select class and user")
 
     def admin_create_class(self):
         # If a name is entered for the class runs scripts to set it up in database and outputs success message when done
         if self.admin_class_input.text() != '':
             ui_scripts.create_class(self.current_user, self.admin_class_input.text())
-            self.reset_admin_page()
+            self.admin_reset_page()
             self.admin_create_class_status_label.setText("Success")
         # If no class name is entered outputs error
         else:
-            self.clear_admin_labels()
+            self.admin_clear_labels()
             self.admin_create_class_status_label.setText("Class must have name")
 
-    def remove_class(self):
+    def admin_remove_class(self):
         # If there are no classes to select does not attempt to remove class
         if len(self.teacher_classes) > 0:
             # Runs scripts to remove class from database
             ui_scripts.remove_class(self.teacher_classes[self.admin_delete_class_combo_box.currentIndex()][0])
-            self.reset_admin_page()
+            self.admin_reset_page()
             # Outputs success message
             self.admin_delete_class_status_label.setText("Success")
         # If no class selected outputs error
         else:
-            self.reset_admin_page()
+            self.admin_reset_page()
             self.admin_delete_class_status_label.setText("No class selected")
 
     def account_management_detail_update(self):
@@ -468,27 +468,27 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                         == self.account_management_new_password_verify_input.text()):
                     # If new password is invalid outputs error
                     if len(self.account_management_new_password_input.text()) < 8:
-                        self.reset_account_management_page()
+                        self.account_management_reset_page()
                         self.account_management_success_output.setText(
                             "Invalid password (Must be at least 8 characters)")
                     # If new password entered is valid updates user data
                     else:
                         # Updates first and last names using function
-                        self.update_first_and_last_names()
+                        self.account_management_update_first_and_last_names()
                         # Generates new hashed password and stores
                         db_scripts.update_password(self.current_user,
                                                    self.account_management_new_password_input.text())
                         # Outputs success
-                        self.reset_account_management_page()
+                        self.account_management_reset_page()
                         self.account_management_success_output.setText("Success")
                 # If new password and verification mismatch outputs error
                 else:
-                    self.reset_account_management_page()
+                    self.account_management_reset_page()
                     self.account_management_success_output.setText("New password fields must match")
             # If no new password is entered runs scripts to update first and last name
             else:
-                first_or_last_updated: bool = self.update_first_and_last_names()
-                self.reset_account_management_page()
+                first_or_last_updated: bool = self.account_management_update_first_and_last_names()
+                self.account_management_reset_page()
                 # If any data was updated outputs a success message
                 if first_or_last_updated:
                     self.account_management_success_output.setText("Success")
@@ -497,10 +497,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                     self.account_management_success_output.setText("")
         # If current password incorrect outputs and error
         else:
-            self.reset_account_management_page()
+            self.account_management_reset_page()
             self.account_management_success_output.setText("Correct current password required to change user data")
 
-    def update_first_and_last_names(self) -> bool:
+    def account_management_update_first_and_last_names(self) -> bool:
         # Updating of first and last names placed in own function
         # as there are multiple routes to needing to do this in account_management_detail_update function
         # Boolean value stored and returned to indicate if any values were updated
