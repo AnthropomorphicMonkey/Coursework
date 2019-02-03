@@ -1,8 +1,19 @@
-from PyQt5 import QtWidgets
-from PyQt5 import uic
-
-# 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
-from scripts import db_scripts, ui_scripts
+# If all present, imports all modules, otherwise returns an error for 5 seconds and exits program
+try:
+    import sys
+    from PyQt5 import QtWidgets
+    from PyQt5 import uic
+    # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
+    from scripts import db_scripts, ui_scripts
+except ModuleNotFoundError:
+    try:
+        import time
+        print("Required modules are not installed, program requires:\n-PyQt5")
+        time.sleep(5)
+        raise SystemExit
+    # Program simply exits immediately if even built in time library is not present
+    except ModuleNotFoundError:
+        raise SystemExit
 
 
 # Window class to control uid
@@ -529,8 +540,6 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
 # Runs program
 if __name__ == '__main__':
-    import sys
-
     app = QtWidgets.QApplication(sys.argv)
     window = Window()
     window.show()
