@@ -8,6 +8,7 @@ try:
 except ModuleNotFoundError:
     try:
         import time
+
         print("Required modules are not installed, program requires:\n-PyQt5")
         time.sleep(5)
         raise SystemExit
@@ -48,6 +49,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Sets program to logged out state (and hides logged out message)
         self.logout()
         self.login_success_output.setText("")
+        # Holds classes or students of currently selected class on the view classes page
+        self.view_classes_students_or_homeworks: list = []
 
     def change_page(self, index: int):
         # Restores target page to default state
@@ -521,21 +524,58 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def view_classes_class_or_type_change(self):
         self.view_classes_homework_or_student_combo_box.clear()
+        self.view_classes_students_or_homeworks: list = []
         if len(self.teacher_classes) > 0:
             if self.view_classes_view_type_combo_box.currentIndex() == 0:
                 for each_homework in ui_scripts.get_homework_of_class(
                         self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
+                    self.view_classes_students_or_homeworks.append(each_homework[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_homework[1])
             else:
                 for each_student in ui_scripts.get_students_of_class(
                         self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
+                    self.view_classes_students_or_homeworks.append(each_student[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_student[1])
 
     def view_classes_update_table(self):
+        self.view_classes_score_table.clear()
+        current_class: int = self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]
+        current_student_or_homework: int = self.view_classes_students_or_homeworks[
+            self.view_classes_homework_or_student_combo_box.currentIndex()]
         if self.view_classes_view_type_combo_box.currentIndex() == 0:
-            pass
+            self.view_classes_score_table.setColumnCount(5)
+            self.view_classes_score_table.setHorizontalHeaderLabels(
+                ["First Name", "Last Name", "Score", "Percentage", "Attempts"])
+            scores: list = ui_scripts.get_results_of_homework(current_class, current_student_or_homework)
+            self.view_classes_score_table.setRowCount(len(scores))
+            if len(scores) != 0:
+                row_counter: int = -1
+                for each_score in scores:
+                    row_counter += 1
+                    self.view_classes_score_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(each_score[0]))
+                    self.view_classes_score_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem(each_score[1]))
+                    self.view_classes_score_table.setItem(row_counter, 2,
+                                                          QtWidgets.QTableWidgetItem(str(each_score[2])))
+                    self.view_classes_score_table.setItem(row_counter, 3,
+                                                          QtWidgets.QTableWidgetItem(str(each_score[3])))
+                    self.view_classes_score_table.setItem(row_counter, 4,
+                                                          QtWidgets.QTableWidgetItem(str(each_score[4])))
         else:
-            pass
+            self.view_classes_score_table.setColumnCount(4)
+            self.view_classes_score_table.setHorizontalHeaderLabels(["Homework", "Score", "Percentage", "Attempts"])
+            scores: list = ui_scripts.get_scores_of_student_in_class(current_class, current_student_or_homework)
+            self.view_classes_score_table.setRowCount(len(scores))
+            if len(scores) != 0:
+                row_counter: int = -1
+                for each_score in scores:
+                    row_counter += 1
+                    self.view_classes_score_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(each_score[0]))
+                    self.view_classes_score_table.setItem(row_counter, 1,
+                                                          QtWidgets.QTableWidgetItem(str(each_score[1])))
+                    self.view_classes_score_table.setItem(row_counter, 2,
+                                                          QtWidgets.QTableWidgetItem(str(each_score[2])))
+                    self.view_classes_score_table.setItem(row_counter, 3,
+                                                          QtWidgets.QTableWidgetItem(str(each_score[3])))
 
 
 # Runs program

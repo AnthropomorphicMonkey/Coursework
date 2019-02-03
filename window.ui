@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-       <width>881</width>
-       <height>853</height>
+    <width>881</width>
+    <height>853</height>
    </rect>
   </property>
   <property name="font">
@@ -73,47 +73,47 @@
          </spacer>
         </item>
         <item>
-            <widget class="QPushButton" name="main_menu_button">
-                <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                    </sizepolicy>
-                </property>
-                <property name="font">
-                    <font>
-                        <pointsize>11</pointsize>
-                    </font>
-                </property>
-                <property name="text">
-                    <string>Main Menu</string>
-                </property>
-                <property name="flat">
-                    <bool>true</bool>
-                </property>
-            </widget>
+         <widget class="QPushButton" name="main_menu_button">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Main Menu</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
-           <item>
-               <widget class="QPushButton" name="logout_button">
-                   <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                       </sizepolicy>
-                   </property>
-                   <property name="font">
-                       <font>
-                           <pointsize>11</pointsize>
-                       </font>
-                   </property>
-                   <property name="text">
-                       <string>Logout</string>
-                   </property>
-                   <property name="flat">
-                       <bool>true</bool>
-                   </property>
-               </widget>
-           </item>
+        <item>
+         <widget class="QPushButton" name="logout_button">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Logout</string>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
      </layout>
@@ -921,7 +921,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
-                <widget class="QPushButton" name="student_main_menu_homework_button">
+             <widget class="QPushButton" name="student_main_menu_homework_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -933,7 +933,7 @@
              </widget>
             </item>
             <item>
-                <widget class="QPushButton" name="student_main_menu_browse_quizzes_button">
+             <widget class="QPushButton" name="student_main_menu_browse_quizzes_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -945,7 +945,7 @@
              </widget>
             </item>
             <item>
-                <widget class="QPushButton" name="student_main_menu_previous_scores_button">
+             <widget class="QPushButton" name="student_main_menu_previous_scores_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -956,55 +956,55 @@
               </property>
              </widget>
             </item>
-               <item>
-                   <spacer name="verticalSpacer_7">
-                       <property name="orientation">
-                           <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                           <size>
-                               <width>20</width>
-                               <height>40</height>
-                           </size>
-                       </property>
-                   </spacer>
-               </item>
-               <item>
-                   <widget class="QPushButton" name="student_main_menu_account_management_button">
-                       <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                           </sizepolicy>
-                       </property>
-                       <property name="font">
-                           <font>
-                               <pointsize>11</pointsize>
-                           </font>
-                       </property>
-                       <property name="text">
-                           <string>Account Management</string>
-                       </property>
-                       <property name="flat">
-                           <bool>true</bool>
-                       </property>
-                   </widget>
-               </item>
+            <item>
+             <spacer name="verticalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="student_main_menu_account_management_button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Account Management</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
-             <item>
-                 <spacer name="horizontalSpacer_8">
-                     <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                         <size>
-                             <width>40</width>
-                             <height>20</height>
-                         </size>
-                     </property>
-                 </spacer>
-             </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
        </layout>
@@ -1045,7 +1045,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_12">
             <item>
-                <widget class="QPushButton" name="teacher_main_menu_set_homework_button">
+             <widget class="QPushButton" name="teacher_main_menu_set_homework_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -1057,7 +1057,7 @@
              </widget>
             </item>
             <item>
-                <widget class="QPushButton" name="teacher_main_menu_view_classes_button">
+             <widget class="QPushButton" name="teacher_main_menu_view_classes_button">
               <property name="font">
                <font>
                 <pointsize>16</pointsize>
@@ -1066,69 +1066,69 @@
               <property name="text">
                <string>View Classes</string>
               </property>
-                </widget>
+             </widget>
             </item>
-               <item>
-                   <widget class="QPushButton" name="teacher_main_menu_admin_button">
-                       <property name="font">
-                           <font>
-                               <pointsize>16</pointsize>
-                           </font>
-                       </property>
-                       <property name="text">
-                           <string>Admin</string>
-                       </property>
-                   </widget>
-               </item>
-               <item>
-                   <spacer name="verticalSpacer_15">
-                       <property name="orientation">
-                           <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                           <size>
-                               <width>20</width>
-                               <height>40</height>
-                           </size>
-                       </property>
-                   </spacer>
-               </item>
-               <item>
-                   <widget class="QPushButton" name="teacher_main_menu_account_management_button">
-                       <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                               <horstretch>0</horstretch>
-                               <verstretch>0</verstretch>
-                           </sizepolicy>
-                       </property>
-                       <property name="font">
-                           <font>
-                               <pointsize>11</pointsize>
-                           </font>
-                       </property>
-                       <property name="text">
-                           <string>Account Management</string>
-                       </property>
-                       <property name="flat">
-                           <bool>true</bool>
-                       </property>
-                   </widget>
-               </item>
+            <item>
+             <widget class="QPushButton" name="teacher_main_menu_admin_button">
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Admin</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_15">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="teacher_main_menu_account_management_button">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>11</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Account Management</string>
+              </property>
+              <property name="flat">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
-             <item>
-                 <spacer name="horizontalSpacer_6">
-                     <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                         <size>
-                             <width>40</width>
-                             <height>20</height>
-                         </size>
-                     </property>
-                 </spacer>
-             </item>
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </item>
        </layout>
@@ -1164,178 +1164,178 @@
          </spacer>
         </item>
         <item>
-            <layout class="QVBoxLayout" name="verticalLayout_13">
+         <layout class="QVBoxLayout" name="verticalLayout_13">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <spacer name="horizontalSpacer_12">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_17">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_18">
                 <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout_10">
-                        <item>
-                            <spacer name="horizontalSpacer_12">
-                                <property name="orientation">
-                                    <enum>Qt::Horizontal</enum>
-                                </property>
-                                <property name="sizeHint" stdset="0">
-                                    <size>
-                                        <width>0</width>
-                                        <height>0</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </item>
-                        <item>
-                            <layout class="QVBoxLayout" name="verticalLayout_17">
-                                <item>
-                                    <layout class="QVBoxLayout" name="verticalLayout_18">
-                                        <item>
-                                            <widget class="QLabel" name="question_question_output">
-                                                <property name="font">
-                                                    <font>
-                                                        <pointsize>13</pointsize>
-                                                    </font>
-                                                </property>
-                                                <property name="text">
-                                                    <string>Question</string>
-                                                </property>
-                                            </widget>
-                                        </item>
-                                        <item>
-                                            <layout class="QVBoxLayout" name="verticalLayout_19">
-                                                <item>
-                                                    <widget class="QRadioButton" name="question_radio_a">
-                                                        <property name="font">
-                                                            <font>
-                                                                <pointsize>16</pointsize>
-                                                            </font>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string>Answer A</string>
-                                                        </property>
-                                                    </widget>
-                                                </item>
-                                                <item>
-                                                    <widget class="QRadioButton" name="question_radio_b">
-                                                        <property name="font">
-                                                            <font>
-                                                                <pointsize>16</pointsize>
-                                                            </font>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string>Answer B</string>
-                                                        </property>
-                                                    </widget>
-                                                </item>
-                                                <item>
-                                                    <widget class="QRadioButton" name="question_radio_c">
-                                                        <property name="font">
-                                                            <font>
-                                                                <pointsize>16</pointsize>
-                                                            </font>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string>Answer C</string>
-                                                        </property>
-                                                    </widget>
-                                                </item>
-                                                <item>
-                                                    <widget class="QRadioButton" name="question_radio_d">
-                                                        <property name="font">
-                                                            <font>
-                                                                <pointsize>16</pointsize>
-                                                            </font>
-                                                        </property>
-                                                        <property name="text">
-                                                            <string>Answer D</string>
-                                                        </property>
-                                                    </widget>
-                                                </item>
-                                            </layout>
-                                        </item>
-                                    </layout>
-                                </item>
-                                <item>
-                                    <widget class="QPushButton" name="question_submit_button">
-                                        <property name="font">
-                                            <font>
-                                                <pointsize>16</pointsize>
-                                            </font>
-                                        </property>
-                                        <property name="text">
-                                            <string>Submit</string>
-                                        </property>
-                                    </widget>
-                                </item>
-                                <item>
-                                    <widget class="QLabel" name="question_feedback_output">
-                                        <property name="font">
-                                            <font>
-                                                <pointsize>12</pointsize>
-                                            </font>
-                                        </property>
-                                        <property name="text">
-                                            <string>Feedback</string>
-                                        </property>
-                                    </widget>
-                                </item>
-                            </layout>
-                        </item>
-                        <item>
-                            <spacer name="horizontalSpacer_13">
-                                <property name="orientation">
-                                    <enum>Qt::Horizontal</enum>
-                                </property>
-                                <property name="sizeHint" stdset="0">
-                                    <size>
-                                        <width>0</width>
-                                        <height>0</height>
-                                    </size>
-                                </property>
-                            </spacer>
-                        </item>
-                    </layout>
+                 <widget class="QLabel" name="question_question_output">
+                  <property name="font">
+                   <font>
+                    <pointsize>13</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Question</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                    <layout class="QHBoxLayout" name="horizontalLayout">
-                        <item>
-                            <widget class="QPushButton" name="question_previous_question_button">
-                                <property name="enabled">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="font">
-                                    <font>
-                                        <pointsize>16</pointsize>
-                                    </font>
-                                </property>
-                                <property name="text">
-                                    <string>Previous Question</string>
-                                </property>
-                            </widget>
-                        </item>
-                        <item>
-                            <widget class="QPushButton" name="question_next_question_button">
-                                <property name="enabled">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="font">
-                                    <font>
-                                        <pointsize>16</pointsize>
-                                    </font>
-                                </property>
-                                <property name="text">
-                                    <string>Next Question</string>
-                                </property>
-                            </widget>
-                        </item>
-                    </layout>
+                 <layout class="QVBoxLayout" name="verticalLayout_19">
+                  <item>
+                   <widget class="QRadioButton" name="question_radio_a">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Answer A</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="question_radio_b">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Answer B</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="question_radio_c">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Answer C</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="question_radio_d">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Answer D</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="question_submit_button">
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Submit</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="question_feedback_output">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Feedback</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_13">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QPushButton" name="question_previous_question_button">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Previous Question</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="question_next_question_button">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>16</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Next Question</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -1354,845 +1354,561 @@
         </item>
        </layout>
       </widget>
-         <widget class="QWidget" name="homework_select_page">
-             <layout class="QVBoxLayout" name="verticalLayout_16">
-                 <item>
-                     <widget class="QLabel" name="label_3">
-                         <property name="font">
-                             <font>
-                                 <pointsize>11</pointsize>
-                             </font>
-                         </property>
-                         <property name="text">
-                             <string>Homework</string>
-                         </property>
-                     </widget>
-                 </item>
-                 <item>
-                     <spacer name="verticalSpacer_19">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>0</width>
-                                 <height>0</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
-             </layout>
+      <widget class="QWidget" name="homework_select_page">
+       <layout class="QVBoxLayout" name="verticalLayout_16">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Homework</string>
+          </property>
          </widget>
-         <widget class="QWidget" name="browse_quizzes_page">
-             <layout class="QVBoxLayout" name="verticalLayout_14">
-                 <item>
-                     <widget class="QLabel" name="label_4">
-                         <property name="font">
-                             <font>
-                                 <pointsize>11</pointsize>
-                             </font>
-                         </property>
-                         <property name="text">
-                             <string>Browse Quizzes</string>
-                         </property>
-                     </widget>
-                 </item>
-                 <item>
-                     <spacer name="verticalSpacer_22">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>20</width>
-                                 <height>705</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
-             </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_19">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="browse_quizzes_page">
+       <layout class="QVBoxLayout" name="verticalLayout_14">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Browse Quizzes</string>
+          </property>
          </widget>
-         <widget class="QWidget" name="previous_scores_page">
-             <layout class="QVBoxLayout" name="verticalLayout_15">
-                 <item>
-                     <spacer name="verticalSpacer_20">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeType">
-                             <enum>QSizePolicy::Fixed</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>20</width>
-                                 <height>40</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
-                 <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_7">
-                         <item>
-                             <spacer name="horizontalSpacer_9">
-                                 <property name="orientation">
-                                     <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="sizeType">
-                                     <enum>QSizePolicy::Maximum</enum>
-                                 </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>200</width>
-                                         <height>0</height>
-                                     </size>
-                                 </property>
-                             </spacer>
-                         </item>
-                         <item>
-                             <layout class="QVBoxLayout" name="verticalLayout_25">
-                                 <item>
-                                     <layout class="QHBoxLayout" name="horizontalLayout_12">
-                                         <item>
-                                             <widget class="QComboBox" name="previous_scores_class_combo_box">
-                                                 <item>
-                                                     <property name="text">
-                                                         <string>Class</string>
-                                                     </property>
-                                                 </item>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <spacer name="horizontalSpacer_18">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Horizontal</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>40</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                     </layout>
-                                 </item>
-                                 <item>
-                                     <widget class="QTableWidget" name="previous_scores_table">
-                                         <property name="sizePolicy">
-                                             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                                                 <horstretch>0</horstretch>
-                                                 <verstretch>0</verstretch>
-                                             </sizepolicy>
-                                         </property>
-                                         <column>
-                                             <property name="text">
-                                                 <string>Homework</string>
-                                             </property>
-                                         </column>
-                                         <column>
-                                             <property name="text">
-                                                 <string>Score</string>
-                                             </property>
-                                         </column>
-                                         <column>
-                                             <property name="text">
-                                                 <string>Date</string>
-                                             </property>
-                                         </column>
-                                     </widget>
-                                 </item>
-                             </layout>
-                         </item>
-                         <item>
-                             <spacer name="horizontalSpacer_14">
-                                 <property name="orientation">
-                                     <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="sizeType">
-                                     <enum>QSizePolicy::Maximum</enum>
-                                 </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>200</width>
-                                         <height>0</height>
-                                     </size>
-                                 </property>
-                             </spacer>
-                         </item>
-                     </layout>
-                 </item>
-                 <item>
-                     <spacer name="verticalSpacer_24">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeType">
-                             <enum>QSizePolicy::Maximum</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>20</width>
-                                 <height>705</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
-             </layout>
-         </widget>
-         <widget class="QWidget" name="set_homework_page">
-             <layout class="QVBoxLayout" name="verticalLayout_20">
-                 <item>
-                     <widget class="QLabel" name="label_6">
-                         <property name="font">
-                             <font>
-                                 <pointsize>11</pointsize>
-                             </font>
-                         </property>
-                         <property name="text">
-                             <string>Set Homework</string>
-                         </property>
-                     </widget>
-                 </item>
-                 <item>
-                     <spacer name="verticalSpacer_26">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>20</width>
-                                 <height>705</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
-             </layout>
-         </widget>
-         <widget class="QWidget" name="admin_page">
-             <layout class="QVBoxLayout" name="verticalLayout_21">
-                 <item>
-                  <spacer name="verticalSpacer_31">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                         </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                         </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_13">
-                         <item>
-                             <spacer name="horizontalSpacer_19">
-                                 <property name="orientation">
-                                     <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>40</width>
-                                         <height>20</height>
-                                     </size>
-                                 </property>
-                             </spacer>
-                         </item>
-                         <item>
-                             <layout class="QHBoxLayout" name="horizontalLayout_14">
-                                 <item>
-                                     <layout class="QVBoxLayout" name="verticalLayout_24">
-                                         <item>
-                                             <layout class="QVBoxLayout" name="verticalLayout_26">
-                                                 <item>
-                                                     <widget class="QComboBox" name="admin_class_user_combo_box">
-                                                         <item>
-                                                             <property name="text">
-                                                                 <string>Class</string>
-                                                             </property>
-                                                         </item>
-                                                     </widget>
-                                                 </item>
-                                             </layout>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="label_14">
-                                                 <property name="text">
-                                                     <string>Add user:</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <layout class="QHBoxLayout" name="horizontalLayout_15">
-                                                 <item>
-                                                     <widget class="QLineEdit" name="admin_username_input">
-                                                         <property name="text">
-                                                             <string/>
-                                                         </property>
-                                                         <property name="placeholderText">
-                                                             <string>Username</string>
-                                                         </property>
-                                                     </widget>
-                                                 </item>
-                                                 <item>
-                                                     <widget class="QPushButton" name="admin_username_submit_button">
-                                                         <property name="text">
-                                                             <string>Submit</string>
-                                                         </property>
-                                                     </widget>
-                                                 </item>
-                                             </layout>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="admin_add_user_status_label">
-                                                 <property name="text">
-                                                     <string>Add user status</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="label_15">
-                                                 <property name="text">
-                                                     <string>Remove User:</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <layout class="QHBoxLayout" name="horizontalLayout_16">
-                                                 <item>
-                                                     <widget class="QComboBox" name="admin_username_combo_box">
-                                                         <item>
-                                                             <property name="text">
-                                                                 <string>Username</string>
-                                                             </property>
-                                                         </item>
-                                                     </widget>
-                                                 </item>
-                                                 <item>
-                                                     <widget class="QPushButton" name="admin_remove_user_button">
-                                                         <property name="text">
-                                                             <string>REMOVE</string>
-                                                         </property>
-                                                     </widget>
-                                                 </item>
-                                             </layout>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="admin_remove_user_status_label">
-                                                 <property name="text">
-                                                     <string>Remove user status</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                     </layout>
-                                 </item>
-                                 <item>
-                                     <layout class="QVBoxLayout" name="verticalLayout_27">
-                                         <item>
-                                             <widget class="QLabel" name="label_16">
-                                                 <property name="text">
-                                                     <string>Create Class:</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <layout class="QHBoxLayout" name="horizontalLayout_17">
-                                                 <item>
-                                                     <widget class="QLineEdit" name="admin_class_input">
-                                                         <property name="text">
-                                                             <string/>
-                                                         </property>
-                                                         <property name="placeholderText">
-                                                             <string>Class Name</string>
-                                                         </property>
-                                                     </widget>
-                                                 </item>
-                                                 <item>
-                                                     <widget class="QPushButton"
-                                                             name="admin_create_class_submit_button">
-                                                         <property name="text">
-                                                             <string>Submit</string>
-                                                         </property>
-                                                     </widget>
-                                                 </item>
-                                             </layout>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="admin_create_class_status_label">
-                                                 <property name="text">
-                                                     <string>Create class status</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="label_17">
-                                                 <property name="text">
-                                                     <string>Delete Class:</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <layout class="QHBoxLayout" name="horizontalLayout_18">
-                                                 <item>
-                                                     <widget class="QComboBox" name="admin_delete_class_combo_box">
-                                                         <item>
-                                                             <property name="text">
-                                                                 <string>Class</string>
-                                                             </property>
-                                                         </item>
-                                                     </widget>
-                                                 </item>
-                                                 <item>
-                                                     <widget class="QPushButton" name="admin_remove_class_button">
-                                                         <property name="text">
-                                                             <string>REMOVE</string>
-                                                         </property>
-                                                     </widget>
-                                                 </item>
-                                             </layout>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="admin_delete_class_status_label">
-                                                 <property name="text">
-                                                     <string>Delete class status</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                     </layout>
-                                 </item>
-                             </layout>
-                         </item>
-                         <item>
-                             <spacer name="horizontalSpacer_20">
-                                 <property name="orientation">
-                                     <enum>Qt::Horizontal</enum>
-                                 </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>40</width>
-                                         <height>20</height>
-                                     </size>
-                                 </property>
-                             </spacer>
-                         </item>
-                     </layout>
-                 </item>
-                 <item>
-                     <spacer name="verticalSpacer_28">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>20</width>
-                                 <height>705</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
-             </layout>
-         </widget>
-         <widget class="QWidget" name="account_management_page">
-             <layout class="QVBoxLayout" name="verticalLayout_22">
-                 <item>
-                     <layout class="QVBoxLayout" name="verticalLayout_28">
-                         <item>
-                             <spacer name="verticalSpacer_21">
-                                 <property name="orientation">
-                                     <enum>Qt::Vertical</enum>
-                                 </property>
-                                 <property name="sizeType">
-                                     <enum>QSizePolicy::Fixed</enum>
-                                 </property>
-                                 <property name="sizeHint" stdset="0">
-                                     <size>
-                                         <width>20</width>
-                                         <height>40</height>
-                                     </size>
-                                 </property>
-                             </spacer>
-                         </item>
-                         <item>
-                             <layout class="QHBoxLayout" name="horizontalLayout_19">
-                                 <item>
-                                     <spacer name="horizontalSpacer_21">
-                                         <property name="orientation">
-                                             <enum>Qt::Horizontal</enum>
-                                         </property>
-                                         <property name="sizeHint" stdset="0">
-                                             <size>
-                                                 <width>40</width>
-                                                 <height>20</height>
-                                             </size>
-                                         </property>
-                                     </spacer>
-                                 </item>
-                                 <item>
-                                     <layout class="QVBoxLayout" name="verticalLayout_29">
-                                         <item>
-                                             <layout class="QHBoxLayout" name="horizontalLayout_20">
-                                                 <item>
-                                                     <layout class="QVBoxLayout" name="verticalLayout_30">
-                                                         <item>
-                                                             <widget class="QLabel"
-                                                                     name="account_management_first_name_label">
-                                                                 <property name="font">
-                                                                     <font>
-                                                                         <pointsize>13</pointsize>
-                                                                     </font>
-                                                                 </property>
-                                                                 <property name="text">
-                                                                     <string>New First Name</string>
-                                                                 </property>
-                                                             </widget>
-                                                         </item>
-                                                         <item>
-                                                             <widget class="QLineEdit"
-                                                                     name="account_management_first_name_input">
-                                                                 <property name="font">
-                                                                     <font>
-                                                                         <pointsize>16</pointsize>
-                                                                     </font>
-                                                                 </property>
-                                                                 <property name="placeholderText">
-                                                                     <string>First Name</string>
-                                                                 </property>
-                                                             </widget>
-                                                         </item>
-                                                     </layout>
-                                                 </item>
-                                                 <item>
-                                                     <spacer name="horizontalSpacer_22">
-                                                         <property name="orientation">
-                                                             <enum>Qt::Horizontal</enum>
-                                                         </property>
-                                                         <property name="sizeType">
-                                                             <enum>QSizePolicy::Fixed</enum>
-                                                         </property>
-                                                         <property name="sizeHint" stdset="0">
-                                                             <size>
-                                                                 <width>30</width>
-                                                                 <height>0</height>
-                                                             </size>
-                                                         </property>
-                                                     </spacer>
-                                                 </item>
-                                                 <item>
-                                                     <layout class="QVBoxLayout" name="verticalLayout_31">
-                                                         <item>
-                                                             <widget class="QLabel"
-                                                                     name="account_management_last_name_label">
-                                                                 <property name="font">
-                                                                     <font>
-                                                                         <pointsize>13</pointsize>
-                                                                     </font>
-                                                                 </property>
-                                                                 <property name="text">
-                                                                     <string>New Last Name</string>
-                                                                 </property>
-                                                             </widget>
-                                                         </item>
-                                                         <item>
-                                                             <widget class="QLineEdit"
-                                                                     name="account_management_last_name_input">
-                                                                 <property name="font">
-                                                                     <font>
-                                                                         <pointsize>16</pointsize>
-                                                                     </font>
-                                                                 </property>
-                                                                 <property name="placeholderText">
-                                                                     <string>Last Name</string>
-                                                                 </property>
-                                                             </widget>
-                                                         </item>
-                                                     </layout>
-                                                 </item>
-                                             </layout>
-                                         </item>
-                                         <item>
-                                             <spacer name="verticalSpacer_23">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Vertical</enum>
-                                                 </property>
-                                                 <property name="sizeType">
-                                                     <enum>QSizePolicy::Fixed</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>0</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="account_management_old_password_label">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>13</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="text">
-                                                     <string>Current Password:</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <widget class="QLineEdit" name="account_management_old_password_input">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>16</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="echoMode">
-                                                     <enum>QLineEdit::Password</enum>
-                                                 </property>
-                                                 <property name="placeholderText">
-                                                     <string>Current Password</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <spacer name="verticalSpacer_25">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Vertical</enum>
-                                                 </property>
-                                                 <property name="sizeType">
-                                                     <enum>QSizePolicy::Fixed</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>0</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="account_management_new_password_label">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>13</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="text">
-                                                     <string>New Password</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <widget class="QLineEdit" name="account_management_new_password_input">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>16</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="echoMode">
-                                                     <enum>QLineEdit::Password</enum>
-                                                 </property>
-                                                 <property name="placeholderText">
-                                                     <string>New Password</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <spacer name="verticalSpacer_27">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Vertical</enum>
-                                                 </property>
-                                                 <property name="sizeType">
-                                                     <enum>QSizePolicy::Fixed</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>0</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="account_management_verify_new_password_label">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>13</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="text">
-                                                     <string>Verify New Password:</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <widget class="QLineEdit"
-                                                     name="account_management_new_password_verify_input">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>16</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="echoMode">
-                                                     <enum>QLineEdit::Password</enum>
-                                                 </property>
-                                                 <property name="placeholderText">
-                                                     <string>Verify New Password</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <spacer name="verticalSpacer_30">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Vertical</enum>
-                                                 </property>
-                                                 <property name="sizeType">
-                                                     <enum>QSizePolicy::Fixed</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>0</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                         <item>
-                                             <widget class="QPushButton" name="account_management_submit_button">
-                                                 <property name="sizePolicy">
-                                                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                                         <horstretch>0</horstretch>
-                                                         <verstretch>0</verstretch>
-                                                     </sizepolicy>
-                                                 </property>
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>16</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="text">
-                                                     <string>Submit</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <spacer name="verticalSpacer_29">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Vertical</enum>
-                                                 </property>
-                                                 <property name="sizeType">
-                                                     <enum>QSizePolicy::Fixed</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>0</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                         <item>
-                                             <widget class="QLabel" name="account_management_success_output">
-                                                 <property name="font">
-                                                     <font>
-                                                         <pointsize>12</pointsize>
-                                                     </font>
-                                                 </property>
-                                                 <property name="text">
-                                                     <string>Result</string>
-                                                 </property>
-                                             </widget>
-                                         </item>
-                                         <item>
-                                             <spacer name="verticalSpacer_33">
-                                                 <property name="orientation">
-                                                     <enum>Qt::Vertical</enum>
-                                                 </property>
-                                                 <property name="sizeType">
-                                                     <enum>QSizePolicy::Expanding</enum>
-                                                 </property>
-                                                 <property name="sizeHint" stdset="0">
-                                                     <size>
-                                                         <width>0</width>
-                                                         <height>20</height>
-                                                     </size>
-                                                 </property>
-                                             </spacer>
-                                         </item>
-                                     </layout>
-                                 </item>
-                                 <item>
-                                     <spacer name="horizontalSpacer_23">
-                                         <property name="orientation">
-                                             <enum>Qt::Horizontal</enum>
-                                         </property>
-                                         <property name="sizeHint" stdset="0">
-                                             <size>
-                                                 <width>40</width>
-                                                 <height>20</height>
-                                             </size>
-                                         </property>
-                                     </spacer>
-                                 </item>
-                             </layout>
-                         </item>
-                     </layout>
-                 </item>
-             </layout>
-         </widget>
-         <widget class="QWidget" name="view_classes_page">
-             <layout class="QVBoxLayout" name="verticalLayout_23">
-                 <item>
-                     <widget class="QLabel" name="label_9">
-                         <property name="font">
-                             <font>
-                                 <pointsize>11</pointsize>
-                             </font>
-                         </property>
-                         <property name="text">
-                             <string>Classes</string>
-                         </property>
-                     </widget>
-                 </item>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_22">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>705</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="previous_scores_page">
+       <layout class="QVBoxLayout" name="verticalLayout_15">
+        <item>
+         <spacer name="verticalSpacer_20">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_25">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
               <item>
-               <spacer name="verticalSpacer_34">
+               <widget class="QComboBox" name="previous_scores_class_combo_box">
+                <item>
+                 <property name="text">
+                  <string>Class</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_18">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="previous_scores_table">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <column>
+               <property name="text">
+                <string>Homework</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Score</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Date</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_14">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_24">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Maximum</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>705</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="set_homework_page">
+       <layout class="QVBoxLayout" name="verticalLayout_20">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Set Homework</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_26">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>705</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="admin_page">
+       <layout class="QVBoxLayout" name="verticalLayout_21">
+        <item>
+         <spacer name="verticalSpacer_31">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <spacer name="horizontalSpacer_19">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_24">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_26">
+                <item>
+                 <widget class="QComboBox" name="admin_class_user_combo_box">
+                  <item>
+                   <property name="text">
+                    <string>Class</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Add user:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_15">
+                <item>
+                 <widget class="QLineEdit" name="admin_username_input">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Username</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="admin_username_submit_button">
+                  <property name="text">
+                   <string>Submit</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="admin_add_user_status_label">
+                <property name="text">
+                 <string>Add user status</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>Remove User:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_16">
+                <item>
+                 <widget class="QComboBox" name="admin_username_combo_box">
+                  <item>
+                   <property name="text">
+                    <string>Username</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="admin_remove_user_button">
+                  <property name="text">
+                   <string>REMOVE</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="admin_remove_user_status_label">
+                <property name="text">
+                 <string>Remove user status</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_27">
+              <item>
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>Create Class:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_17">
+                <item>
+                 <widget class="QLineEdit" name="admin_class_input">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Class Name</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="admin_create_class_submit_button">
+                  <property name="text">
+                   <string>Submit</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="admin_create_class_status_label">
+                <property name="text">
+                 <string>Create class status</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>Delete Class:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_18">
+                <item>
+                 <widget class="QComboBox" name="admin_delete_class_combo_box">
+                  <item>
+                   <property name="text">
+                    <string>Class</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="admin_remove_class_button">
+                  <property name="text">
+                   <string>REMOVE</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="admin_delete_class_status_label">
+                <property name="text">
+                 <string>Delete class status</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_20">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_28">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>705</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="account_management_page">
+       <layout class="QVBoxLayout" name="verticalLayout_22">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_28">
+          <item>
+           <spacer name="verticalSpacer_21">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_19">
+            <item>
+             <spacer name="horizontalSpacer_21">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_29">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_20">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_30">
+                  <item>
+                   <widget class="QLabel" name="account_management_first_name_label">
+                    <property name="font">
+                     <font>
+                      <pointsize>13</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>New First Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="account_management_first_name_input">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="placeholderText">
+                     <string>First Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_22">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Fixed</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>30</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_31">
+                  <item>
+                   <widget class="QLabel" name="account_management_last_name_label">
+                    <property name="font">
+                     <font>
+                      <pointsize>13</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>New Last Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="account_management_last_name_input">
+                    <property name="font">
+                     <font>
+                      <pointsize>16</pointsize>
+                     </font>
+                    </property>
+                    <property name="placeholderText">
+                     <string>Last Name</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_23">
                 <property name="orientation">
                  <enum>Qt::Vertical</enum>
                 </property>
@@ -2201,172 +1917,449 @@
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
-                  <width>20</width>
-                  <height>40</height>
+                  <width>0</width>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_21">
-                <item>
-                 <spacer name="horizontalSpacer_24">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Maximum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>200</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_32">
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_22">
-                    <item>
-                     <widget class="QComboBox" name="view_classes_view_type_combo_box">
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <item>
-                       <property name="text">
-                        <string>Class View</string>
-                       </property>
-                      </item>
-                      <item>
-                       <property name="text">
-                        <string>Student View</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_25">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_23">
-                    <item>
-                     <widget class="QComboBox" name="view_classes_class_combo_box">
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_26">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_24">
-                    <item>
-                     <widget class="QComboBox"
-                             name="view_classes_homework_or_student_combo_box">
-                      <property name="minimumSize">
-                       <size>
-                        <width>100</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="currentText">
-                       <string/>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer_27">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QTableWidget" name="view_classes_score_table">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_28">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Maximum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>200</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
+               <widget class="QLabel" name="account_management_old_password_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Current Password:</string>
+                </property>
+               </widget>
               </item>
-                 <item>
-                     <spacer name="verticalSpacer_32">
-                         <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                             <size>
-                                 <width>20</width>
-                                 <height>705</height>
-                             </size>
-                         </property>
-                     </spacer>
-                 </item>
+              <item>
+               <widget class="QLineEdit" name="account_management_old_password_input">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="echoMode">
+                 <enum>QLineEdit::Password</enum>
+                </property>
+                <property name="placeholderText">
+                 <string>Current Password</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_25">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="account_management_new_password_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>New Password</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="account_management_new_password_input">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="echoMode">
+                 <enum>QLineEdit::Password</enum>
+                </property>
+                <property name="placeholderText">
+                 <string>New Password</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_27">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="account_management_verify_new_password_label">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>13</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Verify New Password:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="account_management_new_password_verify_input">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="echoMode">
+                 <enum>QLineEdit::Password</enum>
+                </property>
+                <property name="placeholderText">
+                 <string>Verify New Password</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_30">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="account_management_submit_button">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>16</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Submit</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_29">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="account_management_success_output">
+                <property name="font">
+                 <font>
+                  <pointsize>12</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Result</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="verticalSpacer_33">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_23">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="view_classes_page">
+       <layout class="QVBoxLayout" name="verticalLayout_23">
+        <item>
+         <widget class="QLabel" name="label_9">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Classes</string>
+          </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_34">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_21">
+          <item>
+           <spacer name="horizontalSpacer_24">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_32">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_22">
+              <item>
+               <widget class="QComboBox" name="view_classes_view_type_combo_box">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Class View</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Student View</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_25">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_23">
+              <item>
+               <widget class="QComboBox" name="view_classes_class_combo_box">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_26">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_24">
+              <item>
+               <widget class="QComboBox" name="view_classes_homework_or_student_combo_box">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="currentText">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_27">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="view_classes_score_table">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_28">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Maximum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>200</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_32">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>705</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </item>
     <item>

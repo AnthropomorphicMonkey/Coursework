@@ -1,4 +1,5 @@
 import sqlite3
+import scripts.db_scripts as db_scripts
 
 # Connects to database
 conn = sqlite3.connect('database.db')
@@ -111,7 +112,77 @@ def remove_class(class_id: int):
     conn.commit()
 
 
+def get_results_of_homework(class_id: int, homework_id: int) -> list:
+    students: list = get_students_of_class(class_id)
+    scores: list = []
+    for student in students:
+        user_id: int = student[0]
+        sql: str = 'SELECT question_results.correct, question_results.attempts ' \
+                   'FROM users INNER JOIN ((class_homework ' \
+                   'INNER JOIN homework_questions ON class_homework.homework_id = homework_questions.homework_id) ' \
+                   'INNER JOIN question_results ON homework_questions.question_id = question_results.question_id) ' \
+                   'ON question_results.user_id = users.id ' \
+                   'WHERE class_homework.class_id = ? AND class_homework.homework_id = ? AND users.id = ?'
+        c.execute(sql, (class_id, homework_id, user_id))
+        results: tuple = c.fetchall()
+        first_name: str = db_scripts.get_first_name(user_id)
+        last_name: str = db_scripts.get_last_name(user_id)
+        score: int = 0
+        attempts: int = 0
+        question_count: int = 0
+        for question in results:
+            question_count += 1
+            if question[0] == 'T':
+                score += 1
+            if question[1] > attempts:
+                attempts = question[1]
+        try:
+            percentage: str = round(score / question_count * 100)
+        except ZeroDivisionError:
+            percentage: str = "N/A"
+        scores.append([first_name, last_name, score, percentage, attempts])
+    return scores
+
+
+def get_name_of_homework(homework_id: int):
+    sql: str = 'SELECT name FROM homework WHERE id = ?;'
+    c.execute(sql, (homework_id,))
+    return c.fetchall()[0][0]
+
+
+def get_scores_of_student_in_class(class_id: int, student_id: int):
+    homeworks: list = get_homework_of_class(class_id)
+    scores: list = []
+    for homework in homeworks:
+        homework_id = homework[0]
+        sql: str = 'SELECT question_results.correct, question_results.attempts ' \
+                   'FROM users INNER JOIN ((class_homework ' \
+                   'INNER JOIN homework_questions ON class_homework.homework_id = homework_questions.homework_id) ' \
+                   'INNER JOIN question_results ON homework_questions.question_id = question_results.question_id) ' \
+                   'ON question_results.user_id = users.id ' \
+                   'WHERE class_homework.class_id = ? AND class_homework.homework_id = ? AND users.id = ?'
+        c.execute(sql, (class_id, homework_id, student_id))
+        results: tuple = c.fetchall()
+        homework_name: str = get_name_of_homework(homework_id)
+        score: int = 0
+        attempts: int = 0
+        question_count: int = 0
+        for question in results:
+            question_count += 1
+            if question[0] == 'T':
+                score += 1
+            if question[1] > attempts:
+                attempts = question[1]
+        try:
+            percentage: str = round(score / question_count * 100)
+        except ZeroDivisionError:
+            percentage: str = "N/A"
+        scores.append([homework_name, score, percentage, attempts])
+    return scores
+
+
 if __name__ == '__main__':
+    '''
     print(get_classes_of_student(1))
     print(get_homework_of_class(486))
     print(get_homework_score(1, 486))
@@ -119,3 +190,5 @@ if __name__ == '__main__':
     print(get_students_of_class(1))
     print(get_questions_of_homework(4))
     print(check_student_in_class(1, 486))
+    '''
+    get_scores_of_student_in_class(75, 96)
