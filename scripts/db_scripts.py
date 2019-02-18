@@ -135,4 +135,6 @@ def update_password(user_id: int, password: str):
 
 if __name__ == '__main__':
     uid = input("Enter user id: ")
-    print("Last name:", get_last_name(uid))
+    print("Password is test:", check_password(uid, 'test'))
+    update_password(uid, 'password')
+    print("Password is test:", check_password(uid, 'test'))

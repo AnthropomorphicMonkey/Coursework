@@ -7,6 +7,8 @@ c = conn.cursor()
 
 
 def get_classes_of_student(user_id: int) -> list:
+    # Takes a user id, finds all classes student is a member of, and returns the class id and name for each relevant
+    # class from the classes table by joining all relevant tables appropriately
     sql: str = 'SELECT classes.id, classes.name ' \
                'FROM ((class_user INNER JOIN classes ON class_user.class_id = classes.id)' \
                'INNER JOIN users ON users.id = class_user.student_id) ' \
@@ -16,6 +18,8 @@ def get_classes_of_student(user_id: int) -> list:
 
 
 def get_homework_of_class(class_id) -> list:
+    # Takes a class id, finds all homework belonging to the class, and returns the homework id and name for each
+    # relevant homework from the homework table by joining all relevant tables appropriately
     sql: str = 'SELECT homework.id, homework.name ' \
                'FROM homework INNER JOIN class_homework ON homework.id = class_homework.homework_id ' \
                'WHERE class_homework.class_id = ?;'
@@ -50,12 +54,16 @@ def get_homework_score(user_id: int, homework_id: int) -> tuple:
 
 
 def get_classes_of_teacher(user_id: int) -> list:
+    # Takes a user id (assumed to be that of a teacher and to be verified before calling function) and returns the
+    # class id and name for each relevant class from the classes table
     sql: str = 'SELECT id, name FROM classes WHERE teacher = ?;'
     c.execute(sql, (user_id,))
     return c.fetchall()
 
 
 def get_students_of_class(class_id: int) -> list:
+    # Takes a class id, finds all students belonging to the class, and returns the student id and name for each relevant
+    # student from the users table by joining all relevant tables appropriately
     sql: str = 'SELECT users.id, users.username ' \
                'FROM class_user INNER JOIN users ON class_user.student_id = users.id ' \
                'WHERE class_user.class_id = ?;'
@@ -64,6 +72,8 @@ def get_students_of_class(class_id: int) -> list:
 
 
 def get_questions_of_homework(homework_id: int) -> list:
+    # Takes a homework id, finds all questions belonging to the homework, and returns the quesion id and name for each
+    # relevant question from the questions table by joining all relevant tables appropriately
     sql: str = 'SELECT questions.id, questions.name FROM ' \
                'questions INNER JOIN homework_questions ON questions.id = homework_questions.question_id ' \
                'WHERE homework_questions.homework_id = ?;'
@@ -182,13 +192,5 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
 
 
 if __name__ == '__main__':
-    '''
-    print(get_classes_of_student(1))
-    print(get_homework_of_class(486))
-    print(get_homework_score(1, 486))
-    print(get_classes_of_teacher(156))
-    print(get_students_of_class(1))
-    print(get_questions_of_homework(4))
-    print(check_student_in_class(1, 486))
-    '''
-    get_scores_of_student_in_class(75, 96)
+    hid = input("Enter homework id: ")
+    print(get_questions_of_homework(hid))
