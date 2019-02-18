@@ -12,6 +12,7 @@ def check_user_exists(username: str) -> bool:
     # Finds the number of occurrences in the users table of the inputted username. If 0 returned, username is not in DB
     sql: str = 'SELECT COUNT(1) FROM users WHERE username = ?;'
     c.execute(sql, (username,))
+    print(c.fetchall())
     if c.fetchall()[0][0] > 0:
         return True
     else:
@@ -127,16 +128,11 @@ def format_name(first_name: str) -> str:
 def update_password(user_id: int, password: str):
     # Updates value for hashed password in database for given id
     sql: str = 'UPDATE users SET password_hash = ? WHERE id = ?;'
+    # Generates a new password hash to be inserted from salt stored for given username
     c.execute(sql, (generate_hash(password, find_salt(user_id)), user_id))
     conn.commit()
 
 
 if __name__ == '__main__':
-    # Area to be used for testing purposes use username test, password test12345
-    print(get_first_name(1))
-    un: str = input("Enter username: ")
-    pw: str = input("Enter password: ")
-    first: str = input("Enter first name: ")
-    last: str = input("Enter last name: ")
-    user_type: str = input("Enter user type ('s' or 't'): ")
-    create_account(un, pw, first, last, user_type)
+    uid = input("Enter user id: ")
+    print("Last name:", get_last_name(uid))
