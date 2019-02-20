@@ -209,6 +209,18 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
     return scores
 
 
+def get_question_text_of_question(question_id: int):
+    sql: str = 'SELECT question_text FROM questions WHERE id = ?;'
+    c.execute(sql, (question_id,))
+    return c.fetchall()[0][0]
+
+
+def get_correct_answer_of_question(question_id: int):
+    sql: str = 'SELECT correct_answer FROM questions WHERE id = ?;'
+    c.execute(sql, (question_id,))
+    return c.fetchall()[0][0]
+
+
 if __name__ == '__main__':
     uid = input("Enter user id: ")
     hid = input("Enter homework id: ")

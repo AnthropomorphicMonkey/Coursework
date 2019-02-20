@@ -51,6 +51,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.login_success_output.setText("")
         # Holds classes or students of currently selected class on the view classes page
         self.view_classes_students_or_homeworks: list = []
+        self.set_homework_homework: list = []
+        self.set_homework_questions: list = []
 
     def change_page(self, index: int):
         # Restores target page to default state
@@ -230,6 +232,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_page_button_setup()
         self.account_management_page_button_setup()
         self.view_classes_page_button_setup()
+        self.set_homework_page_button_setup()
 
     def login_reset_page(self):
         # Sets input boxes to blank
@@ -311,6 +314,48 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         for each_class in self.teacher_classes:
             self.view_classes_class_combo_box.addItem(each_class[1])
 
+    def set_homework_page_button_setup(self):
+        self.set_homework_class_combo_box.currentIndexChanged.connect(lambda: self.set_homework_class_change())
+        self.set_homework_homework_combo_box.currentIndexChanged.connect(lambda: self.set_homework_homework_change())
+        self.set_homework_question_combo_box.currentIndexChanged.connect(lambda: self.set_homework_question_change())
+
+    def set_homework_class_change(self):
+        self.set_homework_homework_combo_box.clear()
+        self.set_homework_homework: list = ui_scripts.get_homework_of_class(
+            self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0])
+        if len(self.teacher_classes) > 0:
+            for each_homework in self.set_homework_homework:
+                self.set_homework_homework_combo_box.addItem(each_homework[1])
+
+    def set_homework_homework_change(self):
+        self.set_homework_question_combo_box.clear()
+        self.set_homework_questions: list = ui_scripts.get_questions_of_homework(
+            self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0])
+        if len(self.set_homework_homework) > 0:
+            for each_question in self.set_homework_questions:
+                self.set_homework_question_combo_box.addItem(each_question[1])
+
+    def set_homework_question_change(self):
+        question_id = self.set_homework_questions[self.set_homework_question_combo_box.currentIndex()][0]
+        self.set_homework_question_label.setText(ui_scripts.get_question_text_of_question(question_id))
+        self.set_homework_answer_label.setText(ui_scripts.get_correct_answer_of_question(question_id))
+
+    def set_homework_reset_page(self):
+        self.set_homework_class_combo_box.clear()
+        self.set_homework_homework_combo_box.clear()
+        self.set_homework_type_combo_box.clear()
+        self.set_homework_question_combo_box.clear()
+        self.set_homework_question_label.setText("")
+        self.set_homework_answer_label.setText("")
+        self.set_homework_question_input.setText("")
+        self.set_homework_correct_answer_input.setText("")
+        self.set_homework_answer_b_input.setText("")
+        self.set_homework_answer_c_input.setText("")
+        self.set_homework_answer_d_input.setText("")
+        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.teacher_classes:
+            self.set_homework_class_combo_box.addItem(each_class[1])
+
     def reset_pages(self, target_page):
         # Runs all page reset scripts
         if target_page == self.login_page:
@@ -327,6 +372,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.account_management_reset_page()
         elif target_page == self.view_classes_page:
             self.view_classes_reset_page()
+        elif target_page == self.set_homework_page:
+            self.set_homework_reset_page()
         else:
             pass
 
