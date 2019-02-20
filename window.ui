@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>881</width>
-    <height>853</height>
+    <width>961</width>
+    <height>839</height>
    </rect>
   </property>
   <property name="font">
@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>11</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1052,7 +1052,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Set Homework</string>
+               <string>Homework Management</string>
               </property>
              </widget>
             </item>
@@ -1542,16 +1542,345 @@
       <widget class="QWidget" name="set_homework_page">
        <layout class="QVBoxLayout" name="verticalLayout_20">
         <item>
-         <widget class="QLabel" name="label_6">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
+         <spacer name="verticalSpacer_37">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
           </property>
-          <property name="text">
-           <string>Set Homework</string>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
           </property>
-         </widget>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_25">
+          <item>
+           <spacer name="horizontalSpacer_29">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_33">
+            <item>
+             <widget class="QComboBox" name="set_homework_class_combo_box">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="set_homework_homework_combo_box">
+              <property name="minimumSize">
+               <size>
+                <width>100</width>
+                <height>0</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_35">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_34">
+              <item>
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Automatic Question:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_26">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_35">
+                  <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>Question Type:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="set_homework_type_combo_box">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_36">
+                  <item>
+                   <widget class="QLabel" name="label_10">
+                    <property name="text">
+                     <string>Difficulty:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="set_homework_difficulty_combo_box">
+                    <property name="minimumSize">
+                     <size>
+                      <width>100</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>1</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>5</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="set_homework_add_automatic_question_button">
+                <property name="text">
+                 <string>Add Automatic Question</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_36">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_37">
+              <item>
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>Custom Question:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_38">
+                <item>
+                 <widget class="QLabel" name="label_11">
+                  <property name="text">
+                   <string>Question:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="set_homework_question_input"/>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_39">
+                  <item>
+                   <widget class="QLabel" name="label_12">
+                    <property name="text">
+                     <string>Correct Answer:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="set_homework_correct_answer_input"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_40">
+                  <item>
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>Incorrect Answer 1:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="set_homework_answer_b_input"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_41">
+                  <item>
+                   <widget class="QLabel" name="label_18">
+                    <property name="text">
+                     <string>Incorrect Answer 2:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="set_homework_answer_c_input"/>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_42">
+                  <item>
+                   <widget class="QLabel" name="label_19">
+                    <property name="text">
+                     <string>Incorrect Answer 3:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="textEdit_5"/>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="set_homework_add_custom_question_button">
+                <property name="text">
+                 <string>Add Custom Question</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_38">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>909</width>
+                <height>37</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_43">
+              <item>
+               <widget class="QLabel" name="label_20">
+                <property name="text">
+                 <string>View Question:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="set_homework_class_combo_box_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>100</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="set_homework_question_label">
+                <property name="text">
+                 <string>Question Text</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_21">
+                <property name="text">
+                 <string>Correct Answer</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="set_homework_remove_question_button">
+                <property name="text">
+                 <string>REMOVE QUESTION</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_30">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_26">

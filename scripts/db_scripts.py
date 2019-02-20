@@ -12,7 +12,6 @@ def check_user_exists(username: str) -> bool:
     # Finds the number of occurrences in the users table of the inputted username. If 0 returned, username is not in DB
     sql: str = 'SELECT COUNT(1) FROM users WHERE username = ?;'
     c.execute(sql, (username,))
-    print(c.fetchall())
     if c.fetchall()[0][0] > 0:
         return True
     else:

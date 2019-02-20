@@ -28,6 +28,10 @@ def get_homework_of_class(class_id) -> list:
 
 
 def get_homework_score(user_id: int, homework_id: int) -> tuple:
+    # Takes a user id and homework id, finds the results for all questions in the given homework for the given user,
+    # and for each question returns a boolean value for if the question has been correctly answered and the number of
+    # times that question has been attempted from the question_results table by joining all relevant tables
+    # appropriately
     sql: str = 'SELECT question_results.attempts, question_results.correct ' \
                'FROM ((homework INNER JOIN homework_questions ON homework.id = homework_questions.homework_id)' \
                'INNER JOIN questions ON homework_questions.question_id = questions.id) ' \
@@ -35,22 +39,36 @@ def get_homework_score(user_id: int, homework_id: int) -> tuple:
                'WHERE question_results.user_id = ? AND homework.id = ?;'
     c.execute(sql, (user_id, homework_id))
     score_list: tuple = c.fetchall()
+    # Iterates through each question result stored in the score list and increments the score for the homework by 1
+    # divided by the number of attempts if the question was correctly answered (has 'True' in the first position of the
+    # tuple). This value is rounded to the nearest integer
+    # Question count is incremented each loop to get a value for the number of questions in the homework
     question_count: int = 0
     score: int = 0
     for each_score in score_list:
         question_count += 1
         if each_score[1] == 'T':
             score += (1 / each_score[0])
+    # Calculates the percentage score for the homework by dividing the score by the number of questions and multiplying
+    # by 100. If the homework has no questions (e.g. if the given student was never set the given homework), a division
+    # by zero will occur. This is handled by simply setting a score of "N/A"
     try:
         result: int = round(score / question_count * 100)
     except ZeroDivisionError:
         result = "N/A"
+    # Function to be returned to in UI also requires homework name and due date so this data is found and returned with
+    # the homework result
+    name_and_due_date: tuple = get_homework_name_and_due_date(homework_id)
+    return name_and_due_date[0], result, name_and_due_date[1]
+
+
+def get_homework_name_and_due_date(homework_id: int) -> tuple:
+    # Takes a homework id and returns the relevant name and due date
     sql: str = 'SELECT homework.name, class_homework.due_date ' \
                'FROM homework INNER JOIN class_homework on homework.id = class_homework.homework_id ' \
                'WHERE homework.id = ?;'
     c.execute(sql, (homework_id,))
-    name_and_due_date: tuple = c.fetchall()[0]
-    return name_and_due_date[0], result, name_and_due_date[1]
+    return c.fetchall()[0]
 
 
 def get_classes_of_teacher(user_id: int) -> list:
@@ -192,5 +210,6 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
 
 
 if __name__ == '__main__':
+    uid = input("Enter user id: ")
     hid = input("Enter homework id: ")
-    print(get_questions_of_homework(hid))
+    print(get_homework_score(uid, hid))
