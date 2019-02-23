@@ -8,7 +8,7 @@ c = conn.cursor()
 
 
 class Question:
-    def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, answer_b=None,
+    def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, answer_b: str,
                  answer_c=None, answer_d=None):
         # Difficulty should be greater than or equal to 1, this should be verified before using function
         self.name: str = name
@@ -24,8 +24,7 @@ class Question:
             self.set_incorrect_numerical_answers()
         except ValueError:
             self.set_incorrect_answers("N/A", "N/A", "N/A")
-        if answer_b is not None:
-            self.answer_b: str = answer_b
+        self.answer_b: str = answer_b
         if answer_c is not None:
             self.answer_c: str = answer_c
         if answer_d is not None:
@@ -59,13 +58,16 @@ class Question:
         # https://stackoverflow.com/questions/3410976/how-to-round-a-number-to-significant-figures-in-python
         return round(value, significant_figures - int(math.floor(math.log10(abs(value)))) - 1)
 
-
-def save_question(question):
-    sql: str = 'INSERT INTO questions(name, type_id, question_text, correct_answer, answer_b, answer_c, answer_d)' \
-               'VALUES(?, ?, ?, ?, ?, ?, ?);'
-    c.execute(sql, (question.name, question.type_id, question.question_text, question.correct_answer, question.answer_b,
-                    question.answer_c, question.answer_d))
-    conn.commit()
+    def save_question(self) -> int:
+        sql: str = 'INSERT INTO questions(name, type_id, question_text, correct_answer, answer_b, answer_c, answer_d)' \
+                   'VALUES(?, ?, ?, ?, ?, ?, ?);'
+        c.execute(sql, (self.name, self.type_id, self.question_text, self.correct_answer, self.answer_b,
+                        self.answer_c, self.answer_d))
+        sql: str = 'SELECT last_insert_rowid()'
+        c.execute(sql)
+        inserted_position: int = c.fetchall()[0][0]
+        conn.commit()
+        return inserted_position
 
 
 if __name__ == '__main__':
@@ -90,4 +92,4 @@ if __name__ == '__main__':
     print("Answer B:", test_question.answer_b)
     print("Answer C:", test_question.answer_c)
     print("Answer D:", test_question.answer_d)
-    save_question(test_question)
+    test_question.save_question()

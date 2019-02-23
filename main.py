@@ -5,6 +5,7 @@ try:
     from PyQt5 import uic
     # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
     from scripts import db_scripts, ui_scripts
+    import scripts.question_scripts as question_scripts
 except ModuleNotFoundError:
     try:
         import time
@@ -318,27 +319,48 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_class_combo_box.currentIndexChanged.connect(lambda: self.set_homework_class_change())
         self.set_homework_homework_combo_box.currentIndexChanged.connect(lambda: self.set_homework_homework_change())
         self.set_homework_question_combo_box.currentIndexChanged.connect(lambda: self.set_homework_question_change())
+        self.set_homework_remove_question_button.clicked.connect(lambda: self.set_homework_remove_question())
+        self.set_homework_add_custom_question_button.clicked.connect(lambda: self.set_homework_add_custom_question())
 
     def set_homework_class_change(self):
         self.set_homework_homework_combo_box.clear()
-        self.set_homework_homework: list = ui_scripts.get_homework_of_class(
-            self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0])
+        self.set_homework_homework: list = []
         if len(self.teacher_classes) > 0:
+            self.set_homework_homework: list = ui_scripts.get_homework_of_class(
+                self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0])
             for each_homework in self.set_homework_homework:
                 self.set_homework_homework_combo_box.addItem(each_homework[1])
+        self.set_homework_homework_change()
 
     def set_homework_homework_change(self):
         self.set_homework_question_combo_box.clear()
-        self.set_homework_questions: list = ui_scripts.get_questions_of_homework(
-            self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0])
+        self.set_homework_questions: list = []
         if len(self.set_homework_homework) > 0:
+            self.set_homework_questions: list = ui_scripts.get_questions_of_homework(
+                self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0])
             for each_question in self.set_homework_questions:
                 self.set_homework_question_combo_box.addItem(each_question[1])
+        self.set_homework_question_change()
 
     def set_homework_question_change(self):
-        question_id = self.set_homework_questions[self.set_homework_question_combo_box.currentIndex()][0]
-        self.set_homework_question_label.setText(ui_scripts.get_question_text_of_question(question_id))
-        self.set_homework_answer_label.setText(ui_scripts.get_correct_answer_of_question(question_id))
+        self.set_homework_removed_output.setText("")
+        if len(self.set_homework_questions) > 0:
+            question_id = self.set_homework_questions[self.set_homework_question_combo_box.currentIndex()][0]
+            self.set_homework_question_label.setText(ui_scripts.get_question_text_of_question(question_id))
+            self.set_homework_answer_label.setText(ui_scripts.get_correct_answer_of_question(question_id))
+        else:
+            self.set_homework_question_label.setText("")
+            self.set_homework_answer_label.setText("")
+
+    def set_homework_remove_question(self):
+        if len(self.set_homework_questions) > 0:
+            question_id = self.set_homework_questions[self.set_homework_question_combo_box.currentIndex()][0]
+            homework_id = self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0]
+            ui_scripts.remove_question_from_homework(question_id, homework_id)
+            self.set_homework_homework_change()
+            self.set_homework_removed_output.setText("Question removed")
+        else:
+            self.set_homework_removed_output.setText("No question to remove")
 
     def set_homework_reset_page(self):
         self.set_homework_class_combo_box.clear()
@@ -352,9 +374,64 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_answer_b_input.setText("")
         self.set_homework_answer_c_input.setText("")
         self.set_homework_answer_d_input.setText("")
+        self.set_homework_auto_question_added_output.setText("")
+        self.set_homework_custom_question_added_output.setText("")
+        self.set_homework_removed_output.setText("")
+        self.set_homework_question_name_input.setText("")
         self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
         for each_class in self.teacher_classes:
             self.set_homework_class_combo_box.addItem(each_class[1])
+
+    def set_homework_add_custom_question(self):
+        self.set_homework_custom_question_added_output.setText("")
+        if self.set_homework_question_name_input.text() == "":
+            self.set_homework_custom_question_added_output.setText("No question name entered")
+            return
+        if self.set_homework_question_input.toPlainText() == "":
+            self.set_homework_custom_question_added_output.setText("No question text entered")
+            return
+        if self.set_homework_correct_answer_input.toPlainText() == "":
+            self.set_homework_custom_question_added_output.setText("Correct answer required")
+            return
+        if self.set_homework_answer_b_input.toPlainText() == "":
+            self.set_homework_custom_question_added_output.setText("Incorrect answer 1 required")
+            return
+        if self.set_homework_answer_b_input.toPlainText() == self.set_homework_correct_answer_input.toPlainText():
+            self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
+            return
+        if self.set_homework_answer_c_input.toPlainText() == "":
+            answer_c = None
+        else:
+            if self.set_homework_answer_c_input.toPlainText() in [self.set_homework_correct_answer_input.toPlainText(),
+                                                                  self.set_homework_answer_b_input.toPlainText()]:
+                self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
+                return
+            answer_c = self.set_homework_answer_c_input.toPlainText()
+        if self.set_homework_answer_d_input.toPlainText() == "":
+            answer_d = None
+        else:
+            if self.set_homework_answer_d_input.toPlainText() in [self.set_homework_correct_answer_input.toPlainText(),
+                                                                  self.set_homework_answer_b_input.toPlainText(),
+                                                                  self.set_homework_answer_c_input.toPlainText()]:
+                self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
+                return
+            answer_d = self.set_homework_answer_d_input.toPlainText()
+        if len(self.teacher_classes) <= 0:
+            self.set_homework_custom_question_added_output.setText("No class selected")
+            return
+        if len(self.set_homework_homework) <= 0:
+            self.set_homework_custom_question_added_output.setText("No homework selected")
+            return
+        question = question_scripts.Question(self.set_homework_question_name_input.text().casefold(), 1, 1,
+                                             self.set_homework_question_input.toPlainText(),
+                                             self.set_homework_correct_answer_input.toPlainText(),
+                                             self.set_homework_answer_b_input.toPlainText(), answer_c, answer_d)
+        question_position: int = (question.save_question())
+        ui_scripts.insert_question_into_homework(
+            self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0],
+            self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+        self.set_homework_homework_change()
+        self.set_homework_custom_question_added_output.setText("Question Added")
 
     def reset_pages(self, target_page):
         # Runs all page reset scripts

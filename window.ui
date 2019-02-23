@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>961</width>
-    <height>839</height>
+    <height>850</height>
    </rect>
   </property>
   <property name="font">
@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>8</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1697,6 +1697,16 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QLabel" name="set_homework_auto_question_added_output">
+                <property name="text">
+                 <string>Question Added</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -1725,6 +1735,24 @@
                </widget>
               </item>
               <item>
+               <layout class="QVBoxLayout" name="verticalLayout_44">
+                <item>
+                 <widget class="QLabel" name="label_21">
+                  <property name="text">
+                   <string>Question Name:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="set_homework_question_name_input">
+                  <property name="placeholderText">
+                   <string>Question Name</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
                <layout class="QVBoxLayout" name="verticalLayout_38">
                 <item>
                  <widget class="QLabel" name="label_11">
@@ -1734,7 +1762,11 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QTextEdit" name="set_homework_question_input"/>
+                 <widget class="QTextEdit" name="set_homework_question_input">
+                  <property name="placeholderText">
+                   <string>Question Text</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -1750,7 +1782,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="set_homework_correct_answer_input"/>
+                   <widget class="QTextEdit" name="set_homework_correct_answer_input">
+                    <property name="placeholderText">
+                     <string>Correct Answer</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -1764,7 +1800,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="set_homework_answer_b_input"/>
+                   <widget class="QTextEdit" name="set_homework_answer_b_input">
+                    <property name="placeholderText">
+                     <string>Incorrect Answer</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -1778,7 +1818,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="set_homework_answer_c_input"/>
+                   <widget class="QTextEdit" name="set_homework_answer_c_input">
+                    <property name="placeholderText">
+                     <string>Incorrect Answer</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -1792,7 +1836,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QTextEdit" name="set_homework_answer_d_input"/>
+                   <widget class="QTextEdit" name="set_homework_answer_d_input">
+                    <property name="placeholderText">
+                     <string>Incorrect Answer</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -1802,6 +1850,16 @@
                <widget class="QPushButton" name="set_homework_add_custom_question_button">
                 <property name="text">
                  <string>Add Custom Question</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="set_homework_custom_question_added_output">
+                <property name="text">
+                 <string>Question Added</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>
@@ -1860,6 +1918,16 @@
                <widget class="QPushButton" name="set_homework_remove_question_button">
                 <property name="text">
                  <string>REMOVE QUESTION</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="set_homework_removed_output">
+                <property name="text">
+                 <string>Question Removed</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
                 </property>
                </widget>
               </item>

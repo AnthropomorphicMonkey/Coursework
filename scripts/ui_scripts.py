@@ -179,9 +179,9 @@ def get_name_of_homework(homework_id: int):
 
 
 def get_scores_of_student_in_class(class_id: int, student_id: int):
-    homeworks: list = get_homework_of_class(class_id)
+    homework: list = get_homework_of_class(class_id)
     scores: list = []
-    for homework in homeworks:
+    for homework in homework:
         homework_id = homework[0]
         sql: str = 'SELECT question_results.correct, question_results.attempts ' \
                    'FROM users INNER JOIN ((class_homework ' \
@@ -221,7 +221,22 @@ def get_correct_answer_of_question(question_id: int):
     return c.fetchall()[0][0]
 
 
+def remove_question_from_homework(question_id: int, homework_id: int):
+    sql: str = 'DELETE FROM homework_questions WHERE question_id = ? AND homework_id = ?;'
+    c.execute(sql, (question_id, homework_id))
+    conn.commit()
+
+
+def insert_question_into_homework(class_id: int, homework_id: int, question_id: int):
+    sql: str = 'INSERT INTO homework_questions(homework_id, question_id) VALUES(?,?)'
+    c.execute(sql, (homework_id, question_id))
+    for user in get_students_of_class(class_id):
+        sql: str = 'INSERT INTO question_results(user_id, question_id, attempts, correct) VALUES(?,?,?,?)'
+        c.execute(sql, (user[0], question_id, 0, 0))
+    conn.commit()
+
+
 if __name__ == '__main__':
-    uid = input("Enter user id: ")
-    hid = input("Enter homework id: ")
+    uid: int = input("Enter user id: ")
+    hid: int = input("Enter homework id: ")
     print(get_homework_score(uid, hid))
