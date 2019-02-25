@@ -506,7 +506,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             row_counter: int = -1
             for each_homework in homework_ids:
                 row_counter += 1
-                data: tuple = ui_scripts.get_homework_score(self.current_user, each_homework)
+                data: tuple = ui_scripts.get_homework_score(self.current_user, each_homework, self.student_classes[
+                    self.previous_scores_class_combo_box.currentIndex()][0])
                 self.previous_scores_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(data[0]))
                 self.previous_scores_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem("{}%".format(data[1])))
                 self.previous_scores_table.setItem(row_counter, 2, QtWidgets.QTableWidgetItem(data[2]))

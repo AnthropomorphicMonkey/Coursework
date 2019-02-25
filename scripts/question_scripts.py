@@ -71,25 +71,4 @@ class Question:
 
 
 if __name__ == '__main__':
-    test_question = Question("Question", 1, 1, "Correct answer is 5.87", 5.87, answer_b="Hello")
-    print("Difficulty:", test_question.difficulty)
-    print("Question:", test_question.question_text)
-    print("Correct answer:", test_question.correct_answer)
-    print("Answer B:", test_question.answer_b)
-    print("Answer C:", test_question.answer_c)
-    print("Answer D:", test_question.answer_d)
-    test_question = Question("Question", 1, 1, "Correct answer is qwerty", "qwerty", answer_c="Hello")
-    print("Difficulty:", test_question.difficulty)
-    print("Question:", test_question.question_text)
-    print("Correct answer:", test_question.correct_answer)
-    print("Answer B:", test_question.answer_b)
-    print("Answer C:", test_question.answer_c)
-    print("Answer D:", test_question.answer_d)
-    test_question = Question("Question", 1, 100, "Correct answer is 5.87", "5.8734", answer_d="Hello")
-    print("Difficulty:", test_question.difficulty)
-    print("Question:", test_question.question_text)
-    print("Correct answer:", test_question.correct_answer)
-    print("Answer B:", test_question.answer_b)
-    print("Answer C:", test_question.answer_c)
-    print("Answer D:", test_question.answer_d)
-    test_question.save_question()
+    pass

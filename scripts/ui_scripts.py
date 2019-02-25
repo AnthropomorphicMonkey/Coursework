@@ -27,8 +27,18 @@ def get_homework_of_class(class_id) -> list:
     return c.fetchall()
 
 
-def get_homework_score(user_id: int, homework_id: int) -> tuple:
-    # Takes a user id and homework id, finds the results for all questions in the given homework for the given user,
+def get_homework_name_and_due_date(homework_id: int, class_id: int) -> tuple:
+    # Takes a homework and class id and returns the relevant name and due date from the homework and class_homework
+    # tables respectively by joining all relevant tables appropriately
+    sql: str = 'SELECT homework.name, class_homework.due_date ' \
+               'FROM homework INNER JOIN class_homework on homework.id = class_homework.homework_id ' \
+               'WHERE homework.id = ? and class_homework.class_id =?;'
+    c.execute(sql, (homework_id, class_id))
+    return c.fetchall()[0]
+
+
+def get_homework_score(user_id: int, homework_id: int, class_id: int) -> tuple:
+    # Takes a user, class and homework id, finds the results for all questions in the given homework for the given user,
     # and for each question returns a boolean value for if the question has been correctly answered and the number of
     # times that question has been attempted from the question_results table by joining all relevant tables
     # appropriately
@@ -58,17 +68,8 @@ def get_homework_score(user_id: int, homework_id: int) -> tuple:
         result = "N/A"
     # Function to be returned to in UI also requires homework name and due date so this data is found and returned with
     # the homework result
-    name_and_due_date: tuple = get_homework_name_and_due_date(homework_id)
+    name_and_due_date: tuple = get_homework_name_and_due_date(homework_id, class_id)
     return name_and_due_date[0], result, name_and_due_date[1]
-
-
-def get_homework_name_and_due_date(homework_id: int) -> tuple:
-    # Takes a homework id and returns the relevant name and due date
-    sql: str = 'SELECT homework.name, class_homework.due_date ' \
-               'FROM homework INNER JOIN class_homework on homework.id = class_homework.homework_id ' \
-               'WHERE homework.id = ?;'
-    c.execute(sql, (homework_id,))
-    return c.fetchall()[0]
 
 
 def get_classes_of_teacher(user_id: int) -> list:
@@ -100,8 +101,13 @@ def get_questions_of_homework(homework_id: int) -> list:
 
 
 def add_student_to_class(student_id: int, class_id: int):
+    # Inserts required data for the new student into the class_user table (id of class added to and id of student being
+    # added)
     sql: str = 'INSERT INTO class_user(class_id, student_id) VALUES(?, ?);'
     c.execute(sql, (class_id, student_id))
+    # Inserts required data for the new student into the question_results table by finding all questions within each
+    # homework already assigned to the class and creating an entry in the table for each with (student_id, id of
+    # question, 0 as the number of attempts, False as the question completion status)
     sql: str = 'INSERT INTO question_results(user_id, question_id, attempts, correct) VALUES (?, ?, ?, ?)'
     for each_homework in get_homework_of_class(class_id):
         for each_question in get_questions_of_homework(each_homework[0]):
@@ -110,6 +116,8 @@ def add_student_to_class(student_id: int, class_id: int):
 
 
 def check_student_in_class(student_id: int, class_id: int) -> bool:
+    # Finds the number of occurrences in the class_user table of the inputted student_id in the same record as the
+    # given class_id. If 0 returned, relationship is not in DB (student not in class)
     sql: str = 'SELECT COUNT(1) FROM class_user WHERE class_id = ? AND student_id = ?;'
     c.execute(sql, (class_id, student_id))
     if c.fetchall()[0][0] > 0:
@@ -119,6 +127,7 @@ def check_student_in_class(student_id: int, class_id: int) -> bool:
 
 
 def remove_student_from_class(student_id: int, class_id: int):
+    # Deletes any entry in class_user which links the given user to the given class
     sql: str = 'DELETE FROM class_user WHERE student_id = ? AND class_id = ?;'
     c.execute(sql, (student_id, class_id))
     conn.commit()
@@ -238,5 +247,5 @@ def insert_question_into_homework(class_id: int, homework_id: int, question_id: 
 
 if __name__ == '__main__':
     uid: int = input("Enter user id: ")
-    hid: int = input("Enter homework id: ")
-    print(get_homework_score(uid, hid))
+    cid: int = input("Enter class id: ")
+    remove_student_from_class(uid, cid)
