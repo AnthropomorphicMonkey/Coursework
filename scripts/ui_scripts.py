@@ -164,7 +164,7 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
         user_id: int = student[0]
         # Takes the user id for the current student, the id of the current class and the id of the current homework,
         # finds all question results for the given user for the given homework within the given class, and returns the
-        # question correctly answered status and number of results for each relevant result from the question_results
+        # question correctly answered status and number of attempts for each relevant result from the question_results
         # table by joining all relevant tables appropriately. Data is stored in tuple 'results'
         sql: str = 'SELECT question_results.correct, question_results.attempts ' \
                    'FROM users INNER JOIN ((class_homework ' \
@@ -204,16 +204,24 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
 
 
 def get_name_of_homework(homework_id: int):
+    # Returns homework name from database for given homework id
     sql: str = 'SELECT name FROM homework WHERE id = ?;'
     c.execute(sql, (homework_id,))
     return c.fetchall()[0][0]
 
 
 def get_scores_of_student_in_class(class_id: int, student_id: int):
+    # Gets list of all homework in the given class so results for each homework in the class can be found later
     homework: list = get_homework_of_class(class_id)
     scores: list = []
+    # For every homework in the class, the following data is found and appended as a tuple of the format
+    # [homework name, score, percentage, attempts] to the list 'scores':
     for homework in homework:
         homework_id = homework[0]
+        # Takes the user id for the current student, the id of the current class and the id of the current homework,
+        # finds all question results for the given user for the given homework within the given class, and returns the
+        # question correctly answered status and number of attempts for each relevant result from the question_results
+        # table by joining all relevant tables appropriately. Data is stored in tuple 'results'
         sql: str = 'SELECT question_results.correct, question_results.attempts ' \
                    'FROM users INNER JOIN ((class_homework ' \
                    'INNER JOIN homework_questions ON class_homework.homework_id = homework_questions.homework_id) ' \
@@ -222,7 +230,15 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
                    'WHERE class_homework.class_id = ? AND class_homework.homework_id = ? AND users.id = ?'
         c.execute(sql, (class_id, homework_id, student_id))
         results: tuple = c.fetchall()
+        # Gets the name of the current homework beign analysed
         homework_name: str = get_name_of_homework(homework_id)
+        # Calculates the score as a percentage for the current homeowrk by taking the sum of the number of questions
+        # with True as the correct status and dividing by the question count then multiplying by 100. The number of
+        # attempts is found by iterating through each question score and setting the number of attempts variable to the
+        # number of attempts for that question if it is greater than the currently stored value (finds the maximum
+        # number of attempts taken across all questions for that user). If for any reason the number of questions is 0
+        # (i.e. homework has no questions), a division by zero error occurs when calculating score. As a score out of 0
+        # cannot exist anyway, this is fixed by catching a division by zero error and setting the score to 'N/A'
         score: int = 0
         attempts: int = 0
         question_count: int = 0
@@ -236,7 +252,9 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
             percentage: str = round(score / question_count * 100)
         except ZeroDivisionError:
             percentage: str = "N/A"
+        # Appends entry for given homework to scores list as a tuple of the appropriate format
         scores.append([homework_name, score, percentage, attempts])
+    # Returns array of score data
     return scores
 
 
@@ -268,6 +286,5 @@ def insert_question_into_homework(class_id: int, homework_id: int, question_id: 
 
 
 if __name__ == '__main__':
-    cid: int = input("Enter class id: ")
     hid: int = input("Enter homework id: ")
-    print(get_results_of_homework(cid, hid))
+    print(get_name_of_homework(hid))
