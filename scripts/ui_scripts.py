@@ -259,26 +259,35 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
 
 
 def get_question_text_of_question(question_id: int):
+    # Returns question text from database for given question id
     sql: str = 'SELECT question_text FROM questions WHERE id = ?;'
     c.execute(sql, (question_id,))
     return c.fetchall()[0][0]
 
 
 def get_correct_answer_of_question(question_id: int):
+    # Returns correct answer from database for given question id
     sql: str = 'SELECT correct_answer FROM questions WHERE id = ?;'
     c.execute(sql, (question_id,))
     return c.fetchall()[0][0]
 
 
 def remove_question_from_homework(question_id: int, homework_id: int):
+    # Deletes any entry in homework_questions which links the given question to the given homework
     sql: str = 'DELETE FROM homework_questions WHERE question_id = ? AND homework_id = ?;'
     c.execute(sql, (question_id, homework_id))
     conn.commit()
 
 
 def insert_question_into_homework(class_id: int, homework_id: int, question_id: int):
+    # Inserts required data to link a homework and question into the homework_questions table (id of question and id of
+    # homework to be added to)
     sql: str = 'INSERT INTO homework_questions(homework_id, question_id) VALUES(?,?)'
     c.execute(sql, (homework_id, question_id))
+    # Inserts required data for the new question into the question_results table by finding all students within the
+    # given class and for each student inserting an entry linking the user id to the question id along with the number
+    # of attempts(set initially to 0 as question unattempted) and correct status (set initially to False as question
+    # unattempted)
     for user in get_students_of_class(class_id):
         sql: str = 'INSERT INTO question_results(user_id, question_id, attempts, correct) VALUES(?,?,?,?)'
         c.execute(sql, (user[0], question_id, 0, 0))
@@ -286,5 +295,7 @@ def insert_question_into_homework(class_id: int, homework_id: int, question_id: 
 
 
 if __name__ == '__main__':
+    cid: int = input("Enter class id: ")
+    qid: int = input("Enter question id: ")
     hid: int = input("Enter homework id: ")
-    print(get_name_of_homework(hid))
+    insert_question_into_homework(cid, hid, qid)
