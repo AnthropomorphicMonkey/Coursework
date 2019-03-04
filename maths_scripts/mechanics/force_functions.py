@@ -1,4 +1,4 @@
-from math import sin, cos, degrees, atan
+from math import sin, cos, degrees, atan, radians
 
 
 def resultant_magnitude_calc(x_component: float, y_component: float):
@@ -9,14 +9,14 @@ def vertical_component_calc(magnitude: float, direction: float):
     if direction == ('x' or '-x' or 0 or 180):  # Avoid floating point rounding errors giving no 0 values later
         return 0
     else:
-        return magnitude * sin(direction)
+        return magnitude * sin(radians(direction))
 
 
 def horizontal_component_calc(magnitude: float, direction: float):
     if direction == ('y' or '-y' or 90 or 270):  # Avoid floating point rounding errors giving no 0 values later
         return 0
     else:
-        return magnitude * cos(direction)
+        return magnitude * cos(radians(direction))
 
 
 def resultant_direction_calc(x_component: float, y_component: float):
