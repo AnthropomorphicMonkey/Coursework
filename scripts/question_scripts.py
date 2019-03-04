@@ -8,7 +8,7 @@ c = conn.cursor()
 
 
 class Question:
-    def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, answer_b: str,
+    def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, answer_b=None,
                  answer_c=None, answer_d=None):
         # Difficulty should be greater than or equal to 1, this should be verified before using function
         self.name: str = name
@@ -24,7 +24,8 @@ class Question:
             self.set_incorrect_numerical_answers()
         except ValueError:
             self.set_incorrect_answers("N/A", "N/A", "N/A")
-        self.answer_b: str = answer_b
+        if answer_b is not None:
+            self.answer_b: str = answer_b
         if answer_c is not None:
             self.answer_c: str = answer_c
         if answer_d is not None:

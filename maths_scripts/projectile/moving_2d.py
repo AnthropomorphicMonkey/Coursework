@@ -3,20 +3,16 @@ from maths_scripts.projectile.force_functions import *
 
 
 class MovingObject(base2d.BasicObject):
-    def __init__(self, **kwargs: float):
+    def __init__(self, mass: float = 0, initial_velocity=0, initial_velocity_angle=0):
         super().__init__()
         # Initial velocity data:
         self.initial_velocity_x = 0
         self.initial_velocity_y = 0
         self.initial_velocity = 0
         self.initial_velocity_direction = 0
+        self.update_initial_velocity(initial_velocity, initial_velocity_angle)
         # Set mass. If no mass is defined it is set to 0
-        self.mass = 0
-        if kwargs:
-            if 'mass' in kwargs:
-                self.update_mass(kwargs.get('mass'))
-            if ('initial_velocity' and 'initial_velocity_angle') in kwargs:
-                self.update_initial_velocity(kwargs.get('initial_velocity'), kwargs.get('initial_velocity_angle'))
+        self.mass = mass
 
     def update_initial_velocity(self, magnitude: float, direction: float):
         self.initial_velocity_direction = direction
