@@ -5,7 +5,7 @@ try:
     from PyQt5 import uic
     # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
     from scripts import db_scripts, ui_scripts
-    import scripts.question_scripts as question_scripts
+    import questions.question_scripts as question_scripts
 except ModuleNotFoundError:
     try:
         import time

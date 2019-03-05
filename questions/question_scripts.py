@@ -1,5 +1,4 @@
 import random
-import math
 import sqlite3
 
 # Connects to database
@@ -11,6 +10,8 @@ class Question:
     def __init__(self, name: str, type_id: int, difficulty: int, question_text: str, correct_answer, answer_b=None,
                  answer_c=None, answer_d=None):
         # Difficulty should be greater than or equal to 1, this should be verified before using function
+        if difficulty < 1:
+            raise ValueError
         self.name: str = name
         self.type_id: int = type_id
         self.difficulty: int = difficulty
@@ -37,27 +38,25 @@ class Question:
         self.answer_d: str = answer_d
 
     def set_incorrect_numerical_answers(self):
-        significant_figures: int = len(str(self.correct_answer).replace('.', ''))
         answer_b: float = self.correct_answer
         answer_c: float = self.correct_answer
         answer_d: float = self.correct_answer
+        decimal_places = get_decimal_place_count(self.correct_answer)
         while answer_b == self.correct_answer:
-            answer_b: float = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
+            answer_b: float = round(self.generate_incorrect_numerical_value(), decimal_places)
+            answer_b: str = round_to_decimal_places_as_string(answer_b, decimal_places)
         while answer_c in [self.correct_answer, answer_b]:
-            answer_c: float = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
+            answer_c: float = round(self.generate_incorrect_numerical_value(), decimal_places)
+            answer_c: str = round_to_decimal_places_as_string(answer_c, decimal_places)
         while answer_d in [self.correct_answer, answer_b, answer_c]:
-            answer_d: float = self.round_value(self.generate_incorrect_numerical_value(), significant_figures)
+            answer_d: float = round(self.generate_incorrect_numerical_value(), decimal_places)
+            answer_d: str = round_to_decimal_places_as_string(answer_d, decimal_places)
         self.set_incorrect_answers(answer_b, answer_c, answer_d)
 
     def generate_incorrect_numerical_value(self) -> float:
         incorrect_answer: float = random.uniform((self.correct_answer - (self.correct_answer * (1 / self.difficulty))),
                                                  (self.correct_answer + (self.correct_answer * (1 / self.difficulty))))
         return incorrect_answer
-
-    @staticmethod
-    def round_value(value, significant_figures) -> float:
-        # https://stackoverflow.com/questions/3410976/how-to-round-a-number-to-significant-figures-in-python
-        return round(value, significant_figures - int(math.floor(math.log10(abs(value)))) - 1)
 
     def save_question(self) -> int:
         sql: str = 'INSERT INTO questions(name, type_id, question_text, correct_answer, answer_b, answer_c, answer_d)' \
@@ -69,6 +68,17 @@ class Question:
         inserted_position: int = c.fetchall()[0][0]
         conn.commit()
         return inserted_position
+
+
+def get_decimal_place_count(value: float) -> int:
+    decimal_position: int = str(value).find('.') + 1
+    return len(str(value)[decimal_position:])
+
+
+def round_to_decimal_places_as_string(value: float, decimal_places: int) -> str:
+    rounded_value: float = round(value, decimal_places)
+    rounded_value: str = str(rounded_value) + '0' * (decimal_places - get_decimal_place_count(rounded_value))
+    return str(rounded_value)
 
 
 if __name__ == '__main__':
