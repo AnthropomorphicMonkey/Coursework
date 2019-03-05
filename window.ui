@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>7</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1638,6 +1638,11 @@
                       <height>0</height>
                      </size>
                     </property>
+                    <item>
+                     <property name="text">
+                      <string>Find resultant of two forces</string>
+                     </property>
+                    </item>
                    </widget>
                   </item>
                  </layout>

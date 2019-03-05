@@ -6,6 +6,7 @@ try:
     # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
     from scripts import db_scripts, ui_scripts
     import questions.question_scripts as question_scripts
+    import questions.mechanics
 except ModuleNotFoundError:
     try:
         import time
@@ -321,6 +322,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_question_combo_box.currentIndexChanged.connect(lambda: self.set_homework_question_change())
         self.set_homework_remove_question_button.clicked.connect(lambda: self.set_homework_remove_question())
         self.set_homework_add_custom_question_button.clicked.connect(lambda: self.set_homework_add_custom_question())
+        self.set_homework_add_automatic_question_button.clicked.connect(
+            lambda: self.set_homework_add_automatic_question())
 
     def set_homework_class_change(self):
         self.set_homework_homework_combo_box.clear()
@@ -340,6 +343,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0])
             for each_question in self.set_homework_questions:
                 self.set_homework_question_combo_box.addItem(each_question[1])
+        self.set_homework_auto_question_added_output.setText("")
+        self.set_homework_custom_question_added_output.setText("")
         self.set_homework_question_change()
 
     def set_homework_question_change(self):
@@ -365,7 +370,6 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def set_homework_reset_page(self):
         self.set_homework_class_combo_box.clear()
         self.set_homework_homework_combo_box.clear()
-        self.set_homework_type_combo_box.clear()
         self.set_homework_question_combo_box.clear()
         self.set_homework_question_label.setText("")
         self.set_homework_answer_label.setText("")
@@ -432,6 +436,21 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
         self.set_homework_homework_change()
         self.set_homework_custom_question_added_output.setText("Question Added")
+
+    def set_homework_add_automatic_question(self):
+        self.set_homework_auto_question_added_output.setText("")
+        if self.set_homework_type_combo_box.currentIndex() == 0:
+            question = questions.mechanics.find_resultant_of_two_forces(
+                self.set_homework_difficulty_combo_box.currentIndex() + 1)
+        else:
+            raise IndexError
+        question_position: int = (question.save_question())
+        ui_scripts.insert_question_into_homework(
+            self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0],
+            self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+        self.set_homework_homework_change()
+        self.set_homework_auto_question_added_output.setText("Question Added")
+        return
 
     def reset_pages(self, target_page):
         # Runs all page reset scripts
