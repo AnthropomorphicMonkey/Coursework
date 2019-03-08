@@ -203,14 +203,14 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
     return scores
 
 
-def get_name_of_homework(homework_id: int):
+def get_name_of_homework(homework_id: int) -> str:
     # Returns homework name from database for given homework id
     sql: str = 'SELECT name FROM homework WHERE id = ?;'
     c.execute(sql, (homework_id,))
     return c.fetchall()[0][0]
 
 
-def get_scores_of_student_in_class(class_id: int, student_id: int):
+def get_scores_of_student_in_class(class_id: int, student_id: int) -> list:
     # Gets list of all homework in the given class so results for each homework in the class can be found later
     homework: list = get_homework_of_class(class_id)
     scores: list = []
@@ -258,14 +258,14 @@ def get_scores_of_student_in_class(class_id: int, student_id: int):
     return scores
 
 
-def get_question_text_of_question(question_id: int):
+def get_question_text_of_question(question_id: int) -> str:
     # Returns question text from database for given question id
     sql: str = 'SELECT question_text FROM questions WHERE id = ?;'
     c.execute(sql, (question_id,))
     return c.fetchall()[0][0]
 
 
-def get_correct_answer_of_question(question_id: int):
+def get_correct_answer_of_question(question_id: int) -> int:
     # Returns correct answer from database for given question id
     sql: str = 'SELECT correct_answer FROM questions WHERE id = ?;'
     c.execute(sql, (question_id,))
@@ -294,8 +294,35 @@ def insert_question_into_homework(class_id: int, homework_id: int, question_id: 
     conn.commit()
 
 
+# NOT YET DOCUMENTED BEYOND HERE
+
+def get_incorrect_answers_of_question(question_id: int) -> list:
+    # Returns correct answer from database for given question id
+    sql: str = 'SELECT answer_b, answer_c, answer_d FROM questions WHERE id = ?;'
+    c.execute(sql, (question_id,))
+    return c.fetchall()[0]
+
+
+def get_correct_status_of_question(student_id: int, question_id: int) -> bool:
+    sql: str = 'SELECT correct FROM question_results WHERE user_id = ? AND question_id = ?;'
+    c.execute(sql, (student_id, question_id))
+    if c.fetchall()[0][0] == 'T':
+        return True
+    else:
+        return False
+
+
+def increment_user_attempts_at_question(user_id: int, question_id: int):
+    sql: str = 'UPDATE question_results SET attempts = attempts + 1 WHERE user_id = ? AND question_id = ?;'
+    c.execute(sql, (user_id, question_id))
+    conn.commit()
+
+
+def mark_question_as_correct(user_id: int, question_id: int):
+    sql: str = 'UPDATE question_results SET correct = ? WHERE user_id = ? AND question_id = ?;'
+    c.execute(sql, ('T', user_id, question_id))
+    conn.commit()
+
+
 if __name__ == '__main__':
-    cid: int = input("Enter class id: ")
-    qid: int = input("Enter question id: ")
-    hid: int = input("Enter homework id: ")
-    insert_question_into_homework(cid, hid, qid)
+    increment_user_attempts_at_question(1, 257)

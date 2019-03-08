@@ -7,6 +7,8 @@ try:
     from scripts import db_scripts, ui_scripts
     import questions.question_scripts as question_scripts
     import questions.mechanics
+    import datetime
+    import random
 except ModuleNotFoundError:
     try:
         import time
@@ -21,6 +23,7 @@ except ModuleNotFoundError:
 
 # Window class to control uid
 class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
+    # <editor-fold desc="General">
     # noinspection PyArgumentList
     def __init__(self):
         # Inherits from generic window class from QT
@@ -52,9 +55,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.logout()
         self.login_success_output.setText("")
         # Holds classes or students of currently selected class on the view classes page
-        self.view_classes_students_or_homeworks: list = []
+        self.view_classes_students_or_homework: list = []
         self.set_homework_homework: list = []
         self.set_homework_questions: list = []
+        self.homework_select_valid_homework_ids: list = []
+        self.current_homework_questions: list = []
+        self.question_number: int = 0
+        self.correct_answer_location: int = 1
 
     def change_page(self, index: int):
         # Restores target page to default state
@@ -75,14 +82,115 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Changes the current page index to the value passed
         self.main_widget.setCurrentIndex(index)
 
-    def get_account_type_selected(self) -> str:
-        # Returns whether student or teacher is selected (or neither, though this should never occur)
-        if self.create_account_radio_student.isChecked():
-            return 's'
-        elif self.create_account_radio_teacher.isChecked():
-            return 't'
+    def button_setup(self):
+        # Runs all button setups
+        self.navigation_button_setup()
+        self.login_page_button_setup()
+        self.create_account_page_button_setup()
+        self.student_main_menu_page_button_setup()
+        self.teacher_main_menu_page_button_setup()
+        self.previous_scores_page_button_setup()
+        self.admin_page_button_setup()
+        self.account_management_page_button_setup()
+        self.view_classes_page_button_setup()
+        self.set_homework_page_button_setup()
+        self.homework_select_page_button_setup()
+        self.question_page_button_setup()
+
+    def reset_pages(self, target_page):
+        # Runs all page reset scripts
+        if target_page == self.login_page:
+            self.login_reset_page()
+        elif target_page == self.create_account_page:
+            self.create_account_reset_page()
+        elif target_page == self.question_page:
+            self.question_number = 0
+            self.question_reset_page()
+        elif target_page == self.previous_scores_page:
+            self.previous_scores_reset_page()
+        elif target_page == self.admin_page:
+            self.admin_reset_page()
+        elif target_page == self.account_management_page:
+            self.account_management_reset_page()
+        elif target_page == self.view_classes_page:
+            self.view_classes_reset_page()
+        elif target_page == self.set_homework_page:
+            self.set_homework_reset_page()
+        elif target_page == self.homework_select_page:
+            self.homework_select_reset_page()
         else:
-            return ''
+            pass
+
+    # </editor-fold>
+
+    # <editor-fold desc="Navigation bar">
+    def show_main_menu_button(self):
+        # Enables and shows main menu button
+        self.main_menu_button.setEnabled(True)
+        self.main_menu_button.setVisible(True)
+
+    def hide_main_menu_button(self):
+        # Disables amd hides main menu button
+        self.main_menu_button.setEnabled(False)
+        self.main_menu_button.setVisible(False)
+
+    def show_username_text(self):
+        # Makes the user's first name show in ui
+        self.username_label.setText(db_scripts.get_first_name(self.current_user).title())
+
+    def hide_username_text(self):
+        # Stops showing the user's first name in ui
+        self.username_label.setText("")
+
+    def show_logout_button(self):
+        # Enables and shows logout button
+        self.logout_button.setEnabled(True)
+        self.logout_button.setVisible(True)
+
+    def hide_logout_button(self):
+        # Disables and hides the logout button
+        self.logout_button.setEnabled(False)
+        self.logout_button.setVisible(False)
+
+    def navigation_button_setup(self):
+        # If logout button clicked runs logout scripts
+        self.logout_button.clicked.connect(self.logout)
+        self.main_menu_button.clicked.connect(self.go_to_main_menu)
+
+    def go_to_main_menu(self):
+        # Returns to the correct main menu page for the given user
+        if db_scripts.get_account_type(self.current_user) == 't':
+            self.change_page(self.teacher_main_menu_page)
+        elif db_scripts.get_account_type(self.current_user) == 's':
+            self.change_page(self.student_main_menu_page)
+        # If data in DB is for some reason invalid, user is logged out and error shown
+        else:
+            self.logout()
+            self.login_success_output.setText("User type error, user has been logged out")
+
+    def logout(self):
+        # Resets current user to a default value
+        self.current_user: int = -1
+        # Returns to login page and sets logout success message
+        self.change_page(self.login_page)
+        self.login_success_output.setText("Logout successful")
+
+    # </editor-fold>
+
+    # <editor-fold desc="Login Page">
+    def login_page_button_setup(self):
+        # If login submit button clicked runs scripts to verify login
+        self.login_submit_button.clicked.connect(self.login)
+        # If create account clicked runs scripts to change screen
+        # Error passing arguments fixed using https://stackoverflow.com/questions/45793966/clicked-connect-error
+        self.login_create_account_button.clicked.connect(lambda: self.change_page(self.create_account_page))
+
+    def login_reset_page(self):
+        # Sets input boxes to blank
+        self.login_username_input.setText("")
+        self.login_password_input.setText("")
+        # Sets output labels to blank
+        self.login_success_output.setText("")
 
     def login(self):
         # Checks if username exists (case fold used to make username case insensitive even for characters such as ß)
@@ -108,70 +216,18 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.login_success_output.setText("Invalid username")
             self.login_username_input.setText("")
 
-    def logout(self):
-        # Resets current user to a default value
-        self.current_user: int = -1
-        # Returns to login page and sets logout success message
-        self.change_page(self.login_page)
-        self.login_success_output.setText("Logout successful")
+    # </editor-fold>
 
-    def hide_main_menu_button(self):
-        # Disables amd hides main menu button
-        self.main_menu_button.setEnabled(False)
-        self.main_menu_button.setVisible(False)
-
-    def show_main_menu_button(self):
-        # Enables and shows main menu button
-        self.main_menu_button.setEnabled(True)
-        self.main_menu_button.setVisible(True)
-
-    def show_username_text(self):
-        # Makes the user's first name show in ui
-        self.username_label.setText(db_scripts.get_first_name(self.current_user).title())
-
-    def hide_username_text(self):
-        # Stops showing the user's first name in ui
-        self.username_label.setText("")
-
-    def hide_logout_button(self):
-        # Disables and hides the logout button
-        self.logout_button.setEnabled(False)
-        self.logout_button.setVisible(False)
-
-    def show_logout_button(self):
-        # Enables and shows logout button
-        self.logout_button.setEnabled(True)
-        self.logout_button.setVisible(True)
-
-    def go_to_main_menu(self):
-        # Returns to the correct main menu page for the given user
-        if db_scripts.get_account_type(self.current_user) == 't':
-            self.change_page(self.teacher_main_menu_page)
-        elif db_scripts.get_account_type(self.current_user) == 's':
-            self.change_page(self.student_main_menu_page)
-        # If data in DB is for some reason invalid, user is logged out and error shown
-        else:
-            self.logout()
-            self.login_success_output.setText("User type error, user has been logged out")
-
-    def navigation_button_setup(self):
-        # If logout button clicked runs logout scripts
-        self.logout_button.clicked.connect(self.logout)
-        self.main_menu_button.clicked.connect(self.go_to_main_menu)
-
-    def login_page_button_setup(self):
-        # If login submit button clicked runs scripts to verify login
-        self.login_submit_button.clicked.connect(self.login)
-        # If create account clicked runs scripts to change screen
-        # Error passing arguments fixed using https://stackoverflow.com/questions/45793966/clicked-connect-error
-        self.login_create_account_button.clicked.connect(lambda: self.change_page(self.create_account_page))
-
+    # <editor-fold desc="Create Account Page">
     def create_account_page_button_setup(self):
         # If create account submit button clicked runs scripts to create account
         self.create_account_submit_button.clicked.connect(self.create_account_create_account)
         # If return to login clicked runs scripts to change screen
         self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
 
+    # </editor-fold>
+
+    # <editor-fold desc="Student Main Menu Page">
     def student_main_menu_page_button_setup(self):
         # If browse quizzes clicked runs scripts to change screen
         self.student_main_menu_browse_quizzes_button.clicked.connect(lambda: self.change_page(self.browse_quizzes_page))
@@ -184,6 +240,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.student_main_menu_account_management_button.clicked.connect(
             lambda: self.change_page(self.account_management_page))
 
+    # </editor-fold>
+
+    # <editor-fold desc="Teacher Main Menu Page">
     def teacher_main_menu_page_button_setup(self):
         # If 'set homework' clicked runs scripts to change screen
         self.teacher_main_menu_set_homework_button.clicked.connect(lambda: self.change_page(self.set_homework_page))
@@ -196,126 +255,97 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.teacher_main_menu_admin_button.clicked.connect(
             lambda: self.change_page(self.admin_page))
 
-    def previous_scores_page_button_setup(self):
-        # When selected class is changed, score table is updated
-        self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.previous_scores_update_table())
+    # </editor-fold>
 
-    def admin_page_button_setup(self):
-        # If class selection changed, changes usernames shown in username combo box to those in class
-        self.admin_class_user_combo_box.currentIndexChanged.connect(lambda: self.admin_update_username_combo_box())
-        # If add user to class clicked runs scripts to add user to the class
-        self.admin_username_submit_button.clicked.connect(lambda: self.admin_add_user_to_class())
-        # If create class clicked runs scripts to create a new class
-        self.admin_create_class_submit_button.clicked.connect(lambda: self.admin_create_class())
-        # If remove user clicked runs scripts to remove a user from a class
-        self.admin_remove_user_button.clicked.connect(lambda: self.admin_remove_user_from_class())
-        # If remove class clicked runs scripts to delete class
-        self.admin_remove_class_button.clicked.connect(lambda: self.admin_remove_class())
-
-    def account_management_page_button_setup(self):
-        # If submit clicked runs scripts to update user details
-        self.account_management_submit_button.clicked.connect(lambda: self.account_management_detail_update())
-
-    def view_classes_page_button_setup(self):
-        self.view_classes_view_type_combo_box.currentIndexChanged.connect(
-            lambda: self.view_classes_class_or_type_change())
-        self.view_classes_class_combo_box.currentIndexChanged.connect(lambda: self.view_classes_class_or_type_change())
-        self.view_classes_homework_or_student_combo_box.currentIndexChanged.connect(
-            lambda: self.view_classes_update_table())
-
-    def button_setup(self):
-        # Runs all button setups
-        self.navigation_button_setup()
-        self.login_page_button_setup()
-        self.create_account_page_button_setup()
-        self.student_main_menu_page_button_setup()
-        self.teacher_main_menu_page_button_setup()
-        self.previous_scores_page_button_setup()
-        self.admin_page_button_setup()
-        self.account_management_page_button_setup()
-        self.view_classes_page_button_setup()
-        self.set_homework_page_button_setup()
-
-    def login_reset_page(self):
-        # Sets input boxes to blank
-        self.login_username_input.setText("")
-        self.login_password_input.setText("")
-        # Sets output labels to blank
-        self.login_success_output.setText("")
-
-    def create_account_reset_page(self):
-        # Sets radios to default selection
-        self.create_account_radio_student.setChecked(True)
-        # Sets input boxes to blank
-        self.create_account_first_name_input.setText("")
-        self.create_account_last_name_input.setText("")
-        self.create_account_username_input.setText("")
-        self.create_account_password_input.setText("")
-        self.create_account_password_verify_input.setText("")
-        # Sets output labels to blank
-        self.create_account_success_output.setText("")
-
+    # <editor-fold desc="Question Page">
     def question_reset_page(self):
+        question_id = self.current_homework_questions[self.question_number][0]
         self.question_radio_a.setChecked(True)
-        # Sets input boxes to blank
         self.question_topic_output.setText("")
-        self.question_question_output.setText("")
-        self.question_radio_a.setText("")
-        self.question_radio_b.setText("")
-        self.question_radio_c.setText("")
-        self.question_radio_d.setText("")
-        # Sets output labels to blank
+        self.question_question_output.setText(ui_scripts.get_question_text_of_question(question_id))
+        correct_answer: str = ui_scripts.get_correct_answer_of_question(question_id)
+        incorrect_answers: list = ui_scripts.get_incorrect_answers_of_question(question_id)
+        random.shuffle(list(incorrect_answers))
+        self.correct_answer_location: int = random.randint(1, 4)
+        if self.correct_answer_location == 1:
+            self.question_radio_a.setText(correct_answer)
+            self.question_radio_b.setText(incorrect_answers[0])
+            self.question_radio_c.setText(incorrect_answers[1])
+            self.question_radio_d.setText(incorrect_answers[2])
+        elif self.correct_answer_location == 2:
+            self.question_radio_b.setText(correct_answer)
+            self.question_radio_a.setText(incorrect_answers[0])
+            self.question_radio_c.setText(incorrect_answers[1])
+            self.question_radio_d.setText(incorrect_answers[2])
+        elif self.correct_answer_location == 3:
+            self.question_radio_c.setText(correct_answer)
+            self.question_radio_b.setText(incorrect_answers[0])
+            self.question_radio_a.setText(incorrect_answers[1])
+            self.question_radio_d.setText(incorrect_answers[2])
+        elif self.correct_answer_location == 4:
+            self.question_radio_d.setText(correct_answer)
+            self.question_radio_b.setText(incorrect_answers[0])
+            self.question_radio_c.setText(incorrect_answers[1])
+            self.question_radio_a.setText(incorrect_answers[2])
         self.question_feedback_output.setText("")
+        if ui_scripts.get_correct_status_of_question(self.current_user, question_id):
+            if self.correct_answer_location == 1:
+                self.question_radio_a.setChecked(True)
+            elif self.correct_answer_location == 2:
+                self.question_radio_b.setChecked(True)
+            elif self.correct_answer_location == 3:
+                self.question_radio_c.setChecked(True)
+            elif self.correct_answer_location == 4:
+                self.question_radio_d.setChecked(True)
+            self.question_submit_button.setEnabled(False)
+            self.question_feedback_output.setText("Correct")
+        else:
+            self.question_submit_button.setEnabled(True)
+            self.question_feedback_output.setText("")
+        if self.question_number == 0:
+            self.question_previous_question_button.setEnabled(False)
+            self.question_previous_question_button.setVisible(False)
+        else:
+            self.question_previous_question_button.setEnabled(True)
+            self.question_previous_question_button.setVisible(True)
+        if self.question_number >= len(self.current_homework_questions) - 1:
+            self.question_next_question_button.setEnabled(False)
+            self.question_next_question_button.setVisible(False)
+        else:
+            self.question_next_question_button.setEnabled(True)
+            self.question_next_question_button.setVisible(True)
 
-    def previous_scores_reset_page(self):
-        # Clears class selection combo box
-        self.previous_scores_class_combo_box.clear()
-        # Inserts class list into combo box
-        self.student_classes: list = ui_scripts.get_classes_of_student(self.current_user)
-        for each_class in self.student_classes:
-            self.previous_scores_class_combo_box.addItem(each_class[1])
-        # Updates score table to first class selected
-        self.previous_scores_update_table()
+    def question_page_button_setup(self):
+        self.question_previous_question_button.clicked.connect(lambda: self.question_page_previous_page())
+        self.question_next_question_button.clicked.connect(lambda: self.question_page_next_page())
+        self.question_submit_button.clicked.connect(lambda: self.question_page_submit_response())
 
-    def admin_clear_labels(self):
-        # Sets input boxes to blank
-        self.admin_username_input.setText("")
-        self.admin_class_input.setText("")
-        self.admin_add_user_status_label.setText("")
-        # Sets status outputs to blank
-        self.admin_remove_user_status_label.setText("")
-        self.admin_create_class_status_label.setText("")
-        self.admin_delete_class_status_label.setText("")
+    def question_page_next_page(self):
+        self.question_number += 1
+        self.question_reset_page()
 
-    def admin_reset_page(self):
-        # Resets all combo boxes to contain no values
-        self.admin_class_user_combo_box.clear()
-        self.admin_delete_class_combo_box.clear()
-        # Updates combo boxes to contain relevant values for current user
-        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
-        for each_class in self.teacher_classes:
-            self.admin_class_user_combo_box.addItem(each_class[1])
-            self.admin_delete_class_combo_box.addItem(each_class[1])
-        self.admin_update_username_combo_box()
-        # Sets all labels to default values
-        self.admin_clear_labels()
+    def question_page_previous_page(self):
+        self.question_number -= 1
+        self.question_reset_page()
 
-    def account_management_reset_page(self):
-        # Sets input boxes to blank
-        self.account_management_first_name_input.setText("")
-        self.account_management_last_name_input.setText("")
-        self.account_management_old_password_input.setText("")
-        self.account_management_new_password_input.setText("")
-        self.account_management_new_password_verify_input.setText("")
-        self.account_management_success_output.setText("")
+    def question_page_submit_response(self):
+        question_id = self.current_homework_questions[self.question_number][0]
+        ui_scripts.increment_user_attempts_at_question(self.current_user, question_id)
 
-    def view_classes_reset_page(self):
-        self.view_classes_view_type_combo_box.setCurrentIndex(0)
-        self.view_classes_class_combo_box.clear()
-        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
-        for each_class in self.teacher_classes:
-            self.view_classes_class_combo_box.addItem(each_class[1])
+        if (self.correct_answer_location == 1 and self.question_radio_a.isChecked()) or (
+                self.correct_answer_location == 2 and self.question_radio_b.isChecked()) or (
+                self.correct_answer_location == 3 and self.question_radio_c.isChecked()) or (
+                self.correct_answer_location == 4 and self.question_radio_d.isChecked()):
+            ui_scripts.mark_question_as_correct(self.current_user, question_id)
+            self.question_submit_button.setEnabled(False)
+            self.question_feedback_output.setText("Correct")
+        else:
+            self.question_submit_button.setEnabled(True)
+            self.question_feedback_output.setText("Incorrect")
 
+    # </editor-fold>
+
+    # <editor-fold desc="Set Homework Page">
     def set_homework_page_button_setup(self):
         self.set_homework_class_combo_box.currentIndexChanged.connect(lambda: self.set_homework_class_change())
         self.set_homework_homework_combo_box.currentIndexChanged.connect(lambda: self.set_homework_homework_change())
@@ -458,26 +488,20 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_auto_question_added_output.setText("Question Added")
         return
 
-    def reset_pages(self, target_page):
-        # Runs all page reset scripts
-        if target_page == self.login_page:
-            self.login_reset_page()
-        elif target_page == self.create_account_page:
-            self.create_account_reset_page()
-        elif target_page == self.question_page:
-            self.question_reset_page()
-        elif target_page == self.previous_scores_page:
-            self.previous_scores_reset_page()
-        elif target_page == self.admin_page:
-            self.admin_reset_page()
-        elif target_page == self.account_management_page:
-            self.account_management_reset_page()
-        elif target_page == self.view_classes_page:
-            self.view_classes_reset_page()
-        elif target_page == self.set_homework_page:
-            self.set_homework_reset_page()
-        else:
-            pass
+    # </editor-fold>
+
+    # <editor-fold desc="Create Account Page">
+    def create_account_reset_page(self):
+        # Sets radios to default selection
+        self.create_account_radio_student.setChecked(True)
+        # Sets input boxes to blank
+        self.create_account_first_name_input.setText("")
+        self.create_account_last_name_input.setText("")
+        self.create_account_username_input.setText("")
+        self.create_account_password_input.setText("")
+        self.create_account_password_verify_input.setText("")
+        # Sets output labels to blank
+        self.create_account_success_output.setText("")
 
     def create_account_create_account(self):
         # Various error checks before creating account (error type is outputted in a label):
@@ -516,6 +540,32 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             # Account creation success outputted
             self.create_account_success_output.setText("Account created")
 
+    def get_account_type_selected(self) -> str:
+        # Returns whether student or teacher is selected (or neither, though this should never occur)
+        if self.create_account_radio_student.isChecked():
+            return 's'
+        elif self.create_account_radio_teacher.isChecked():
+            return 't'
+        else:
+            return ''
+
+    # </editor-fold>
+
+    # <editor-fold desc="Previous Scores Page">
+    def previous_scores_reset_page(self):
+        # Clears class selection combo box
+        self.previous_scores_class_combo_box.clear()
+        # Inserts class list into combo box
+        self.student_classes: list = ui_scripts.get_classes_of_student(self.current_user)
+        for each_class in self.student_classes:
+            self.previous_scores_class_combo_box.addItem(each_class[1])
+        # Updates score table to first class selected
+        self.previous_scores_update_table()
+
+    def previous_scores_page_button_setup(self):
+        # When selected class is changed, score table is updated
+        self.previous_scores_class_combo_box.currentIndexChanged.connect(lambda: self.previous_scores_update_table())
+
     def previous_scores_update_table(self):
         # Clears table to allow for new values
         self.previous_scores_table.clearContents()
@@ -536,6 +586,44 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.previous_scores_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(data[0]))
                 self.previous_scores_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem("{}%".format(data[1])))
                 self.previous_scores_table.setItem(row_counter, 2, QtWidgets.QTableWidgetItem(data[2]))
+
+    # </editor-fold>
+
+    # <editor-fold desc="Admin Page">
+    def admin_clear_labels(self):
+        # Sets input boxes to blank
+        self.admin_username_input.setText("")
+        self.admin_class_input.setText("")
+        self.admin_add_user_status_label.setText("")
+        # Sets status outputs to blank
+        self.admin_remove_user_status_label.setText("")
+        self.admin_create_class_status_label.setText("")
+        self.admin_delete_class_status_label.setText("")
+
+    def admin_reset_page(self):
+        # Resets all combo boxes to contain no values
+        self.admin_class_user_combo_box.clear()
+        self.admin_delete_class_combo_box.clear()
+        # Updates combo boxes to contain relevant values for current user
+        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.teacher_classes:
+            self.admin_class_user_combo_box.addItem(each_class[1])
+            self.admin_delete_class_combo_box.addItem(each_class[1])
+        self.admin_update_username_combo_box()
+        # Sets all labels to default values
+        self.admin_clear_labels()
+
+    def admin_page_button_setup(self):
+        # If class selection changed, changes usernames shown in username combo box to those in class
+        self.admin_class_user_combo_box.currentIndexChanged.connect(lambda: self.admin_update_username_combo_box())
+        # If add user to class clicked runs scripts to add user to the class
+        self.admin_username_submit_button.clicked.connect(lambda: self.admin_add_user_to_class())
+        # If create class clicked runs scripts to create a new class
+        self.admin_create_class_submit_button.clicked.connect(lambda: self.admin_create_class())
+        # If remove user clicked runs scripts to remove a user from a class
+        self.admin_remove_user_button.clicked.connect(lambda: self.admin_remove_user_from_class())
+        # If remove class clicked runs scripts to delete class
+        self.admin_remove_class_button.clicked.connect(lambda: self.admin_remove_class())
 
     def admin_update_username_combo_box(self):
         # Clears class users combo box
@@ -610,6 +698,22 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.admin_reset_page()
             self.admin_delete_class_status_label.setText("No class selected")
 
+    # </editor-fold>
+
+    # <editor-fold desc="Account Management Page">
+    def account_management_reset_page(self):
+        # Sets input boxes to blank
+        self.account_management_first_name_input.setText("")
+        self.account_management_last_name_input.setText("")
+        self.account_management_old_password_input.setText("")
+        self.account_management_new_password_input.setText("")
+        self.account_management_new_password_verify_input.setText("")
+        self.account_management_success_output.setText("")
+
+    def account_management_page_button_setup(self):
+        # If submit clicked runs scripts to update user details
+        self.account_management_submit_button.clicked.connect(lambda: self.account_management_detail_update())
+
     def account_management_detail_update(self):
         # User details will only update if current password is correct
         if db_scripts.check_password(self.current_user, self.account_management_old_password_input.text()):
@@ -672,25 +776,42 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Returns whether a first an/or last name update occurred
         return value_updated
 
+    # </editor-fold>
+
+    # <editor-fold desc="View Classes Page">
+    def view_classes_reset_page(self):
+        self.view_classes_view_type_combo_box.setCurrentIndex(0)
+        self.view_classes_class_combo_box.clear()
+        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.teacher_classes:
+            self.view_classes_class_combo_box.addItem(each_class[1])
+
+    def view_classes_page_button_setup(self):
+        self.view_classes_view_type_combo_box.currentIndexChanged.connect(
+            lambda: self.view_classes_class_or_type_change())
+        self.view_classes_class_combo_box.currentIndexChanged.connect(lambda: self.view_classes_class_or_type_change())
+        self.view_classes_homework_or_student_combo_box.currentIndexChanged.connect(
+            lambda: self.view_classes_update_table())
+
     def view_classes_class_or_type_change(self):
         self.view_classes_homework_or_student_combo_box.clear()
-        self.view_classes_students_or_homeworks: list = []
+        self.view_classes_students_or_homework: list = []
         if len(self.teacher_classes) > 0:
             if self.view_classes_view_type_combo_box.currentIndex() == 0:
                 for each_homework in ui_scripts.get_homework_of_class(
                         self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
-                    self.view_classes_students_or_homeworks.append(each_homework[0])
+                    self.view_classes_students_or_homework.append(each_homework[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_homework[1])
             else:
                 for each_student in ui_scripts.get_students_of_class(
                         self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
-                    self.view_classes_students_or_homeworks.append(each_student[0])
+                    self.view_classes_students_or_homework.append(each_student[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_student[1])
 
     def view_classes_update_table(self):
         self.view_classes_score_table.clear()
         current_class: int = self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]
-        current_student_or_homework: int = self.view_classes_students_or_homeworks[
+        current_student_or_homework: int = self.view_classes_students_or_homework[
             self.view_classes_homework_or_student_combo_box.currentIndex()]
         if self.view_classes_view_type_combo_box.currentIndex() == 0:
             self.view_classes_score_table.setColumnCount(5)
@@ -726,6 +847,58 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                                                           QtWidgets.QTableWidgetItem(str(each_score[2])))
                     self.view_classes_score_table.setItem(row_counter, 3,
                                                           QtWidgets.QTableWidgetItem(str(each_score[3])))
+
+    # </editor-fold>
+
+    # <editor-fold desc="Homework Select Page">
+    def homework_select_reset_page(self):
+        # Clears class selection combo box
+        self.homework_select_class_combo_box.clear()
+        # Inserts class list into combo box
+        self.student_classes: list = ui_scripts.get_classes_of_student(self.current_user)
+        for each_class in self.student_classes:
+            self.homework_select_class_combo_box.addItem(each_class[1])
+        # Updates score table to first class selected
+        self.homework_select_update_table()
+
+    def homework_select_page_button_setup(self):
+        # When selected class is changed, score table is updated
+        self.homework_select_class_combo_box.currentIndexChanged.connect(lambda: self.homework_select_update_table())
+        # When table double clicked, runs scripts to go to selected homework
+        self.homework_select_table.doubleClicked.connect(self.homework_select_table_clicked)
+
+    def homework_select_update_table(self):
+        self.homework_select_table.clearContents()
+        if len(self.student_classes) != 0:
+            homework_ids: list = []
+            self.homework_select_valid_homework_ids: list = []
+            for each_homework in ui_scripts.get_homework_of_class(
+                    self.student_classes[self.homework_select_class_combo_box.currentIndex()][0]):
+                homework_ids.append(each_homework[0])
+            for each_homework in homework_ids:
+                data: tuple = ui_scripts.get_homework_name_and_due_date(each_homework, self.student_classes[
+                    self.homework_select_class_combo_box.currentIndex()][0])
+                due_year_month_day: list = data[1].split('-')
+                due_date: datetime.date = datetime.date(int(due_year_month_day[0]), int(due_year_month_day[1]),
+                                                        int(due_year_month_day[2]))
+                if datetime.date.today() < due_date:
+                    self.homework_select_valid_homework_ids.append([each_homework, data[0], data[1]])
+            self.homework_select_table.setRowCount(len(self.homework_select_valid_homework_ids))
+            row_counter: int = -1
+            for each_homework in self.homework_select_valid_homework_ids:
+                row_counter += 1
+                self.homework_select_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(each_homework[1]))
+                self.homework_select_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem(each_homework[2]))
+
+    def homework_select_table_clicked(self):
+        homework_id = self.homework_select_valid_homework_ids[self.homework_select_table.currentRow()][0]
+        self.current_homework_questions: list = ui_scripts.get_questions_of_homework(homework_id)
+        if len(self.current_homework_questions) > 0:
+            self.change_page(self.question_page)
+        else:
+            print("AAAAAAAAAH FIX LATER")
+
+    # </editor-fold>
 
 
 # Runs program
