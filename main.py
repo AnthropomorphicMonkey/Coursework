@@ -387,6 +387,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.set_homework_class_combo_box.addItem(each_class[1])
 
     def set_homework_add_custom_question(self):
+        if len(self.teacher_classes) == 0 or len(self.set_homework_homework) == 0:
+            self.set_homework_custom_question_added_output.setText("No homework selected")
+            return
         self.set_homework_custom_question_added_output.setText("")
         if self.set_homework_question_name_input.text() == "":
             self.set_homework_custom_question_added_output.setText("No question name entered")
@@ -438,6 +441,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_custom_question_added_output.setText("Question Added")
 
     def set_homework_add_automatic_question(self):
+        if len(self.teacher_classes) == 0 or len(self.set_homework_homework) == 0:
+            self.set_homework_auto_question_added_output.setText("No homework selected")
+            return
         self.set_homework_auto_question_added_output.setText("")
         if self.set_homework_type_combo_box.currentIndex() == 0:
             question = questions.mechanics.find_resultant_of_two_forces(
