@@ -346,5 +346,22 @@ def add_homework_to_class(class_id: int, homework_id: int, due_date: datetime.da
     conn.commit()
 
 
+def remove_homework(homework_id: int):
+    sql: str = 'DELETE FROM homework WHERE id = ?;'
+    c.execute(sql, (homework_id,))
+    sql: str = 'DELETE FROM class_homework WHERE homework_id = ?'
+    c.execute(sql, (homework_id,))
+    sql: str = 'DELETE FROM homework_questions WHERE homework_id = ?'
+    c.execute(sql, (homework_id,))
+    conn.commit()
+
+
+def get_question_type(question_id: int) -> str:
+    sql: str = 'SELECT question_types.type FROM question_types INNER JOIN questions ' \
+               'ON question_types.id = questions.type_id WHERE questions.id = ?'
+    c.execute(sql, (question_id,))
+    return c.fetchall()[0][0]
+
+
 if __name__ == '__main__':
-    increment_user_attempts_at_question(1, 257)
+    print(get_question_type(45))

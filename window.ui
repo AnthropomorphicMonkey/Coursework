@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>9</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -2107,21 +2107,50 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_68">
               <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_31">
+                <item>
+                 <spacer name="horizontalSpacer_37">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="admin_class_user_combo_box">
+                  <item>
+                   <property name="text">
+                    <string>Class</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_38">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+              <item>
                <layout class="QHBoxLayout" name="horizontalLayout_14">
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_24">
                   <item>
-                   <layout class="QVBoxLayout" name="verticalLayout_26">
-                    <item>
-                     <widget class="QComboBox" name="admin_class_user_combo_box">
-                      <item>
-                       <property name="text">
-                        <string>Class</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                   </layout>
+                   <layout class="QVBoxLayout" name="verticalLayout_26"/>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_14">
@@ -2342,11 +2371,41 @@
              </layout>
             </item>
             <item>
-             <widget class="QPushButton" name="admin_add_homework_button">
-              <property name="text">
-               <string>Add Homework</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_30">
+              <item>
+               <spacer name="horizontalSpacer_34">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="admin_add_homework_button">
+                <property name="text">
+                 <string>Add Homework</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_35">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QLabel" name="admin_add_homework_status_output">
@@ -2357,6 +2416,44 @@
                <set>Qt::AlignCenter</set>
               </property>
              </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_46">
+              <item>
+               <widget class="QLabel" name="label_22">
+                <property name="text">
+                 <string>Remove homework</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_32">
+                <item>
+                 <widget class="QComboBox" name="admin_remove_homework_combo_box">
+                  <item>
+                   <property name="text">
+                    <string>Homework</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="admin_remove_homework_button">
+                  <property name="text">
+                   <string>REMOVE</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QLabel" name="admin_remove_homework_status_label">
+                <property name="text">
+                 <string>Remove homework status</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
