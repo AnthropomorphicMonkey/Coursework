@@ -1,5 +1,6 @@
 import sqlite3
 import scripts.db_scripts as db_scripts
+import datetime
 
 # Connects to database
 conn = sqlite3.connect('database.db')
@@ -187,10 +188,12 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
         score: int = 0
         attempts: int = 0
         question_count: int = 0
+        correct_count: int = 0
         for question in results:
             question_count += 1
             if question[0] == 'T':
-                score += 1
+                correct_count += 1
+                score += (1 / question[1])
             if question[1] > attempts:
                 attempts = question[1]
         try:
@@ -198,7 +201,7 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
         except ZeroDivisionError:
             percentage: str = "N/A"
         # Appends entry for given student to scores list as a tuple of the appropriate format
-        scores.append([first_name, last_name, score, percentage, attempts])
+        scores.append([first_name, last_name, correct_count, percentage, attempts])
     # Returns array of score data
     return scores
 
@@ -242,10 +245,12 @@ def get_scores_of_student_in_class(class_id: int, student_id: int) -> list:
         score: int = 0
         attempts: int = 0
         question_count: int = 0
+        correct_count: int = 0
         for question in results:
             question_count += 1
             if question[0] == 'T':
-                score += 1
+                score += (1 / question[1])
+                correct_count += 1
             if question[1] > attempts:
                 attempts = question[1]
         try:
@@ -253,7 +258,7 @@ def get_scores_of_student_in_class(class_id: int, student_id: int) -> list:
         except ZeroDivisionError:
             percentage: str = "N/A"
         # Appends entry for given homework to scores list as a tuple of the appropriate format
-        scores.append([homework_name, score, percentage, attempts])
+        scores.append([homework_name, correct_count, percentage, attempts])
     # Returns array of score data
     return scores
 
@@ -321,6 +326,23 @@ def increment_user_attempts_at_question(user_id: int, question_id: int):
 def mark_question_as_correct(user_id: int, question_id: int):
     sql: str = 'UPDATE question_results SET correct = ? WHERE user_id = ? AND question_id = ?;'
     c.execute(sql, ('T', user_id, question_id))
+    conn.commit()
+
+
+def insert_new_homework(name: str, description: str) -> int:
+    sql: str = 'INSERT INTO homework(name, description) VALUES(?,?)'
+    c.execute(sql, (name, description))
+    homework_id: int = c.lastrowid
+    conn.commit()
+    return homework_id
+
+
+def add_homework_to_class(class_id: int, homework_id: int, due_date: datetime.date):
+    due_year_month_day: list = str(due_date).split('-')
+    string_due_date: str = "{}-{}-{}".format(int(due_year_month_day[0]), int(due_year_month_day[1]),
+                                             int(due_year_month_day[2]))
+    sql: str = 'INSERT INTO class_homework(class_id, homework_id, due_date) VALUES(?,?,?)'
+    c.execute(sql, (class_id, homework_id, string_due_date))
     conn.commit()
 
 

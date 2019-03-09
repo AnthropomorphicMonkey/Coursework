@@ -121,7 +121,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1360,18 +1360,6 @@
       <widget class="QWidget" name="homework_select_page">
        <layout class="QVBoxLayout" name="verticalLayout_16">
         <item>
-         <widget class="QLabel" name="label_3">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Homework</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <spacer name="verticalSpacer_39">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -2315,9 +2303,23 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="set_homework_question_name_input_6">
+                 <widget class="QLineEdit" name="admin_homework_name_input">
                   <property name="placeholderText">
                    <string>Homework Name</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>Description</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="admin_homework_description_input">
+                  <property name="placeholderText">
+                   <string>Homework Description</string>
                   </property>
                  </widget>
                 </item>
@@ -2333,21 +2335,21 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QCalendarWidget" name="calendarWidget_5"/>
+                 <widget class="QCalendarWidget" name="admin_due_date_calendar"/>
                 </item>
                </layout>
               </item>
              </layout>
             </item>
             <item>
-             <widget class="QPushButton" name="set_homework_add_custom_question_button_6">
+             <widget class="QPushButton" name="admin_add_homework_button">
               <property name="text">
                <string>Add Homework</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="set_homework_custom_question_added_output_6">
+             <widget class="QLabel" name="admin_add_homework_status_output">
               <property name="text">
                <string>Homework Added</string>
               </property>
@@ -2767,18 +2769,6 @@
       </widget>
       <widget class="QWidget" name="view_classes_page">
        <layout class="QVBoxLayout" name="verticalLayout_23">
-        <item>
-         <widget class="QLabel" name="label_9">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Classes</string>
-          </property>
-         </widget>
-        </item>
         <item>
          <spacer name="verticalSpacer_34">
           <property name="orientation">

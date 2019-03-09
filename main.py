@@ -3,6 +3,7 @@ try:
     import sys
     from PyQt5 import QtWidgets
     from PyQt5 import uic
+    from PyQt5 import QtCore
     # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
     from scripts import db_scripts, ui_scripts
     import questions.question_scripts as question_scripts
@@ -594,11 +595,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Sets input boxes to blank
         self.admin_username_input.setText("")
         self.admin_class_input.setText("")
-        self.admin_add_user_status_label.setText("")
+        self.admin_homework_name_input.setText("")
         # Sets status outputs to blank
+        self.admin_add_user_status_label.setText("")
         self.admin_remove_user_status_label.setText("")
         self.admin_create_class_status_label.setText("")
         self.admin_delete_class_status_label.setText("")
+        self.admin_add_homework_status_output.setText("")
 
     def admin_reset_page(self):
         # Resets all combo boxes to contain no values
@@ -612,6 +615,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_update_username_combo_box()
         # Sets all labels to default values
         self.admin_clear_labels()
+        # Sets valid range of dates for setting homework and default date to next day
+        # noinspection PyArgumentList
+        self.admin_due_date_calendar.setMinimumDate(QtCore.QDate.currentDate().addDays(1))
+        # noinspection PyArgumentList
+        self.admin_due_date_calendar.setSelectedDate(QtCore.QDate.currentDate().addDays(1))
 
     def admin_page_button_setup(self):
         # If class selection changed, changes usernames shown in username combo box to those in class
@@ -624,6 +632,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_remove_user_button.clicked.connect(lambda: self.admin_remove_user_from_class())
         # If remove class clicked runs scripts to delete class
         self.admin_remove_class_button.clicked.connect(lambda: self.admin_remove_class())
+        # If add homework clicked runs scripts to create new homework for class
+        self.admin_add_homework_button.clicked.connect(lambda: self.admin_create_homework())
 
     def admin_update_username_combo_box(self):
         # Clears class users combo box
@@ -697,6 +707,36 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         else:
             self.admin_reset_page()
             self.admin_delete_class_status_label.setText("No class selected")
+
+    def admin_create_homework(self):
+        self.admin_add_homework_status_output.setText("")
+        if len(self.teacher_classes) > 0:
+            due_date: datetime.date = datetime.date(self.admin_due_date_calendar.selectedDate().year(),
+                                                    self.admin_due_date_calendar.selectedDate().month(),
+                                                    self.admin_due_date_calendar.selectedDate().day())
+            if self.admin_homework_name_input.text() == "":
+                self.admin_add_homework_status_output.setText("Homework name required")
+                return
+            elif self.admin_homework_description_input.toPlainText() == "":
+                self.admin_add_homework_status_output.setText("Homework description required")
+                return
+            elif due_date <= datetime.date.today():
+                self.admin_add_homework_status_output.setText("Homework due date must be in the future")
+                return
+            else:
+                homework_id: int = ui_scripts.insert_new_homework(self.admin_homework_name_input.text(),
+                                                                  self.admin_homework_description_input.toPlainText())
+                ui_scripts.add_homework_to_class(
+                    self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0], homework_id, due_date)
+                self.admin_add_homework_status_output.setText("Homework Added")
+                self.admin_homework_name_input.setText("")
+                self.admin_homework_description_input.setText("")
+                # noinspection PyArgumentList
+                self.admin_due_date_calendar.setMinimumDate(QtCore.QDate.currentDate().addDays(1))
+                # noinspection PyArgumentList
+                self.admin_due_date_calendar.setSelectedDate(QtCore.QDate.currentDate().addDays(1))
+                return
+        self.admin_add_homework_status_output.setText("Class must be selected")
 
     # </editor-fold>
 
@@ -896,7 +936,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         if len(self.current_homework_questions) > 0:
             self.change_page(self.question_page)
         else:
-            print("AAAAAAAAAH FIX LATER")
+            return
 
     # </editor-fold>
 
