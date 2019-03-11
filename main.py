@@ -301,6 +301,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             elif self.correct_answer_location == 4:
                 self.question_radio_d.setChecked(True)
             self.question_submit_button.setEnabled(False)
+            self.question_radio_a.setEnabled(False)
+            self.question_radio_b.setEnabled(False)
+            self.question_radio_c.setEnabled(False)
+            self.question_radio_d.setEnabled(False)
             self.question_feedback_output.setText("Correct")
         else:
             self.question_submit_button.setEnabled(True)
@@ -357,6 +361,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_add_custom_question_button.clicked.connect(lambda: self.set_homework_add_custom_question())
         self.set_homework_add_automatic_question_button.clicked.connect(
             lambda: self.set_homework_add_automatic_question())
+        self.set_homework_tab_widget.currentChanged.connect(lambda: self.set_homework_reset_labels())
 
     def set_homework_class_change(self):
         self.set_homework_homework_combo_box.clear()
@@ -400,12 +405,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         else:
             self.set_homework_removed_output.setText("No question to remove")
 
-    def set_homework_reset_page(self):
-        self.set_homework_class_combo_box.clear()
-        self.set_homework_homework_combo_box.clear()
-        self.set_homework_question_combo_box.clear()
-        self.set_homework_question_label.setText("")
-        self.set_homework_answer_label.setText("")
+    def set_homework_reset_labels(self):
         self.set_homework_question_input.setText("")
         self.set_homework_correct_answer_input.setText("")
         self.set_homework_answer_b_input.setText("")
@@ -415,6 +415,14 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_custom_question_added_output.setText("")
         self.set_homework_removed_output.setText("")
         self.set_homework_question_name_input.setText("")
+
+    def set_homework_reset_page(self):
+        self.set_homework_class_combo_box.clear()
+        self.set_homework_homework_combo_box.clear()
+        self.set_homework_question_combo_box.clear()
+        self.set_homework_question_label.setText("")
+        self.set_homework_answer_label.setText("")
+        self.set_homework_reset_labels()
         self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
         for each_class in self.teacher_classes:
             self.set_homework_class_combo_box.addItem(each_class[1])
@@ -642,6 +650,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_add_homework_button.clicked.connect(lambda: self.admin_create_homework())
         # If remove homework clicked runs scripts to remove homework from database
         self.admin_remove_homework_button.clicked.connect(lambda: self.admin_remove_homework())
+        # If tab changed rests inputs and outputs
+        self.admin_tab_widget.currentChanged.connect(lambda: self.admin_clear_labels())
 
     def admin_update_username_combo_box(self):
         # Clears class users combo box
@@ -861,11 +871,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.view_classes_students_or_homework: list = []
         if len(self.teacher_classes) > 0:
             if self.view_classes_view_type_combo_box.currentIndex() == 0:
+                self.view_classes_display_type_output.setText("Homework:")
                 for each_homework in ui_scripts.get_homework_of_class(
                         self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
                     self.view_classes_students_or_homework.append(each_homework[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_homework[1])
             else:
+                self.view_classes_display_type_output.setText("Student:")
                 for each_student in ui_scripts.get_students_of_class(
                         self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
                     self.view_classes_students_or_homework.append(each_student[0])
