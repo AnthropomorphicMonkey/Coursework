@@ -2519,7 +2519,7 @@
   <customwidget>
    <class>QChartView</class>
    <extends>QGraphicsView</extends>
-   <header>QtCharts</header>
+   <header>PyQt5.QtChart</header>
   </customwidget>
  </customwidgets>
  <resources>
