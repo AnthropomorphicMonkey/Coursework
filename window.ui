@@ -763,7 +763,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QChart" name="question_chart"/>
+               <widget class="QGraphicsView" name="question_chart"/>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -1264,7 +1264,7 @@
             <item>
              <widget class="QTabWidget" name="set_homework_tab_widget">
               <property name="currentIndex">
-               <number>2</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="tab">
                <attribute name="title">
@@ -1287,6 +1287,11 @@
                       <item>
                        <property name="text">
                         <string>Find resultant of two forces</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Simpson's Rule</string>
                        </property>
                       </item>
                      </widget>
@@ -2515,13 +2520,6 @@
    </layout>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QChart</class>
-   <extends>QGraphicsView</extends>
-   <header>PyQt5.QtChart</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="window_elements/window.qrc"/>
   <include location="window_elements/window.qrc"/>

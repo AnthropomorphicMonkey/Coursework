@@ -15,28 +15,32 @@ class SimpsonsRule:
         self.get_y_values()
 
     def get_y_values(self):
-        x_value: float = self.lower_limit
-        while x_value <= self.upper_limit:
+        y_counter = 0
+        while y_counter <= self.number_of_strips:
+            x_value: float = self.lower_limit + (self.h * y_counter)
             x = sympy.symbols('x')
             self.y_list.append(self.function.subs(x, x_value))
-            x_value += self.h
+            y_counter += 1
 
     def integral(self):
-        y_sum: float = 0
+        y_sum: float = self.y_list[0] + self.y_list[-1]
         counter: int = 1
-        for y in self.y_list:
-            if counter % 3 == 0:
+        for y in self.y_list[1:-1]:
+            if counter % 2 == 0:
                 y_sum += y * 2
-            elif counter % 2 == 0:
-                y_sum += y * 4
             else:
-                y_sum += y
+                y_sum += y * 4
             counter += 1
-        return (self.h / 3) * y_sum
+        return float((self.h / 3) * y_sum)
 
 
 if __name__ == '__main__':
     x = sympy.symbols('x')
-    fn = x ** (3 / 2)
-    simpson = SimpsonsRule(4, 6, 2, fn)
-    print(simpson.integral())
+    fn = 57*sympy.cosh(x)*sympy.tan(x)**2
+    print("∫", fn, "dx between x = 0 and x = 1")
+    strips = 2
+    while True:
+        simpson = SimpsonsRule(strips, 1, 0, fn)
+        print(strips)
+        print(simpson.integral())
+        strips += 2

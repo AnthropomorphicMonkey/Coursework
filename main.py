@@ -9,6 +9,7 @@ try:
     from scripts import db_scripts, ui_scripts
     import questions.question_scripts as question_scripts
     import questions.mechanics
+    import questions.calculus
     import datetime
     import random
 except ModuleNotFoundError:
@@ -354,6 +355,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.question_feedback_output.setText("Incorrect")
 
     def chart_setup(self, title: str):
+        return
         self.question_chart.setTitle(title)
 
     # </editor-fold>
@@ -492,8 +494,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.set_homework_auto_question_added_output.setText("No homework selected")
             return
         self.set_homework_auto_question_added_output.setText("")
+        question: question_scripts.Question = question_scripts.Question("error", 0, 1, "error", "error")
         if self.set_homework_type_combo_box.currentIndex() == 0:
-            question = questions.mechanics.find_resultant_of_two_forces(
+            question: question_scripts.Question = questions.mechanics.find_resultant_of_two_forces(
+                self.set_homework_difficulty_combo_box.currentIndex() + 1)
+        elif self.set_homework_type_combo_box.currentIndex() == 1:
+            question: question_scripts.Question = questions.calculus.simpsons_rule(
                 self.set_homework_difficulty_combo_box.currentIndex() + 1)
         else:
             raise IndexError

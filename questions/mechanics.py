@@ -25,7 +25,7 @@ def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
         question = question_scripts.Question('Find resultant of two forces', type_id, difficulty, question_text,
                                              correct_answer)
         return question
-    elif question_to_ask == 2:
+    elif question_to_ask == 2 and difficulty >= 3:
         question_text = 'A force P acts on an object on a frictionless plane with magnitude {}N in the direction {}° ' \
                         'to the x axis and another force, Q acts with magnitude {}N in the direction {}° to the x ' \
                         'axis. ' \
