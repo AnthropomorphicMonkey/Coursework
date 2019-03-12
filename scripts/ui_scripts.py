@@ -299,18 +299,18 @@ def insert_question_into_homework(class_id: int, homework_id: int, question_id: 
     conn.commit()
 
 
-# NOT YET DOCUMENTED BEYOND HERE
-
 def get_incorrect_answers_of_question(question_id: int) -> list:
-    # Returns correct answer from database for given question id
+    # Returns three incorrect answers from database questions table for given question id
     sql: str = 'SELECT answer_b, answer_c, answer_d FROM questions WHERE id = ?;'
     c.execute(sql, (question_id,))
     return c.fetchall()[0]
 
 
 def get_correct_status_of_question(student_id: int, question_id: int) -> bool:
+    # Returns correct status from database question_results table for given question id and student id
     sql: str = 'SELECT correct FROM question_results WHERE user_id = ? AND question_id = ?;'
     c.execute(sql, (student_id, question_id))
+    # Converts stored string value to a boolean representation
     if c.fetchall()[0][0] == 'T':
         return True
     else:
@@ -318,26 +318,34 @@ def get_correct_status_of_question(student_id: int, question_id: int) -> bool:
 
 
 def increment_user_attempts_at_question(user_id: int, question_id: int):
+    # Finds the entry in the question_results table linking a given user to a given question and adds 1 to the value
+    # in the attempts field
     sql: str = 'UPDATE question_results SET attempts = attempts + 1 WHERE user_id = ? AND question_id = ?;'
     c.execute(sql, (user_id, question_id))
     conn.commit()
 
 
 def mark_question_as_correct(user_id: int, question_id: int):
+    # Finds the entry in the question_results table linking a given user to a given question and sets the value in the
+    # attempts field to 'T'
     sql: str = 'UPDATE question_results SET correct = ? WHERE user_id = ? AND question_id = ?;'
     c.execute(sql, ('T', user_id, question_id))
     conn.commit()
 
 
 def insert_new_homework(name: str, description: str) -> int:
+    # Inserts required data (name and description) into homework table to create new homework instance
     sql: str = 'INSERT INTO homework(name, description) VALUES(?,?)'
     c.execute(sql, (name, description))
+    # Gets the id of the newly created homework, commits database changes and returns id
     homework_id: int = c.lastrowid
     conn.commit()
     return homework_id
 
 
 def add_homework_to_class(class_id: int, homework_id: int, due_date: datetime.date):
+    # Converts datetime value passed to an array of the format [year, month, day] by converting to string and splitting
+    # at '-'
     due_year_month_day: list = str(due_date).split('-')
     string_due_date: str = "{}-{}-{}".format(int(due_year_month_day[0]), int(due_year_month_day[1]),
                                              int(due_year_month_day[2]))
@@ -364,4 +372,6 @@ def get_question_type(question_id: int) -> str:
 
 
 if __name__ == '__main__':
-    print(get_question_type(45))
+    name: str = input("Enter homework name: ")
+    description: str = input("Enter homework description: ")
+    print(insert_new_homework(name, description))

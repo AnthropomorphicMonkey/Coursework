@@ -763,7 +763,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QChartView" name="question_chart"/>
+               <widget class="QChart" name="question_chart"/>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -2517,7 +2517,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QChartView</class>
+   <class>QChart</class>
    <extends>QGraphicsView</extends>
    <header>PyQt5.QtChart</header>
   </customwidget>
