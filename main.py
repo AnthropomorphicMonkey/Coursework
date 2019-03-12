@@ -494,12 +494,14 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.set_homework_auto_question_added_output.setText("No homework selected")
             return
         self.set_homework_auto_question_added_output.setText("")
-        question: question_scripts.Question = question_scripts.Question("error", 0, 1, "error", "error")
         if self.set_homework_type_combo_box.currentIndex() == 0:
             question: question_scripts.Question = questions.mechanics.find_resultant_of_two_forces(
                 self.set_homework_difficulty_combo_box.currentIndex() + 1)
         elif self.set_homework_type_combo_box.currentIndex() == 1:
             question: question_scripts.Question = questions.calculus.simpsons_rule(
+                self.set_homework_difficulty_combo_box.currentIndex() + 1)
+        elif self.set_homework_type_combo_box.currentIndex() == 2:
+            question: question_scripts.Question = questions.calculus.trapezium_rule(
                 self.set_homework_difficulty_combo_box.currentIndex() + 1)
         else:
             raise IndexError

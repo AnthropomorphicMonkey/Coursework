@@ -13,7 +13,7 @@ def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
     force_direction_2 = random.randint(-180, 180)
     obj.add_force(force_magnitude_2, force_direction_2)
     question_to_ask = random.randint(1, 2)
-    if question_to_ask == 1:
+    if question_to_ask == 1 or difficulty < 3:
         question_text = 'A force P acts on an object on a frictionless plane with magnitude {}N in the direction {}° ' \
                         'to the x axis and another force, Q acts with magnitude {}N in the direction {}° to the x ' \
                         'axis. ' \
