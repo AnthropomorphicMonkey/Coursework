@@ -4,6 +4,7 @@ try:
     from PyQt5 import QtWidgets
     from PyQt5 import uic
     from PyQt5 import QtCore
+    from PyQt5 import QtChart
     # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
     from scripts import db_scripts, ui_scripts
     import questions.question_scripts as question_scripts
@@ -321,6 +322,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         else:
             self.question_next_question_button.setEnabled(True)
             self.question_next_question_button.setVisible(True)
+        # EXPERIMENTAL
+        self.chart_setup('CHART!')
 
     def question_page_button_setup(self):
         self.question_previous_question_button.clicked.connect(lambda: self.question_page_previous_page())
@@ -349,6 +352,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         else:
             self.question_submit_button.setEnabled(True)
             self.question_feedback_output.setText("Incorrect")
+
+    def chart_setup(self, title: str):
+        self.question_chart.setTitle(title)
 
     # </editor-fold>
 
@@ -634,7 +640,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_due_date_calendar.setSelectedDate(QtCore.QDate.currentDate().addDays(1))
 
     def admin_page_button_setup(self):
-        # If class selection changed, changes usernames shown in username combo box and homeworks shown in remove
+        # If class selection changed, changes usernames shown in username combo box and homework shown in remove
         # homework combo box to those in new class
         self.admin_class_user_combo_box.currentIndexChanged.connect(
             lambda: self.admin_class_user_combo_box_selection_change())

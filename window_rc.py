@@ -1074,10 +1074,15 @@ else:
     rcc_version = 2
     qt_resource_struct = qt_resource_struct_v2
 
+
+# noinspection PyPep8Naming
 def qInitResources():
     QtCore.qRegisterResourceData(rcc_version, qt_resource_struct, qt_resource_name, qt_resource_data)
 
+
+# noinspection PyPep8Naming
 def qCleanupResources():
     QtCore.qUnregisterResourceData(rcc_version, qt_resource_struct, qt_resource_name, qt_resource_data)
+
 
 qInitResources()

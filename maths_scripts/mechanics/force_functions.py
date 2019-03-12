@@ -26,7 +26,7 @@ def resultant_direction_calc(x_component: float, y_component: float) -> float:
         elif y_component < 0:
             return 270
         else:
-            return "N/A"
+            raise ValueError
     else:
         direction = degrees(atan(y_component / x_component))
         if x_component < 0 < y_component:

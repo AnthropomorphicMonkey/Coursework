@@ -92,7 +92,7 @@ def get_students_of_class(class_id: int) -> list:
 
 
 def get_questions_of_homework(homework_id: int) -> list:
-    # Takes a homework id, finds all questions belonging to the homework, and returns the quesion id and name for each
+    # Takes a homework id, finds all questions belonging to the homework, and returns the question id and name for each
     # relevant question from the questions table by joining all relevant tables appropriately
     sql: str = 'SELECT questions.id, questions.name FROM ' \
                'questions INNER JOIN homework_questions ON questions.id = homework_questions.question_id ' \
@@ -233,9 +233,9 @@ def get_scores_of_student_in_class(class_id: int, student_id: int) -> list:
                    'WHERE class_homework.class_id = ? AND class_homework.homework_id = ? AND users.id = ?'
         c.execute(sql, (class_id, homework_id, student_id))
         results: tuple = c.fetchall()
-        # Gets the name of the current homework beign analysed
+        # Gets the name of the current homework being analysed
         homework_name: str = get_name_of_homework(homework_id)
-        # Calculates the score as a percentage for the current homeowrk by taking the sum of the number of questions
+        # Calculates the score as a percentage for the current homework by taking the sum of the number of questions
         # with True as the correct status and dividing by the question count then multiplying by 100. The number of
         # attempts is found by iterating through each question score and setting the number of attempts variable to the
         # number of attempts for that question if it is greater than the currently stored value (finds the maximum
@@ -291,8 +291,8 @@ def insert_question_into_homework(class_id: int, homework_id: int, question_id: 
     c.execute(sql, (homework_id, question_id))
     # Inserts required data for the new question into the question_results table by finding all students within the
     # given class and for each student inserting an entry linking the user id to the question id along with the number
-    # of attempts(set initially to 0 as question unattempted) and correct status (set initially to False as question
-    # unattempted)
+    # of attempts(set initially to 0 as question un-attempted) and correct status (set initially to False as question
+    # un-attempted)
     for user in get_students_of_class(class_id):
         sql: str = 'INSERT INTO question_results(user_id, question_id, attempts, correct) VALUES(?,?,?,?)'
         c.execute(sql, (user[0], question_id, 0, 0))
