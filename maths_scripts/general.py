@@ -1,6 +1,6 @@
-import sympy
-import math
 import random
+
+import sympy
 
 
 def generate_polynomial(order: int):

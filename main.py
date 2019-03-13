@@ -1,4 +1,5 @@
 # If all present, imports all modules, otherwise returns an error for 5 seconds and exits program
+# noinspection SpellCheckingInspection
 try:
     import sys
     from PyQt5 import QtWidgets
@@ -647,6 +648,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # noinspection PyArgumentList
         self.admin_due_date_calendar.setSelectedDate(QtCore.QDate.currentDate().addDays(1))
 
+    # noinspection SpellCheckingInspection
     def admin_page_button_setup(self):
         # If class selection changed, changes usernames shown in username combo box and homework shown in remove
         # homework combo box to those in new class
