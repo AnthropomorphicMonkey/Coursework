@@ -53,12 +53,22 @@ class SimpsonsRule(IntegralApproximationBase):
         return float((self.strip_width / 3) * y_sum)
 
 
+class NumericalIntegral(SimpsonsRule):
+    def __init__(self, upper_limit: float, lower_limit: float, function):
+        number_of_strips: int = 10000
+        super().__init__(number_of_strips, upper_limit, lower_limit, function)
+
+
 if __name__ == '__main__':
     x = sympy.symbols('x')
-    fn = 100 * x + 1
-    print("∫", fn, "dx between x = 0 and x = 1")
-    strips = 2
-    trapezium = TrapeziumRule(strips, 7, 6, fn)
+    fn = x**4+5*x**2+4*x+9
+    upper_limit = 100
+    lower_limit = 1
+    print("∫", fn, "dx between x =", lower_limit, "and x =", upper_limit)
+    strips = 1000
+    trapezium = TrapeziumRule(strips, upper_limit, lower_limit, fn)
     print(trapezium.integral())
-    simpson = SimpsonsRule(strips, 7, 6, fn)
+    simpson = SimpsonsRule(strips, upper_limit, lower_limit, fn)
     print(simpson.integral())
+    numerical = NumericalIntegral(upper_limit, lower_limit, fn)
+    print(numerical.integral())

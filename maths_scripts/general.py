@@ -24,11 +24,41 @@ def generate_compound_trig_function(complexity: int):
     return function
 
 
+def check_divergent(upper_limit: float, lower_limit: float, function) -> bool:
+    if lower_limit > upper_limit:
+        raise Exception("Upper limit must be greater or equal")
+    x = sympy.symbols('x')
+    check_position = sympy.ceiling(lower_limit / (sympy.pi / 2))
+    if str(sympy.tan(x)) in str(function) or str(sympy.sec(x)) in str(function):
+        if check_position % 2 == 0:
+            check_position += 1
+    elif str(sympy.cot(x)) in str(function) or str(sympy.csc(x)) in str(function):
+        if check_position % 2 != 0:
+            check_position += 2
+    else:
+        return False
+    if (check_position * (sympy.pi / 2)) <= upper_limit:
+        return True
+    else:
+        return False
+
+
+
 if __name__ == '__main__':
     x = sympy.symbols('x')
-    fn = generate_polynomial(7)
-    print(fn)
-    print(fn.subs(x, 9))
-    fn = generate_compound_trig_function(4)
-    print(fn)
-    print(float(fn.subs(x, 9)))
+    fn = 30*x**4 + x**3 + 4*x
+    upper_limit = 0 * (sympy.pi / 2)
+    lower_limit = upper_limit
+    print(check_divergent(upper_limit, lower_limit, fn))
+    upper_limit = 1 * (sympy.pi / 2)
+    lower_limit = upper_limit
+    print(check_divergent(upper_limit, lower_limit, fn))
+    upper_limit = 2 * (sympy.pi / 2)
+    lower_limit = upper_limit
+    print(check_divergent(upper_limit, lower_limit, fn))
+    upper_limit = 3 * (sympy.pi / 2)
+    lower_limit = upper_limit
+    print(check_divergent(upper_limit, lower_limit, fn))
+    upper_limit = 4 * (sympy.pi / 2)
+    lower_limit = upper_limit
+    print(check_divergent(upper_limit, lower_limit, fn))
