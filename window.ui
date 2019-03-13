@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1039</width>
-    <height>719</height>
+    <width>974</width>
+    <height>829</height>
    </rect>
   </property>
   <property name="font">
@@ -763,7 +763,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QGraphicsView" name="question_chart"/>
+               <widget class="QChartView" name="question_chart"/>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -1299,6 +1299,11 @@
                         <string>Trapezium Rule</string>
                        </property>
                       </item>
+                      <item>
+                       <property name="text">
+                        <string>Definite Integral</string>
+                       </property>
+                      </item>
                      </widget>
                     </item>
                    </layout>
@@ -1736,7 +1741,7 @@
             <item>
              <widget class="QTabWidget" name="admin_tab_widget">
               <property name="currentIndex">
-               <number>4</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="tab_5">
                <attribute name="title">
@@ -2010,53 +2015,6 @@
                 </item>
                </layout>
               </widget>
-              <widget class="QWidget" name="tab_8">
-               <attribute name="title">
-                <string>Delete Class</string>
-               </attribute>
-               <layout class="QVBoxLayout" name="verticalLayout_63">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_18">
-                  <item>
-                   <widget class="QComboBox" name="admin_delete_class_combo_box">
-                    <item>
-                     <property name="text">
-                      <string>Class</string>
-                     </property>
-                    </item>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="admin_remove_class_button">
-                    <property name="text">
-                     <string>REMOVE</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QLabel" name="admin_delete_class_status_label">
-                  <property name="text">
-                   <string>Delete class status</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_6">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </widget>
              </widget>
             </item>
            </layout>
@@ -2088,6 +2046,74 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_41">
+          <item>
+           <spacer name="horizontalSpacer_28">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_27">
+            <item>
+             <widget class="QLabel" name="label_20">
+              <property name="text">
+               <string>Delete Class:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <widget class="QComboBox" name="admin_delete_class_combo_box">
+                <item>
+                 <property name="text">
+                  <string>Class</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="admin_remove_class_button">
+                <property name="text">
+                 <string>REMOVE</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="admin_delete_class_status_label">
+              <property name="text">
+               <string>Delete class status</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_44">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -2525,6 +2551,13 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header>PyQt5.QtChart</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="window_elements/window.qrc"/>
   <include location="window_elements/window.qrc"/>

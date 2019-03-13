@@ -1,2 +1,8 @@
-list = [2, 1, 3, 6, 7]
-print(list[-1:])
+import sympy
+
+x = sympy.symbols('x')
+
+function = sympy.sympify('csc(x)')
+print(float(function.subs(x, 109)))
+question = "yyyd"
+print(question, None, None, None)

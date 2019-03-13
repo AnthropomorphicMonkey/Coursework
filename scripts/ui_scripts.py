@@ -371,7 +371,23 @@ def get_question_type(question_id: int) -> str:
     return c.fetchall()[0][0]
 
 
+def get_question_graph(question_id: int) -> list:
+    sql: str = 'SELECT function, minimum_x, maximum_x FROM graphs WHERE question_id = ?'
+    c.execute(sql, (question_id,))
+    result = c.fetchall()
+    if result:
+        return result[0]
+    else:
+        return []
+
+
+def set_question_graph(question_id: int, function: str, minimum_x: float, maximum_x: float):
+    sql: str = 'INSERT INTO graphs(question_id, function, minimum_x, maximum_x) VALUES(?,?,?,?)'
+    c.execute(sql, (question_id, function, minimum_x, maximum_x))
+    conn.commit()
+
+
 if __name__ == '__main__':
-    name: str = input("Enter homework name: ")
-    description: str = input("Enter homework description: ")
-    print(insert_new_homework(name, description))
+    qid = 100117
+    qid = 100117
+    print(get_question_graph(qid))

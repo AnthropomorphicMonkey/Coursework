@@ -2,10 +2,9 @@
 # noinspection SpellCheckingInspection
 try:
     import sys
+    import PyQt5
     from PyQt5 import QtWidgets
-    from PyQt5 import uic
-    from PyQt5 import QtCore
-    from PyQt5 import QtChart
+    from PyQt5 import uic, QtCore, QtChart
     # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
     from scripts import db_scripts, ui_scripts
     import questions.question_scripts as question_scripts
@@ -13,6 +12,7 @@ try:
     import questions.calculus
     import datetime
     import random
+    import sympy
 except ModuleNotFoundError:
     try:
         import time
@@ -269,6 +269,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.question_topic_output.setText("")
         self.question_topic_output.setText(ui_scripts.get_question_type(question_id))
         self.question_question_output.setText(ui_scripts.get_question_text_of_question(question_id))
+        self.question_submit_button.setEnabled(True)
+        self.question_radio_a.setEnabled(True)
+        self.question_radio_b.setEnabled(True)
+        self.question_radio_c.setEnabled(True)
+        self.question_radio_d.setEnabled(True)
+        self.question_feedback_output.setText("")
         correct_answer: str = ui_scripts.get_correct_answer_of_question(question_id)
         incorrect_answers: list = ui_scripts.get_incorrect_answers_of_question(question_id)
         random.shuffle(list(incorrect_answers))
@@ -309,9 +315,6 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.question_radio_c.setEnabled(False)
             self.question_radio_d.setEnabled(False)
             self.question_feedback_output.setText("Correct")
-        else:
-            self.question_submit_button.setEnabled(True)
-            self.question_feedback_output.setText("")
         if self.question_number == 0:
             self.question_previous_question_button.setEnabled(False)
             self.question_previous_question_button.setVisible(False)
@@ -324,8 +327,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         else:
             self.question_next_question_button.setEnabled(True)
             self.question_next_question_button.setVisible(True)
-        # EXPERIMENTAL
-        self.chart_setup('CHART!')
+        graph_details = ui_scripts.get_question_graph(question_id)
+        if graph_details:
+            self.chart_setup(required=True, function=graph_details[0], min_x=graph_details[1], max_x=graph_details[2])
+        else:
+            self.chart_setup(required=False)
 
     def question_page_button_setup(self):
         self.question_previous_question_button.clicked.connect(lambda: self.question_page_previous_page())
@@ -355,9 +361,29 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.question_submit_button.setEnabled(True)
             self.question_feedback_output.setText("Incorrect")
 
-    def chart_setup(self, title: str):
-        return
-        self.question_chart.setTitle(title)
+    def chart_setup(self, required=False, function=None, min_x=0, max_x=10):
+        x = sympy.symbols('x')
+        function = sympy.sympify(function)
+        if not required or function is None:
+            self.question_chart.setEnabled(False)
+            self.question_chart.setVisible(False)
+        else:
+            self.question_chart.setEnabled(True)
+            self.question_chart.setVisible(True)
+            series: QtChart.QSplineSeries = QtChart.QSplineSeries()
+            x_value: float = min_x
+            precision: int = 100
+            for counter in range(0, precision):
+                y_value: float = function.subs(x, x_value)
+                series.append(x_value, y_value)
+                x_value: float = min_x + (((max_x - min_x) / precision) * counter)
+            # noinspection PyArgumentList
+            chart: QtChart.QChart = QtChart.QChart()
+            chart.legend().hide()
+            chart.addSeries(series)
+            chart.createDefaultAxes()
+            chart.axisX(series).setRange(min_x, max_x)
+            self.question_chart.setChart(chart)
 
     # </editor-fold>
 
@@ -496,20 +522,26 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             return
         self.set_homework_auto_question_added_output.setText("")
         if self.set_homework_type_combo_box.currentIndex() == 0:
-            question: question_scripts.Question = questions.mechanics.find_resultant_of_two_forces(
-                self.set_homework_difficulty_combo_box.currentIndex() + 1)
+            data: list = [questions.mechanics.find_resultant_of_two_forces(
+                self.set_homework_difficulty_combo_box.currentIndex() + 1), None, None, None]
         elif self.set_homework_type_combo_box.currentIndex() == 1:
-            question: question_scripts.Question = questions.calculus.simpsons_rule(
-                self.set_homework_difficulty_combo_box.currentIndex() + 1)
+            data: list = questions.calculus.simpsons_rule(self.set_homework_difficulty_combo_box.currentIndex() + 1)
         elif self.set_homework_type_combo_box.currentIndex() == 2:
-            question: question_scripts.Question = questions.calculus.trapezium_rule(
-                self.set_homework_difficulty_combo_box.currentIndex() + 1)
+            data: list = questions.calculus.trapezium_rule(self.set_homework_difficulty_combo_box.currentIndex() + 1)
+        elif self.set_homework_type_combo_box.currentIndex() == 3:
+            data: list = questions.calculus.definite_integral(self.set_homework_difficulty_combo_box.currentIndex() + 1)
         else:
             raise IndexError
+        question: question_scripts.Question = data[0]
+        function: str = data[1]
+        minimum_x: float = data[2]
+        maximum_x: float = data[3]
         question_position: int = (question.save_question())
         ui_scripts.insert_question_into_homework(
             self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0],
             self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+        if function is not None and minimum_x is not None and maximum_x is not None:
+            ui_scripts.set_question_graph(question_position, str(function), float(minimum_x), float(maximum_x))
         self.set_homework_homework_change()
         self.set_homework_auto_question_added_output.setText("Question Added")
         return

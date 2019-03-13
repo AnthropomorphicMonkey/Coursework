@@ -41,6 +41,7 @@ def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
 
 if __name__ == '__main__':
     q = find_resultant_of_two_forces(4)
+    print(q)
     print(q.question_text)
     print(q.correct_answer)
     print(q.answer_b)
