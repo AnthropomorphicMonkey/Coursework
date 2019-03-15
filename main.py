@@ -34,43 +34,32 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         super().__init__()
         self.setupUi(self)
         # Declare constants related to page indexes of different sections of the program
-        self.login_page: int = 0
-        self.create_account_page: int = 1
-        self.student_main_menu_page: int = 2
-        self.teacher_main_menu_page: int = 3
-        self.question_page: int = 4
-        self.homework_select_page: int = 5
-        self.browse_quizzes_page: int = 6
-        self.previous_scores_page: int = 7
-        self.set_homework_page: int = 8
-        self.admin_page: int = 9
-        self.account_management_page: int = 10
-        self.view_classes_page: int = 11
-        # Holds ID of active user
-        self.current_user: int = -1
-        # Clears list of user classes
-        self.student_classes: list = []
-        self.teacher_classes: list = []
-        self.class_users: list = []
+        self.page_dictionary: dict = {'login_page': 0, 'create_account_page': 1, 'student_main_menu_page': 2,
+                                      'teacher_main_menu_page': 3, 'question_page': 4, 'homework_select_page': 5,
+                                      'browse_quizzes_page': 6, 'previous_scores_page': 7, 'set_homework_page': 8,
+                                      'admin_page': 9, 'account_management_page': 10, 'view_classes_page': 11}
         # Sets up all pages
         self.button_setup()
-        self.reset_pages(self.login_page)
+        self.reset_page(self.page_dictionary['login_page'])
         # Sets program to logged out state (and hides logged out message)
         self.logout()
         self.login_success_output.setText("")
+        # Holds ID of active user
+        self.current_user: int = -1
+        # Clears list of user classes
+        self.current_classes: list = []
+        self.class_users: list = []
         # Holds classes or students of currently selected class on the view classes page
-        self.view_classes_students_or_homework: list = []
-        self.set_homework_homework: list = []
-        self.set_homework_questions: list = []
-        self.homework_select_valid_homework_ids: list = []
-        self.current_homework_questions: list = []
-        self.question_number: int = 0
+        self.homework: list = []
+        self.questions: list = []
+        self.homework_ids: list = []
+        self.current_question: int = 0
         self.correct_answer_location: int = 1
-        self.class_homework: list = []
+        self.view_classes_students_or_homework: list = []
 
     def change_page(self, index: int):
         # Restores target page to default state
-        self.reset_pages(index)
+        self.reset_page(index)
         # Enables all navigation buttons to then be disabled as needed
         self.show_main_menu_button()
         self.show_logout_button()
@@ -102,26 +91,26 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.homework_select_page_button_setup()
         self.question_page_button_setup()
 
-    def reset_pages(self, target_page):
+    def reset_page(self, target_page):
         # Runs all page reset scripts
-        if target_page == self.login_page:
+        if target_page == self.page_dictionary['login_page']:
             self.login_reset_page()
-        elif target_page == self.create_account_page:
+        elif target_page == self.page_dictionary['create_account_page']:
             self.create_account_reset_page()
-        elif target_page == self.question_page:
-            self.question_number = 0
+        elif target_page == self.page_dictionary['question_page']:
+            self.current_question = 0
             self.question_reset_page()
-        elif target_page == self.previous_scores_page:
+        elif target_page == self.page_dictionary['previous_scores_page']:
             self.previous_scores_reset_page()
-        elif target_page == self.admin_page:
+        elif target_page == self.page_dictionary['admin_page']:
             self.admin_reset_page()
-        elif target_page == self.account_management_page:
+        elif target_page == self.page_dictionary['account_management_page']:
             self.account_management_reset_page()
-        elif target_page == self.view_classes_page:
+        elif target_page == self.page_dictionary['view_classes_page']:
             self.view_classes_reset_page()
-        elif target_page == self.set_homework_page:
+        elif target_page == self.page_dictionary['set_homework_page']:
             self.set_homework_reset_page()
-        elif target_page == self.homework_select_page:
+        elif target_page == self.page_dictionary['homework_select_page']:
             self.homework_select_reset_page()
         else:
             pass
@@ -165,9 +154,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def go_to_main_menu(self):
         # Returns to the correct main menu page for the given user
         if db_scripts.get_account_type(self.current_user) == 't':
-            self.change_page(self.teacher_main_menu_page)
+            self.change_page(self.page_dictionary['teacher_main_menu_page'])
         elif db_scripts.get_account_type(self.current_user) == 's':
-            self.change_page(self.student_main_menu_page)
+            self.change_page(self.page_dictionary['student_main_menu_page'])
         # If data in DB is for some reason invalid, user is logged out and error shown
         else:
             self.logout()
@@ -177,7 +166,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Resets current user to a default value
         self.current_user: int = -1
         # Returns to login page and sets logout success message
-        self.change_page(self.login_page)
+        self.change_page(self.page_dictionary['login_page'])
         self.login_success_output.setText("Logout successful")
 
     # </editor-fold>
@@ -188,7 +177,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.login_submit_button.clicked.connect(self.login)
         # If create account clicked runs scripts to change screen
         # Error passing arguments fixed using https://stackoverflow.com/questions/45793966/clicked-connect-error
-        self.login_create_account_button.clicked.connect(lambda: self.change_page(self.create_account_page))
+        self.login_create_account_button.clicked.connect(
+            lambda: self.change_page(self.page_dictionary['create_account_page']))
 
     def login_reset_page(self):
         # Sets input boxes to blank
@@ -228,43 +218,47 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # If create account submit button clicked runs scripts to create account
         self.create_account_submit_button.clicked.connect(self.create_account_create_account)
         # If return to login clicked runs scripts to change screen
-        self.create_account_login_button.clicked.connect(lambda: self.change_page(self.login_page))
+        self.create_account_login_button.clicked.connect(lambda: self.change_page(self.page_dictionary['login_page']))
 
     # </editor-fold>
 
     # <editor-fold desc="Student Main Menu Page">
     def student_main_menu_page_button_setup(self):
         # If browse quizzes clicked runs scripts to change screen
-        self.student_main_menu_browse_quizzes_button.clicked.connect(lambda: self.change_page(self.browse_quizzes_page))
+        self.student_main_menu_browse_quizzes_button.clicked.connect(
+            lambda: self.change_page(self.page_dictionary['browse_quizzes_page']))
         # If homework clicked runs scripts to change screen
-        self.student_main_menu_homework_button.clicked.connect(lambda: self.change_page(self.homework_select_page))
+        self.student_main_menu_homework_button.clicked.connect(
+            lambda: self.change_page(self.page_dictionary['homework_select_page']))
         # If previous scores clicked runs scripts to change screen
         self.student_main_menu_previous_scores_button.clicked.connect(
-            lambda: self.change_page(self.previous_scores_page))
+            lambda: self.change_page(self.page_dictionary['previous_scores_page']))
         # If account management clicked runs scripts to change screen
         self.student_main_menu_account_management_button.clicked.connect(
-            lambda: self.change_page(self.account_management_page))
+            lambda: self.change_page(self.page_dictionary['account_management_page']))
 
     # </editor-fold>
 
     # <editor-fold desc="Teacher Main Menu Page">
     def teacher_main_menu_page_button_setup(self):
         # If 'set homework' clicked runs scripts to change screen
-        self.teacher_main_menu_set_homework_button.clicked.connect(lambda: self.change_page(self.set_homework_page))
+        self.teacher_main_menu_set_homework_button.clicked.connect(
+            lambda: self.change_page(self.page_dictionary['set_homework_page']))
         # If 'view classes' clicked runs scripts to change screen
-        self.teacher_main_menu_view_classes_button.clicked.connect(lambda: self.change_page(self.view_classes_page))
+        self.teacher_main_menu_view_classes_button.clicked.connect(
+            lambda: self.change_page(self.page_dictionary['view_classes_page']))
         # If 'account management' clicked runs scripts to change screen
         self.teacher_main_menu_account_management_button.clicked.connect(
-            lambda: self.change_page(self.account_management_page))
+            lambda: self.change_page(self.page_dictionary['account_management_page']))
         # If 'admin' clicked runs scripts to change screen
         self.teacher_main_menu_admin_button.clicked.connect(
-            lambda: self.change_page(self.admin_page))
+            lambda: self.change_page(self.page_dictionary['admin_page']))
 
     # </editor-fold>
 
     # <editor-fold desc="Question Page">
     def question_reset_page(self):
-        question_id = self.current_homework_questions[self.question_number][0]
+        question_id = self.questions[self.current_question][0]
         self.question_radio_a.setChecked(True)
         self.question_topic_output.setText("")
         self.question_topic_output.setText(ui_scripts.get_question_type(question_id))
@@ -315,13 +309,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.question_radio_c.setEnabled(False)
             self.question_radio_d.setEnabled(False)
             self.question_feedback_output.setText("Correct")
-        if self.question_number == 0:
+        if self.current_question == 0:
             self.question_previous_question_button.setEnabled(False)
             self.question_previous_question_button.setVisible(False)
         else:
             self.question_previous_question_button.setEnabled(True)
             self.question_previous_question_button.setVisible(True)
-        if self.question_number >= len(self.current_homework_questions) - 1:
+        if self.current_question >= len(self.questions) - 1:
             self.question_next_question_button.setEnabled(False)
             self.question_next_question_button.setVisible(False)
         else:
@@ -339,15 +333,15 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.question_submit_button.clicked.connect(lambda: self.question_page_submit_response())
 
     def question_page_next_page(self):
-        self.question_number += 1
+        self.current_question += 1
         self.question_reset_page()
 
     def question_page_previous_page(self):
-        self.question_number -= 1
+        self.current_question -= 1
         self.question_reset_page()
 
     def question_page_submit_response(self):
-        question_id = self.current_homework_questions[self.question_number][0]
+        question_id = self.questions[self.current_question][0]
         ui_scripts.increment_user_attempts_at_question(self.current_user, question_id)
 
         if (self.correct_answer_location == 1 and self.question_radio_a.isChecked()) or (
@@ -400,21 +394,21 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def set_homework_class_change(self):
         self.set_homework_homework_combo_box.clear()
-        self.set_homework_homework: list = []
-        if len(self.teacher_classes) > 0:
-            self.set_homework_homework: list = ui_scripts.get_homework_of_class(
-                self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0])
-            for each_homework in self.set_homework_homework:
+        self.homework: list = []
+        if len(self.current_classes) > 0:
+            self.homework: list = ui_scripts.get_homework_of_class(
+                self.current_classes[self.set_homework_class_combo_box.currentIndex()][0])
+            for each_homework in self.homework:
                 self.set_homework_homework_combo_box.addItem(each_homework[1])
         self.set_homework_homework_change()
 
     def set_homework_homework_change(self):
         self.set_homework_question_combo_box.clear()
-        self.set_homework_questions: list = []
-        if len(self.set_homework_homework) > 0:
-            self.set_homework_questions: list = ui_scripts.get_questions_of_homework(
-                self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0])
-            for each_question in self.set_homework_questions:
+        self.questions: list = []
+        if len(self.homework) > 0:
+            self.questions: list = ui_scripts.get_questions_of_homework(
+                self.homework[self.set_homework_homework_combo_box.currentIndex()][0])
+            for each_question in self.questions:
                 self.set_homework_question_combo_box.addItem(each_question[1])
         self.set_homework_auto_question_added_output.setText("")
         self.set_homework_custom_question_added_output.setText("")
@@ -422,8 +416,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def set_homework_question_change(self):
         self.set_homework_removed_output.setText("")
-        if len(self.set_homework_questions) > 0:
-            question_id = self.set_homework_questions[self.set_homework_question_combo_box.currentIndex()][0]
+        if len(self.questions) > 0:
+            question_id = self.questions[self.set_homework_question_combo_box.currentIndex()][0]
             self.set_homework_question_label.setText(ui_scripts.get_question_text_of_question(question_id))
             self.set_homework_answer_label.setText(ui_scripts.get_correct_answer_of_question(question_id))
         else:
@@ -431,9 +425,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.set_homework_answer_label.setText("")
 
     def set_homework_remove_question(self):
-        if len(self.set_homework_questions) > 0:
-            question_id = self.set_homework_questions[self.set_homework_question_combo_box.currentIndex()][0]
-            homework_id = self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0]
+        if len(self.questions) > 0:
+            question_id = self.questions[self.set_homework_question_combo_box.currentIndex()][0]
+            homework_id = self.homework[self.set_homework_homework_combo_box.currentIndex()][0]
             ui_scripts.remove_question_from_homework(question_id, homework_id)
             self.set_homework_homework_change()
             self.set_homework_removed_output.setText("Question removed")
@@ -458,12 +452,12 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.set_homework_question_label.setText("")
         self.set_homework_answer_label.setText("")
         self.set_homework_reset_labels()
-        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
-        for each_class in self.teacher_classes:
+        self.current_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.current_classes:
             self.set_homework_class_combo_box.addItem(each_class[1])
 
     def set_homework_add_custom_question(self):
-        if len(self.teacher_classes) == 0 or len(self.set_homework_homework) == 0:
+        if len(self.current_classes) == 0 or len(self.homework) == 0:
             self.set_homework_custom_question_added_output.setText("No homework selected")
             return
         self.set_homework_custom_question_added_output.setText("")
@@ -499,10 +493,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
                 return
             answer_d = self.set_homework_answer_d_input.toPlainText()
-        if len(self.teacher_classes) <= 0:
+        if len(self.current_classes) <= 0:
             self.set_homework_custom_question_added_output.setText("No class selected")
             return
-        if len(self.set_homework_homework) <= 0:
+        if len(self.homework) <= 0:
             self.set_homework_custom_question_added_output.setText("No homework selected")
             return
         question = question_scripts.Question(self.set_homework_question_name_input.text().casefold(), 1, 1,
@@ -511,13 +505,13 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                                              self.set_homework_answer_b_input.toPlainText(), answer_c, answer_d)
         question_position: int = (question.save_question())
         ui_scripts.insert_question_into_homework(
-            self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0],
-            self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+            self.current_classes[self.set_homework_class_combo_box.currentIndex()][0],
+            self.homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
         self.set_homework_homework_change()
         self.set_homework_custom_question_added_output.setText("Question Added")
 
     def set_homework_add_automatic_question(self):
-        if len(self.teacher_classes) == 0 or len(self.set_homework_homework) == 0:
+        if len(self.current_classes) == 0 or len(self.homework) == 0:
             self.set_homework_auto_question_added_output.setText("No homework selected")
             return
         self.set_homework_auto_question_added_output.setText("")
@@ -538,8 +532,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         maximum_x: float = data[3]
         question_position: int = (question.save_question())
         ui_scripts.insert_question_into_homework(
-            self.teacher_classes[self.set_homework_class_combo_box.currentIndex()][0],
-            self.set_homework_homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+            self.current_classes[self.set_homework_class_combo_box.currentIndex()][0],
+            self.homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
         if function is not None and minimum_x is not None and maximum_x is not None:
             ui_scripts.set_question_graph(question_position, str(function), float(minimum_x), float(maximum_x))
         self.set_homework_homework_change()
@@ -594,7 +588,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                                       self.create_account_last_name_input.text(),
                                       self.get_account_type_selected())
             # Resets create account page once account successfully created
-            self.reset_pages(self.create_account_page)
+            self.reset_page(self.page_dictionary['create_account_page'])
             # Account creation success outputted
             self.create_account_success_output.setText("Account created")
 
@@ -614,8 +608,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears class selection combo box
         self.previous_scores_class_combo_box.clear()
         # Inserts class list into combo box
-        self.student_classes: list = ui_scripts.get_classes_of_student(self.current_user)
-        for each_class in self.student_classes:
+        self.current_classes: list = ui_scripts.get_classes_of_student(self.current_user)
+        for each_class in self.current_classes:
             self.previous_scores_class_combo_box.addItem(each_class[1])
         # Updates score table to first class selected
         self.previous_scores_update_table()
@@ -628,18 +622,18 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears table to allow for new values
         self.previous_scores_table.clearContents()
         # If user is any classes, populates table with homework scores
-        if len(self.student_classes) != 0:
+        if len(self.current_classes) != 0:
             homework_ids: list = []
             # For selected, id of every homework is appended to an array
             for each_homework in ui_scripts.get_homework_of_class(
-                    self.student_classes[self.previous_scores_class_combo_box.currentIndex()][0]):
+                    self.current_classes[self.previous_scores_class_combo_box.currentIndex()][0]):
                 homework_ids.append(each_homework[0])
             # Inserts all homework data for class into table
             self.previous_scores_table.setRowCount(len(homework_ids))
             row_counter: int = -1
             for each_homework in homework_ids:
                 row_counter += 1
-                data: tuple = ui_scripts.get_homework_score(self.current_user, each_homework, self.student_classes[
+                data: tuple = ui_scripts.get_homework_score(self.current_user, each_homework, self.current_classes[
                     self.previous_scores_class_combo_box.currentIndex()][0])
                 self.previous_scores_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(data[0]))
                 self.previous_scores_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem("{}%".format(data[1])))
@@ -666,8 +660,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         self.admin_class_user_combo_box.clear()
         self.admin_delete_class_combo_box.clear()
         # Updates combo boxes to contain relevant values for current user
-        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
-        for each_class in self.teacher_classes:
+        self.current_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.current_classes:
             self.admin_class_user_combo_box.addItem(each_class[1])
             self.admin_delete_class_combo_box.addItem(each_class[1])
         self.admin_update_username_combo_box()
@@ -705,18 +699,18 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears class users combo box
         self.admin_username_combo_box.clear()
         # If a class is selected, stores all user ids in a list anf adds each corresponding username to the combo box
-        if len(self.teacher_classes) != 0:
+        if len(self.current_classes) != 0:
             self.class_users: list = ui_scripts.get_students_of_class(
-                self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
+                self.current_classes[self.admin_class_user_combo_box.currentIndex()][0])
             for each_user in self.class_users:
                 self.admin_username_combo_box.addItem(each_user[1])
 
     def admin_update_remove_homework_combo_box(self):
         self.admin_remove_homework_combo_box.clear()
-        if len(self.teacher_classes) != 0:
-            self.class_homework: list = ui_scripts.get_homework_of_class(
-                self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0])
-            for each_homework in self.class_homework:
+        if len(self.current_classes) != 0:
+            self.homework: list = ui_scripts.get_homework_of_class(
+                self.current_classes[self.admin_class_user_combo_box.currentIndex()][0])
+            for each_homework in self.homework:
                 self.admin_remove_homework_combo_box.addItem(each_homework[1])
 
     def admin_class_user_combo_box_selection_change(self):
@@ -726,11 +720,11 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def admin_add_user_to_class(self):
         user: str = self.admin_username_input.text()
         # Stops scripts being able to run if the teacher has no classes to add a student to
-        if len(self.teacher_classes) > 0:
+        if len(self.current_classes) > 0:
             # If username exists runs scripts to add user to class
             if db_scripts.check_user_exists(user):
                 user_id: int = db_scripts.get_user_id(user)
-                class_id: int = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
+                class_id: int = self.current_classes[self.admin_class_user_combo_box.currentIndex()][0]
                 # If user already in class outputs error
                 if ui_scripts.check_student_in_class(user_id, class_id):
                     self.admin_add_user_status_label.setText("User already in class")
@@ -748,10 +742,10 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def admin_remove_user_from_class(self):
         # Stops scripts being able to run if a student and/or class is not selected
-        if len(self.class_users) > 0 and len(self.teacher_classes) > 0:
+        if len(self.class_users) > 0 and len(self.current_classes) > 0:
             # Gets the currently selected user and class and runs scripts to remove user from the class
             user_id: int = self.class_users[self.admin_username_combo_box.currentIndex()][0]
-            class_id: int = self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0]
+            class_id: int = self.current_classes[self.admin_class_user_combo_box.currentIndex()][0]
             ui_scripts.remove_student_from_class(user_id, class_id)
             # Outputs success message
             self.admin_reset_page()
@@ -774,9 +768,9 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def admin_remove_class(self):
         # If there are no classes to select does not attempt to remove class
-        if len(self.teacher_classes) > 0:
+        if len(self.current_classes) > 0:
             # Runs scripts to remove class from database
-            ui_scripts.remove_class(self.teacher_classes[self.admin_delete_class_combo_box.currentIndex()][0])
+            ui_scripts.remove_class(self.current_classes[self.admin_delete_class_combo_box.currentIndex()][0])
             self.admin_reset_page()
             # Outputs success message
             self.admin_delete_class_status_label.setText("Success")
@@ -786,7 +780,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.admin_delete_class_status_label.setText("No class selected")
 
     def admin_create_homework(self):
-        if len(self.teacher_classes) > 0:
+        if len(self.current_classes) > 0:
             due_date: datetime.date = datetime.date(self.admin_due_date_calendar.selectedDate().year(),
                                                     self.admin_due_date_calendar.selectedDate().month(),
                                                     self.admin_due_date_calendar.selectedDate().day())
@@ -800,7 +794,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
                 homework_id: int = ui_scripts.insert_new_homework(self.admin_homework_name_input.text(),
                                                                   self.admin_homework_description_input.toPlainText())
                 ui_scripts.add_homework_to_class(
-                    self.teacher_classes[self.admin_class_user_combo_box.currentIndex()][0], homework_id, due_date)
+                    self.current_classes[self.admin_class_user_combo_box.currentIndex()][0], homework_id, due_date)
                 self.admin_add_homework_status_output.setText("Homework Added")
                 self.admin_homework_name_input.setText("")
                 self.admin_homework_description_input.setText("")
@@ -812,8 +806,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
             self.admin_add_homework_status_output.setText("Class must be selected")
 
     def admin_remove_homework(self):
-        if len(self.class_homework) > 0:
-            ui_scripts.remove_homework(self.class_homework[self.admin_remove_homework_combo_box.currentIndex()][0])
+        if len(self.homework) > 0:
+            ui_scripts.remove_homework(self.homework[self.admin_remove_homework_combo_box.currentIndex()][0])
             self.admin_update_remove_homework_combo_box()
             self.admin_remove_homework_status_label.setText("Homework removed")
         else:
@@ -903,8 +897,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def view_classes_reset_page(self):
         self.view_classes_view_type_combo_box.setCurrentIndex(0)
         self.view_classes_class_combo_box.clear()
-        self.teacher_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
-        for each_class in self.teacher_classes:
+        self.current_classes: list = ui_scripts.get_classes_of_teacher(self.current_user)
+        for each_class in self.current_classes:
             self.view_classes_class_combo_box.addItem(each_class[1])
 
     def view_classes_page_button_setup(self):
@@ -917,23 +911,23 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
     def view_classes_class_or_type_change(self):
         self.view_classes_homework_or_student_combo_box.clear()
         self.view_classes_students_or_homework: list = []
-        if len(self.teacher_classes) > 0:
+        if len(self.current_classes) > 0:
             if self.view_classes_view_type_combo_box.currentIndex() == 0:
                 self.view_classes_display_type_output.setText("Homework:")
                 for each_homework in ui_scripts.get_homework_of_class(
-                        self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
+                        self.current_classes[self.view_classes_class_combo_box.currentIndex()][0]):
                     self.view_classes_students_or_homework.append(each_homework[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_homework[1])
             else:
                 self.view_classes_display_type_output.setText("Student:")
                 for each_student in ui_scripts.get_students_of_class(
-                        self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]):
+                        self.current_classes[self.view_classes_class_combo_box.currentIndex()][0]):
                     self.view_classes_students_or_homework.append(each_student[0])
                     self.view_classes_homework_or_student_combo_box.addItem(each_student[1])
 
     def view_classes_update_table(self):
         self.view_classes_score_table.clear()
-        current_class: int = self.teacher_classes[self.view_classes_class_combo_box.currentIndex()][0]
+        current_class: int = self.current_classes[self.view_classes_class_combo_box.currentIndex()][0]
         current_student_or_homework: int = self.view_classes_students_or_homework[
             self.view_classes_homework_or_student_combo_box.currentIndex()]
         if self.view_classes_view_type_combo_box.currentIndex() == 0:
@@ -978,8 +972,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Clears class selection combo box
         self.homework_select_class_combo_box.clear()
         # Inserts class list into combo box
-        self.student_classes: list = ui_scripts.get_classes_of_student(self.current_user)
-        for each_class in self.student_classes:
+        self.current_classes: list = ui_scripts.get_classes_of_student(self.current_user)
+        for each_class in self.current_classes:
             self.homework_select_class_combo_box.addItem(each_class[1])
         # Updates score table to first class selected
         self.homework_select_update_table()
@@ -992,32 +986,32 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     def homework_select_update_table(self):
         self.homework_select_table.clearContents()
-        if len(self.student_classes) != 0:
+        if len(self.current_classes) != 0:
             homework_ids: list = []
-            self.homework_select_valid_homework_ids: list = []
+            self.homework_ids: list = []
             for each_homework in ui_scripts.get_homework_of_class(
-                    self.student_classes[self.homework_select_class_combo_box.currentIndex()][0]):
+                    self.current_classes[self.homework_select_class_combo_box.currentIndex()][0]):
                 homework_ids.append(each_homework[0])
             for each_homework in homework_ids:
-                data: tuple = ui_scripts.get_homework_name_and_due_date(each_homework, self.student_classes[
+                data: tuple = ui_scripts.get_homework_name_and_due_date(each_homework, self.current_classes[
                     self.homework_select_class_combo_box.currentIndex()][0])
                 due_year_month_day: list = data[1].split('-')
                 due_date: datetime.date = datetime.date(int(due_year_month_day[0]), int(due_year_month_day[1]),
                                                         int(due_year_month_day[2]))
                 if datetime.date.today() < due_date:
-                    self.homework_select_valid_homework_ids.append([each_homework, data[0], data[1]])
-            self.homework_select_table.setRowCount(len(self.homework_select_valid_homework_ids))
+                    self.homework_ids.append([each_homework, data[0], data[1]])
+            self.homework_select_table.setRowCount(len(self.homework_ids))
             row_counter: int = -1
-            for each_homework in self.homework_select_valid_homework_ids:
+            for each_homework in self.homework_ids:
                 row_counter += 1
                 self.homework_select_table.setItem(row_counter, 0, QtWidgets.QTableWidgetItem(each_homework[1]))
                 self.homework_select_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem(each_homework[2]))
 
     def homework_select_table_clicked(self):
-        homework_id = self.homework_select_valid_homework_ids[self.homework_select_table.currentRow()][0]
-        self.current_homework_questions: list = ui_scripts.get_questions_of_homework(homework_id)
-        if len(self.current_homework_questions) > 0:
-            self.change_page(self.question_page)
+        homework_id = self.homework_ids[self.homework_select_table.currentRow()][0]
+        self.questions: list = ui_scripts.get_questions_of_homework(homework_id)
+        if len(self.questions) > 0:
+            self.change_page(self.page_dictionary['question_page'])
         else:
             return
 

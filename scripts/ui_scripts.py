@@ -389,5 +389,4 @@ def set_question_graph(question_id: int, function: str, minimum_x: float, maximu
 
 if __name__ == '__main__':
     qid = 100117
-    qid = 100117
     print(get_question_graph(qid))

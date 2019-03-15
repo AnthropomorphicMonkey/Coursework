@@ -43,22 +43,21 @@ def check_divergent(upper_limit: float, lower_limit: float, function) -> bool:
         return False
 
 
-
 if __name__ == '__main__':
-    x = sympy.symbols('x')
-    fn = 30*x**4 + x**3 + 4*x
-    upper_limit = 0 * (sympy.pi / 2)
-    lower_limit = upper_limit
-    print(check_divergent(upper_limit, lower_limit, fn))
-    upper_limit = 1 * (sympy.pi / 2)
-    lower_limit = upper_limit
-    print(check_divergent(upper_limit, lower_limit, fn))
-    upper_limit = 2 * (sympy.pi / 2)
-    lower_limit = upper_limit
-    print(check_divergent(upper_limit, lower_limit, fn))
-    upper_limit = 3 * (sympy.pi / 2)
-    lower_limit = upper_limit
-    print(check_divergent(upper_limit, lower_limit, fn))
-    upper_limit = 4 * (sympy.pi / 2)
-    lower_limit = upper_limit
-    print(check_divergent(upper_limit, lower_limit, fn))
+    x1 = sympy.symbols('x')
+    fn = 30 * x1 ** 4 + x1 ** 3 + 4 * x1
+    upper = 0 * (sympy.pi / 2)
+    lower = upper
+    print(check_divergent(upper, lower, fn))
+    upper = 1 * (sympy.pi / 2)
+    lower = upper
+    print(check_divergent(upper, lower, fn))
+    upper = 2 * (sympy.pi / 2)
+    lower = upper
+    print(check_divergent(upper, lower, fn))
+    upper = 3 * (sympy.pi / 2)
+    lower = upper
+    print(check_divergent(upper, lower, fn))
+    upper = 4 * (sympy.pi / 2)
+    lower = upper
+    print(check_divergent(upper, lower, fn))

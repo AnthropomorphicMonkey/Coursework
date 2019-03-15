@@ -60,15 +60,15 @@ class DefiniteIntegral(SimpsonsRule):
 
 
 if __name__ == '__main__':
-    x = sympy.symbols('x')
-    fn = x**4+5*x**2+4*x+9
-    upper_limit = 100
-    lower_limit = 1
-    print("∫", fn, "dx between x =", lower_limit, "and x =", upper_limit)
+    x1 = sympy.symbols('x')
+    fn = x1 ** 4 + 5 * x1 ** 2 + 4 * x1 + 9
+    upper = 100
+    lower = 1
+    print("∫", fn, "dx between x =", lower, "and x =", upper)
     strips = 1000
-    trapezium = TrapeziumRule(strips, upper_limit, lower_limit, fn)
+    trapezium = TrapeziumRule(strips, upper, lower, fn)
     print(trapezium.integral())
-    simpson = SimpsonsRule(strips, upper_limit, lower_limit, fn)
+    simpson = SimpsonsRule(strips, upper, lower, fn)
     print(simpson.integral())
-    numerical = DefiniteIntegral(upper_limit, lower_limit, fn)
+    numerical = DefiniteIntegral(upper, lower, fn)
     print(numerical.integral())
