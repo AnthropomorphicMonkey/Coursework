@@ -6,7 +6,7 @@ import sympy
 
 
 def simpsons_rule(difficulty: int) -> [question_scripts.Question, str, float, float]:
-    type_id = 2
+    type_id = 3
     number_of_strips = random.choice([4, 6, 8])
     limits_and_function: list = generate_polynomials_check_range(difficulty)
     upper_limit: float = limits_and_function[0]
@@ -21,7 +21,7 @@ def simpsons_rule(difficulty: int) -> [question_scripts.Question, str, float, fl
 
 
 def trapezium_rule(difficulty: int) -> [question_scripts.Question, str, float, float]:
-    type_id = 3
+    type_id = 4
     number_of_strips = random.randint(4, 8)
     limits_and_function: list = generate_polynomials_check_range(difficulty)
     upper_limit: float = limits_and_function[0]
@@ -36,7 +36,7 @@ def trapezium_rule(difficulty: int) -> [question_scripts.Question, str, float, f
 
 
 def definite_integral(difficulty: int) -> [question_scripts.Question, str, float, float]:
-    type_id = 4
+    type_id = 5
     limits_and_function: list = generate_polynomials_check_range(difficulty)
     upper_limit: float = limits_and_function[0]
     lower_limit: float = limits_and_function[1]

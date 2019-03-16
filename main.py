@@ -1,6 +1,70 @@
+def create_database():
+    database_name: str = 'database.db'
+    conn = sqlite3.connect(database_name)
+    c = conn.cursor()
+    sql: str = 'CREATE TABLE IF NOT EXISTS "class_homework" ' \
+               '( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, `class_id` INTEGER NOT NULL, ' \
+               '`homework_id` INTEGER NOT NULL, `due_date` TEXT NOT NULL, ' \
+               'FOREIGN KEY(`class_id`) REFERENCES `classes`(`id`), ' \
+               'FOREIGN KEY(`homework_id`) REFERENCES `homework`(`id`) );'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "class_user" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, ' \
+               '`class_id` INTEGER NOT NULL, `student_id` INTEGER NOT NULL, ' \
+               'FOREIGN KEY(`class_id`) REFERENCES `classes`(`id`), ' \
+               'FOREIGN KEY(`student_id`) REFERENCES `users`(`id`) )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "classes" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, ' \
+               '`name` TEXT NOT NULL, `teacher` INTEGER NOT NULL, FOREIGN KEY(`teacher`) REFERENCES `users`(`id`) )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "graphs" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, ' \
+               '`question_id` INTEGER NOT NULL UNIQUE, `function` TEXT NOT NULL, `minimum_x` REAL NOT NULL, ' \
+               '`maximum_x` REAL NOT NULL, FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "homework" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, ' \
+               '`name` TEXT NOT NULL, `description` TEXT )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "homework_questions" ( ' \
+               '`id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, `homework_id` INTEGER NOT NULL, ' \
+               '`question_id` INTEGER NOT NULL, FOREIGN KEY(`homework_id`) REFERENCES `homework`(`id`), ' \
+               'FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`) )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "question_results" ' \
+               '( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, `user_id` INTEGER NOT NULL, ' \
+               '`question_id` INTEGER NOT NULL, `attempts` INTEGER NOT NULL, `correct` TEXT NOT NULL, ' \
+               'FOREIGN KEY(`question_id`) REFERENCES `questions`(`id`), ' \
+               'FOREIGN KEY(`user_id`) REFERENCES `users`(`id`) )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "question_types" ' \
+               '( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, `type` TEXT NOT NULL UNIQUE )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "questions" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, ' \
+               '`name` TEXT NOT NULL, `type_id` INTEGER NOT NULL, `question_text` TEXT NOT NULL, ' \
+               '`correct_answer` TEXT NOT NULL, `answer_b` TEXT NOT NULL, `answer_c` TEXT NOT NULL, ' \
+               '`answer_d` TEXT NOT NULL, FOREIGN KEY(`type_id`) REFERENCES `question_types`(`id`) )'
+    c.execute(sql, ())
+    sql: str = 'CREATE TABLE IF NOT EXISTS "users" ( `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, ' \
+               '`username` TEXT NOT NULL UNIQUE, `password_salt` TEXT NOT NULL UNIQUE, ' \
+               '`password_hash` TEXT NOT NULL, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, ' \
+               '`type` TEXT NOT NULL )'
+    c.execute(sql, ())
+    ######
+    sql1: str = 'INSERT INTO question_types(id, type) VALUES(?, ?)'
+    sql2: str = 'UPDATE question_types SET type = ? WHERE id = ?'
+    data = [[1, 'Custom'], [2, 'Find resultant of two forces'], [3, "Simpson's Rule"], [4, 'Trapezium Rule'],
+            [5, 'Definite Integral']]
+    for topic in data:
+        try:
+            c.execute(sql1, (topic[0], topic[1]))
+        except sqlite3.IntegrityError:
+            c.execute(sql2, (topic[1], topic[0]))
+    conn.commit()
+
+
 # If all present, imports all modules, otherwise returns an error for 5 seconds and exits program
 # noinspection SpellCheckingInspection
 try:
+    import sqlite3
+    import os
     import sys
     import PyQt5
     from PyQt5 import QtWidgets
@@ -13,6 +77,7 @@ try:
     import datetime
     import random
     import sympy
+    import window
 except ModuleNotFoundError:
     try:
         import time
@@ -26,7 +91,7 @@ except ModuleNotFoundError:
 
 
 # Window class to control uid
-class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
+class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
     # <editor-fold desc="General">
     # noinspection PyArgumentList
     def __init__(self):
@@ -36,8 +101,8 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
         # Declare constants related to page indexes of different sections of the program
         self.page_dictionary: dict = {'login_page': 0, 'create_account_page': 1, 'student_main_menu_page': 2,
                                       'teacher_main_menu_page': 3, 'question_page': 4, 'homework_select_page': 5,
-                                      'browse_quizzes_page': 6, 'previous_scores_page': 7, 'set_homework_page': 8,
-                                      'admin_page': 9, 'account_management_page': 10, 'view_classes_page': 11}
+                                      'previous_scores_page': 6, 'set_homework_page': 7, 'admin_page': 8,
+                                      'account_management_page': 9, 'view_classes_page': 10}
         # Sets up all pages
         self.button_setup()
         self.reset_page(self.page_dictionary['login_page'])
@@ -224,9 +289,6 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
     # <editor-fold desc="Student Main Menu Page">
     def student_main_menu_page_button_setup(self):
-        # If browse quizzes clicked runs scripts to change screen
-        self.student_main_menu_browse_quizzes_button.clicked.connect(
-            lambda: self.change_page(self.page_dictionary['browse_quizzes_page']))
         # If homework clicked runs scripts to change screen
         self.student_main_menu_homework_button.clicked.connect(
             lambda: self.change_page(self.page_dictionary['homework_select_page']))
@@ -1020,6 +1082,7 @@ class Window(QtWidgets.QMainWindow, uic.loadUiType('window.ui')[0]):
 
 # Runs program
 if __name__ == '__main__':
+    create_database()
     app = QtWidgets.QApplication(sys.argv)
     window = Window()
     window.show()

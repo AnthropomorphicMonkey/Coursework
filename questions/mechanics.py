@@ -4,7 +4,7 @@ import random
 
 
 def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
-    type_id = 1
+    type_id = 2
     obj = base_2d.BasicObject()
     force_magnitude_1 = random.randint(1, 100)
     force_direction_1 = random.randint(-180, 180)

@@ -93,7 +93,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>7</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -523,13 +523,6 @@
              <widget class="QPushButton" name="student_main_menu_homework_button">
               <property name="text">
                <string>Homework</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="student_main_menu_browse_quizzes_button">
-              <property name="text">
-               <string>Browse Quizzes</string>
               </property>
              </widget>
             </item>
@@ -1052,30 +1045,6 @@
         </item>
         <item>
          <spacer name="verticalSpacer_19">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="browse_quizzes_page">
-       <layout class="QVBoxLayout" name="verticalLayout_14">
-        <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Browse Quizzes</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_22">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
