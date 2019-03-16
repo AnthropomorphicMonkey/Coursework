@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -15,6 +15,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(974, 829)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
+        font.setPointSize(15)
         MainWindow.setFont(font)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -31,7 +32,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.logo_widget.sizePolicy().hasHeightForWidth())
         self.logo_widget.setSizePolicy(sizePolicy)
         self.logo_widget.setMaximumSize(QtCore.QSize(50, 50))
-        self.logo_widget.setPixmap(QtGui.QPixmap(":/images/logo.png"))
+        self.logo_widget.setPixmap(QtGui.QPixmap(":/logo/window_elements/logo.png"))
         self.logo_widget.setScaledContents(True)
         self.logo_widget.setObjectName("logo_widget")
         self.horizontalLayout_9.addWidget(self.logo_widget)
@@ -984,7 +985,7 @@ class Ui_MainWindow(object):
         self.main_widget.addWidget(self.view_classes_page)
         self.verticalLayout.addWidget(self.main_widget)
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -993,7 +994,7 @@ class Ui_MainWindow(object):
         self.login_success_output.setBuddy(self.login_submit_button)
 
         self.retranslateUi(MainWindow)
-        self.main_widget.setCurrentIndex(2)
+        self.main_widget.setCurrentIndex(8)
         self.set_homework_tab_widget.setCurrentIndex(0)
         self.admin_tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -1073,8 +1074,7 @@ class Ui_MainWindow(object):
         self.set_homework_difficulty_combo_box.setItemText(4, _translate("MainWindow", "5"))
         self.set_homework_add_automatic_question_button.setText(_translate("MainWindow", "Add Automatic Question"))
         self.set_homework_auto_question_added_output.setText(_translate("MainWindow", "Question Added"))
-        self.set_homework_tab_widget.setTabText(self.set_homework_tab_widget.indexOf(self.tab),
-                                                _translate("MainWindow", "Add Automatic Question"))
+        self.set_homework_tab_widget.setTabText(self.set_homework_tab_widget.indexOf(self.tab), _translate("MainWindow", "Add Automatic Question"))
         self.label_21.setText(_translate("MainWindow", "Question Name:"))
         self.set_homework_question_name_input.setPlaceholderText(_translate("MainWindow", "Question Name"))
         self.label_11.setText(_translate("MainWindow", "Question:"))
@@ -1089,16 +1089,14 @@ class Ui_MainWindow(object):
         self.set_homework_answer_d_input.setPlaceholderText(_translate("MainWindow", "Incorrect Answer"))
         self.set_homework_add_custom_question_button.setText(_translate("MainWindow", "Add Custom Question"))
         self.set_homework_custom_question_added_output.setText(_translate("MainWindow", "Question Added"))
-        self.set_homework_tab_widget.setTabText(self.set_homework_tab_widget.indexOf(self.tab_2),
-                                                _translate("MainWindow", "Add Custom Question"))
+        self.set_homework_tab_widget.setTabText(self.set_homework_tab_widget.indexOf(self.tab_2), _translate("MainWindow", "Add Custom Question"))
         self.label_7.setText(_translate("MainWindow", "Question:"))
         self.set_homework_question_label.setText(_translate("MainWindow", "Question Text"))
         self.label_5.setText(_translate("MainWindow", "Answer:"))
         self.set_homework_answer_label.setText(_translate("MainWindow", "Correct Answer"))
         self.set_homework_remove_question_button.setText(_translate("MainWindow", "REMOVE QUESTION"))
         self.set_homework_removed_output.setText(_translate("MainWindow", "Question Removed"))
-        self.set_homework_tab_widget.setTabText(self.set_homework_tab_widget.indexOf(self.tab_3),
-                                                _translate("MainWindow", "Remove Question"))
+        self.set_homework_tab_widget.setTabText(self.set_homework_tab_widget.indexOf(self.tab_3), _translate("MainWindow", "Remove Question"))
         self.label_16.setText(_translate("MainWindow", "Create Class:"))
         self.admin_class_input.setPlaceholderText(_translate("MainWindow", "Class Name"))
         self.admin_create_class_submit_button.setText(_translate("MainWindow", "Submit"))
@@ -1108,13 +1106,11 @@ class Ui_MainWindow(object):
         self.admin_username_input.setPlaceholderText(_translate("MainWindow", "Username"))
         self.admin_username_submit_button.setText(_translate("MainWindow", "Submit"))
         self.admin_add_user_status_label.setText(_translate("MainWindow", "Add user status"))
-        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_5),
-                                         _translate("MainWindow", "Add User"))
+        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_5), _translate("MainWindow", "Add User"))
         self.admin_username_combo_box.setItemText(0, _translate("MainWindow", "Username"))
         self.admin_remove_user_button.setText(_translate("MainWindow", "REMOVE"))
         self.admin_remove_user_status_label.setText(_translate("MainWindow", "Remove user status"))
-        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_4),
-                                         _translate("MainWindow", "Remove User"))
+        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_4), _translate("MainWindow", "Remove User"))
         self.label_42.setText(_translate("MainWindow", "Homework Name:"))
         self.admin_homework_name_input.setPlaceholderText(_translate("MainWindow", "Homework Name"))
         self.label_3.setText(_translate("MainWindow", "Description"))
@@ -1122,13 +1118,11 @@ class Ui_MainWindow(object):
         self.label_43.setText(_translate("MainWindow", "Due Date:"))
         self.admin_add_homework_button.setText(_translate("MainWindow", "Add Homework"))
         self.admin_add_homework_status_output.setText(_translate("MainWindow", "Homework Added"))
-        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_6),
-                                         _translate("MainWindow", "Add Homework"))
+        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_6), _translate("MainWindow", "Add Homework"))
         self.admin_remove_homework_combo_box.setItemText(0, _translate("MainWindow", "Homework"))
         self.admin_remove_homework_button.setText(_translate("MainWindow", "REMOVE"))
         self.admin_remove_homework_status_label.setText(_translate("MainWindow", "Remove homework status"))
-        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_7),
-                                         _translate("MainWindow", "Remove Homework"))
+        self.admin_tab_widget.setTabText(self.admin_tab_widget.indexOf(self.tab_7), _translate("MainWindow", "Remove Homework"))
         self.label_20.setText(_translate("MainWindow", "Delete Class:"))
         self.admin_delete_class_combo_box.setItemText(0, _translate("MainWindow", "Class"))
         self.admin_remove_class_button.setText(_translate("MainWindow", "REMOVE"))
@@ -1142,8 +1136,7 @@ class Ui_MainWindow(object):
         self.account_management_new_password_label.setText(_translate("MainWindow", "New Password"))
         self.account_management_new_password_input.setPlaceholderText(_translate("MainWindow", "New Password"))
         self.account_management_verify_new_password_label.setText(_translate("MainWindow", "Verify New Password:"))
-        self.account_management_new_password_verify_input.setPlaceholderText(
-            _translate("MainWindow", "Verify New Password"))
+        self.account_management_new_password_verify_input.setPlaceholderText(_translate("MainWindow", "Verify New Password"))
         self.account_management_submit_button.setText(_translate("MainWindow", "Submit"))
         self.account_management_success_output.setText(_translate("MainWindow", "Result"))
         self.label_15.setText(_translate("MainWindow", "View Type:"))

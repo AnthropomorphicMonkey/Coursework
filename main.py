@@ -1,3 +1,18 @@
+import sqlite3
+import sys
+import os
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore, QtChart
+from scripts import db_scripts, ui_scripts
+import questions.question_scripts as question_scripts
+import questions.mechanics
+import questions.calculus
+import datetime
+import random
+import sympy
+import window
+
+
 def create_database():
     database_name: str = 'database.db'
     conn = sqlite3.connect(database_name)
@@ -58,36 +73,6 @@ def create_database():
         except sqlite3.IntegrityError:
             c.execute(sql2, (topic[1], topic[0]))
     conn.commit()
-
-
-# If all present, imports all modules, otherwise returns an error for 5 seconds and exits program
-# noinspection SpellCheckingInspection
-try:
-    import sqlite3
-    import os
-    import sys
-    import PyQt5
-    from PyQt5 import QtWidgets
-    from PyQt5 import uic, QtCore, QtChart
-    # 'pyrcc5 -o window_rc.py window.qrc' Used to generate resource file (window_rc.py)
-    from scripts import db_scripts, ui_scripts
-    import questions.question_scripts as question_scripts
-    import questions.mechanics
-    import questions.calculus
-    import datetime
-    import random
-    import sympy
-    import window
-except ModuleNotFoundError:
-    try:
-        import time
-
-        print("Required modules are not installed, program requires:\n-PyQt5")
-        time.sleep(5)
-        raise SystemExit
-    # Program simply exits immediately if even built in time library is not present
-    except ModuleNotFoundError:
-        raise SystemExit
 
 
 # Window class to control uid

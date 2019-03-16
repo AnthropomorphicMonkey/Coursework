@@ -13,6 +13,7 @@
   <property name="font">
    <font>
     <family>Segoe UI</family>
+    <pointsize>15</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -39,7 +40,7 @@
            </size>
           </property>
           <property name="pixmap">
-           <pixmap resource="window_elements/window.qrc">:/images/logo.png</pixmap>
+           <pixmap resource="window.qrc">:/logo/window_elements/logo.png</pixmap>
           </property>
           <property name="scaledContents">
            <bool>true</bool>
@@ -93,7 +94,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -2537,12 +2538,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="window_elements/window.qrc"/>
-  <include location="window_elements/window.qrc"/>
-  <include location="window_elements/window.qrc"/>
-  <include location="window_elements/window.qrc"/>
-  <include location="window_elements/window.qrc"/>
-  <include location="window_elements/window.qrc"/>
+  <include location="window.qrc"/>
  </resources>
  <connections/>
 </ui>
