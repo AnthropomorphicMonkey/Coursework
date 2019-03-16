@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>735</width>
-    <height>829</height>
+    <width>654</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="font">
    <font>
     <family>Segoe UI</family>
-    <pointsize>15</pointsize>
+    <pointsize>8</pointsize>
+    <weight>50</weight>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
@@ -757,7 +760,14 @@
                </widget>
               </item>
               <item>
-               <widget class="QChartView" name="question_chart"/>
+               <widget class="QChartView" name="question_chart">
+                <property name="minimumSize">
+                 <size>
+                  <width>600</width>
+                  <height>300</height>
+                 </size>
+                </property>
+               </widget>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_19">
@@ -1278,6 +1288,11 @@
                       <item>
                        <property name="text">
                         <string>Definite Integral</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>Projectile</string>
                        </property>
                       </item>
                      </widget>

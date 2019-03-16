@@ -1,11 +1,12 @@
 import questions.question_scripts as question_scripts
-import maths_scripts.mechanics.base_2d as base_2d
+import maths_scripts.mechanics.two_dimensions as two_dimensions
 import random
+import sympy
 
 
 def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
     type_id = 2
-    obj = base_2d.BasicObject()
+    obj = two_dimensions.BasicObject()
     force_magnitude_1 = random.randint(1, 100)
     force_direction_1 = random.randint(-180, 180)
     obj.add_force(force_magnitude_1, force_direction_1)
@@ -21,7 +22,7 @@ def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
                                                                             force_direction_1,
                                                                             force_magnitude_2,
                                                                             force_direction_2)
-        correct_answer = round(obj.force, 2)
+        correct_answer = round(obj.force_magnitude, 2)
         question = question_scripts.Question('Find resultant of two forces', type_id, difficulty, question_text,
                                              correct_answer)
         return question
@@ -39,11 +40,43 @@ def find_resultant_of_two_forces(difficulty: int) -> question_scripts.Question:
         return question
 
 
+def projectile(difficulty: int) -> [question_scripts.Question, str, float, float]:
+    type_id = 6
+    mass: int = random.randint(1, 10)
+    initial_velocity_magnitude: int = random.randint(1, 50)
+    initial_velocity_direction: int = random.randint(0, 90)
+    projectile_instance = two_dimensions.Projectile(mass=mass, initial_velocity_magnitude=initial_velocity_magnitude,
+                                                    initial_velocity_direction=initial_velocity_direction)
+    limit_positions = projectile_instance.time_of_y_displacement(0)
+    lower_limit = projectile_instance.final_displacement_x(limit_positions[0])
+    upper_limit = projectile_instance.final_displacement_x(limit_positions[1])
+    x = sympy.symbols('x')
+    a: float = 0.5 * projectile_instance.acceleration_x
+    b: float = projectile_instance.initial_velocity_x
+    time: int = random.randint(sympy.ceiling(lower_limit), sympy.floor(upper_limit))
+    upper_limit: int = time
+    if a == 0:
+        t = x / b
+    else:
+        c: float = -x
+        t = ((-b + (((b ** 2) - (4 * a * c)) ** 0.5)) / (2 * a))
+    function = (0.5 * projectile_instance.acceleration_y * (t ** 2)) + (projectile_instance.initial_velocity_y * t)
+    ##
+    question_to_ask = random.randint(1, 2)
+    if question_to_ask == 1:
+        question_text: str = 'A projectile is launched with velocity {} at an angle of {} to the horizontal. ' \
+                             'Find horizontal displacement after {} seconds'.format(initial_velocity_magnitude,
+                                                                                    initial_velocity_direction, time)
+        correct_answer: float = projectile_instance.final_displacement_x(time)
+    else:
+        question_text: str = 'A projectile is launched with velocity {} at an angle of {} to the horizontal. ' \
+                             'Find vertical displacement after {} seconds'.format(initial_velocity_magnitude,
+                                                                                  initial_velocity_direction, time)
+        correct_answer: float = projectile_instance.final_displacement_y(time)
+    correct_answer = round(correct_answer, 2)
+    question = question_scripts.Question("Projectile", type_id, difficulty, question_text, correct_answer)
+    return question, function, lower_limit, upper_limit
+
+
 if __name__ == '__main__':
-    q = find_resultant_of_two_forces(4)
-    print(q)
-    print(q.question_text)
-    print(q.correct_answer)
-    print(q.answer_b)
-    print(q.answer_c)
-    print(q.answer_d)
+    print(projectile(3))

@@ -54,8 +54,13 @@ class Question:
         self.set_incorrect_answers(answer_b, answer_c, answer_d)
 
     def generate_incorrect_numerical_value(self) -> float:
-        incorrect_answer: float = random.uniform((self.correct_answer - (self.correct_answer * (1 / self.difficulty))),
-                                                 (self.correct_answer + (self.correct_answer * (1 / self.difficulty))))
+        if round(self.correct_answer, 1) == 0:
+            incorrect_answer: float = random.uniform((self.correct_answer - (2 * (1 / self.difficulty))),
+                                                     (self.correct_answer + (2 * (1 / self.difficulty))))
+        else:
+            incorrect_answer: float = random.uniform(
+                (self.correct_answer - (self.correct_answer * (1 / self.difficulty))),
+                (self.correct_answer + (self.correct_answer * (1 / self.difficulty))))
         return incorrect_answer
 
     def save_question(self) -> int:

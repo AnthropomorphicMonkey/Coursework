@@ -67,7 +67,7 @@ def create_database():
     sql1: str = 'INSERT INTO question_types(id, type) VALUES(?, ?)'
     sql2: str = 'UPDATE question_types SET type = ? WHERE id = ?'
     data = [[1, 'Custom'], [2, 'Find resultant of two forces'], [3, "Simpson's Rule"], [4, 'Trapezium Rule'],
-            [5, 'Definite Integral']]
+            [5, 'Definite Integral'], [6, 'Projectile']]
     for topic in data:
         try:
             c.execute(sql1, (topic[0], topic[1]))
@@ -572,6 +572,8 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             data: list = questions.calculus.trapezium_rule(self.set_homework_difficulty_combo_box.currentIndex() + 1)
         elif self.set_homework_type_combo_box.currentIndex() == 3:
             data: list = questions.calculus.definite_integral(self.set_homework_difficulty_combo_box.currentIndex() + 1)
+        elif self.set_homework_type_combo_box.currentIndex() == 4:
+            data: list = questions.mechanics.projectile(self.set_homework_difficulty_combo_box.currentIndex() + 1)
         else:
             raise IndexError
         question: question_scripts.Question = data[0]
