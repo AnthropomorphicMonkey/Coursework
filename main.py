@@ -1,16 +1,17 @@
-import sqlite3
-import sys
-import os
-from PyQt5 import QtWidgets
-from PyQt5 import QtCore, QtChart
-from scripts import db_scripts, ui_scripts
-import questions.question_scripts as question_scripts
-import questions.mechanics
-import questions.calculus
 import datetime
 import random
+import sqlite3
+import sys
+
 import sympy
+from PyQt5 import QtCore, QtChart
+from PyQt5 import QtWidgets
+
+import questions.calculus
+import questions.mechanics
+import questions.question_scripts as question_scripts
 import window
+from scripts import db_scripts, ui_scripts
 
 
 def create_database():
