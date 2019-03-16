@@ -12,7 +12,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(974, 829)
+        MainWindow.resize(735, 829)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(15)
@@ -994,7 +994,7 @@ class Ui_MainWindow(object):
         self.login_success_output.setBuddy(self.login_submit_button)
 
         self.retranslateUi(MainWindow)
-        self.main_widget.setCurrentIndex(8)
+        self.main_widget.setCurrentIndex(7)
         self.set_homework_tab_widget.setCurrentIndex(0)
         self.admin_tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
