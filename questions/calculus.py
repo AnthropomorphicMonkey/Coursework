@@ -17,6 +17,8 @@ def simpsons_rule(difficulty: int) -> [question_scripts.Question, str, float, fl
                     "between x = {} and x = {}".format(function, number_of_strips, lower_limit, upper_limit)
     correct_answer = round(simpsons_rule_instance.integral(), 2)
     question = question_scripts.Question("Simpson's Rule", type_id, difficulty, question_text, correct_answer)
+    upper_limit: float = upper_limit * (random.uniform(1.1, 1.5))
+    lower_limit: float = lower_limit * (random.uniform(1.1, 1.5))
     return question, function, lower_limit, upper_limit
 
 
@@ -32,6 +34,8 @@ def trapezium_rule(difficulty: int) -> [question_scripts.Question, str, float, f
                     "between x = {} and x = {}".format(function, number_of_strips, lower_limit, upper_limit)
     correct_answer = round(trapezium_rule_instance.integral(), 2)
     question = question_scripts.Question("Trapezium Rule", type_id, difficulty, question_text, correct_answer)
+    upper_limit: float = upper_limit * (random.uniform(1.1, 1.5))
+    lower_limit: float = lower_limit * (random.uniform(1.1, 1.5))
     return question, function, lower_limit, upper_limit
 
 
@@ -45,6 +49,8 @@ def definite_integral(difficulty: int) -> [question_scripts.Question, str, float
     question_text = "Find ∫ {} dx between x = {} and x = {}".format(function, lower_limit, upper_limit)
     correct_answer = round(integral_instance.integral(), 2)
     question = question_scripts.Question("Definite Integral", type_id, difficulty, question_text, correct_answer)
+    upper_limit: float = upper_limit * (random.uniform(1.1, 1.5))
+    lower_limit: float = lower_limit * (random.uniform(1.1, 1.5))
     return question, function, lower_limit, upper_limit
 
 
