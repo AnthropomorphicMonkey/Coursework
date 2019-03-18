@@ -1,6 +1,5 @@
 import questions.question_scripts as question_scripts
 import maths_scripts.calculus
-import maths_scripts.general
 import random
 import sympy
 
@@ -61,11 +60,11 @@ def generate_polynomials_check_range(difficulty: int):
         if function_type == 1 or difficulty < 3:
             upper_limit = random.randint(3, 10)
             lower_limit = random.randint(1, upper_limit - 1)
-            function = maths_scripts.general.generate_polynomial(random.randint(1, difficulty))
-            if not maths_scripts.general.check_divergent(upper_limit, lower_limit, function):
+            function = maths_scripts.generate_polynomial(random.randint(1, difficulty))
+            if not maths_scripts.check_divergent(upper_limit, lower_limit, function):
                 return upper_limit, lower_limit, function
         elif function_type == 2 and difficulty >= 3:
-            function = maths_scripts.general.generate_compound_trig_function(random.randint(1, difficulty))
+            function = maths_scripts.generate_compound_trig_function(random.randint(1, difficulty))
             if str(sympy.tan(x)) in str(function) or str(sympy.sec(x)) in str(function):
                 upper_limit = round(random.uniform(-1.01, 1), 2)
                 lower_limit = round(random.uniform(-1, upper_limit - 0.01), 2)
@@ -78,7 +77,7 @@ def generate_polynomials_check_range(difficulty: int):
             offset: int = random.randint(-5, 5) * 2
             upper_limit = (upper_limit + offset) * (sympy.pi / 2)
             lower_limit = (lower_limit + offset) * (sympy.pi / 2)
-            if not maths_scripts.general.check_divergent(upper_limit, lower_limit, function):
+            if not maths_scripts.check_divergent(upper_limit, lower_limit, function):
                 return upper_limit, lower_limit, function
         else:
             raise ValueError

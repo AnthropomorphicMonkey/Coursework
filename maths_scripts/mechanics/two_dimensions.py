@@ -1,4 +1,4 @@
-from maths_scripts.mechanics.force_functions import *
+import maths_scripts.mechanics as mechanics
 import sympy
 
 g = 9.8
@@ -21,23 +21,23 @@ class BasicObject:
     def force_x(self) -> float:
         force = 0
         for each_force in self.force_list:
-            force += x_component_calc(each_force[0], each_force[1])
+            force += mechanics.x_component_calc(each_force[0], each_force[1])
         return force
 
     @property
     def force_y(self) -> float:
         force = 0
         for each_force in self.force_list:
-            force += y_component_calc(each_force[0], each_force[1])
+            force += mechanics.y_component_calc(each_force[0], each_force[1])
         return force
 
     @property
     def force_magnitude(self) -> float:
-        return resultant_magnitude_calc(self.force_x, self.force_y)
+        return mechanics.resultant_magnitude_calc(self.force_x, self.force_y)
 
     @property
     def force_direction(self) -> float:
-        return resultant_direction_calc(self.force_x, self.force_y)
+        return mechanics.resultant_direction_calc(self.force_x, self.force_y)
 
 
 class MovingObject(BasicObject):
@@ -54,8 +54,8 @@ class MovingObject(BasicObject):
 
     def update_initial_velocity(self, magnitude: float, direction: float):
         self.initial_velocity_direction = direction
-        self.initial_velocity_x = x_component_calc(magnitude, direction)
-        self.initial_velocity_y = y_component_calc(magnitude, direction)
+        self.initial_velocity_x = mechanics.x_component_calc(magnitude, direction)
+        self.initial_velocity_y = mechanics.y_component_calc(magnitude, direction)
         self.initial_velocity_magnitude = magnitude
 
     def update_mass(self, new_mass: float):
@@ -64,15 +64,15 @@ class MovingObject(BasicObject):
     # Acceleration calculations
     @property
     def acceleration_x(self) -> float:
-        return acceleration_calc(self.force_x, self.mass)
+        return mechanics.acceleration_calc(self.force_x, self.mass)
 
     @property
     def acceleration_y(self) -> float:
-        return acceleration_calc(self.force_y, self.mass)
+        return mechanics.acceleration_calc(self.force_y, self.mass)
 
     @property
     def acceleration_magnitude(self) -> float:
-        return acceleration_calc(self.force_magnitude, self.mass)
+        return mechanics.acceleration_calc(self.force_magnitude, self.mass)
 
     @property
     def acceleration_direction(self) -> float:
@@ -80,29 +80,29 @@ class MovingObject(BasicObject):
 
     # Velocity calculations
     def final_velocity_x(self, time: float):
-        return velocity_calc(self.initial_velocity_x, self.acceleration_x, time)
+        return mechanics.velocity_calc(self.initial_velocity_x, self.acceleration_x, time)
 
     def final_velocity_y(self, time: float):
-        return velocity_calc(self.initial_velocity_y, self.acceleration_y, time)
+        return mechanics.velocity_calc(self.initial_velocity_y, self.acceleration_y, time)
 
     def final_velocity_magnitude(self, time: float):
-        return resultant_magnitude_calc(self.final_velocity_x(time), self.final_velocity_y(time))
+        return mechanics.resultant_magnitude_calc(self.final_velocity_x(time), self.final_velocity_y(time))
 
     def final_velocity_direction(self, time: float):
-        return resultant_direction_calc(self.final_velocity_x(time), self.final_velocity_y(time))
+        return mechanics.resultant_direction_calc(self.final_velocity_x(time), self.final_velocity_y(time))
 
     # Displacement calculations
     def final_displacement_x(self, time: float):
-        return displacement_calc(self.initial_velocity_x, self.acceleration_x, time)
+        return mechanics.displacement_calc(self.initial_velocity_x, self.acceleration_x, time)
 
     def final_displacement_y(self, time: float):
-        return displacement_calc(self.initial_velocity_y, self.acceleration_y, time)
+        return mechanics.displacement_calc(self.initial_velocity_y, self.acceleration_y, time)
 
     def final_displacement_magnitude(self, time: float):
-        return resultant_magnitude_calc(self.final_displacement_x(time), self.final_displacement_y(time))
+        return mechanics.resultant_magnitude_calc(self.final_displacement_x(time), self.final_displacement_y(time))
 
     def final_displacement_direction(self, time: float):
-        return resultant_direction_calc(self.final_displacement_x(time), self.final_displacement_y(time))
+        return mechanics.resultant_direction_calc(self.final_displacement_x(time), self.final_displacement_y(time))
 
     def time_of_x_displacement(self, displacement: float):
         t = sympy.symbols('t')
