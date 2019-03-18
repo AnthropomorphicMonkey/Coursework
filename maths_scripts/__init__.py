@@ -81,9 +81,14 @@ def cos(value: float) -> float:
     return final_equation.subs(x, value)
 
 
+def tan(value: float) -> float:
+    return sin(value) / cos(value)
+
+
 if __name__ == '__main__':
-    print(sin(-98635))
-    print(cos(-896))
+    print(sin(-5))
+    print(cos(-5))
+    print(tan(5))
     x1 = sympy.symbols('x')
     fn = 30 * x1 ** 4 + x1 ** 3 + 4 * x1
     upper = 0 * (pi / 2)
