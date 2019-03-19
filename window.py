@@ -20,6 +20,9 @@ class Ui_MainWindow(object):
         font.setItalic(False)
         font.setWeight(50)
         MainWindow.setFont(font)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/logo/window_elements/logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -1006,7 +1009,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Coursework"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Maths Quiz - Joe Down"))
         self.username_label.setText(_translate("MainWindow", "Usernamexx"))
         self.main_menu_button.setText(_translate("MainWindow", "Main Menu"))
         self.logout_button.setText(_translate("MainWindow", "Logout"))

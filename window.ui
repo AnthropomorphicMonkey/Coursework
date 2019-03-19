@@ -20,7 +20,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Coursework</string>
+   <string>Maths Quiz - Joe Down</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="window.qrc">
+    <normaloff>:/logo/window_elements/logo.png</normaloff>:/logo/window_elements/logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
