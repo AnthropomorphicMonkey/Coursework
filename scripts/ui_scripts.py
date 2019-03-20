@@ -349,22 +349,30 @@ def add_homework_to_class(class_id: int, homework_id: int, due_date: datetime.da
     due_year_month_day: list = str(due_date).split('-')
     string_due_date: str = "{}-{}-{}".format(int(due_year_month_day[0]), int(due_year_month_day[1]),
                                              int(due_year_month_day[2]))
+    # Inserts required data (class id, homework id, due date) into class homework table to create new class homework
+    # relationship
     sql: str = 'INSERT INTO class_homework(class_id, homework_id, due_date) VALUES(?,?,?)'
     c.execute(sql, (class_id, homework_id, string_due_date))
     conn.commit()
 
 
 def remove_homework(homework_id: int):
-    sql: str = 'DELETE FROM homework WHERE id = ?;'
-    c.execute(sql, (homework_id,))
+    # Deletes all entries in each table which references the existence of the given homework
+    # Deletes any entry in class homework table relating to the given homework id
     sql: str = 'DELETE FROM class_homework WHERE homework_id = ?'
     c.execute(sql, (homework_id,))
+    # Deletes any entry in homework questions table relating to the given homework id
     sql: str = 'DELETE FROM homework_questions WHERE homework_id = ?'
+    c.execute(sql, (homework_id,))
+    # Deletes any entry in homework table relating to the given homework id
+    sql: str = 'DELETE FROM homework WHERE id = ?;'
     c.execute(sql, (homework_id,))
     conn.commit()
 
 
 def get_question_type(question_id: int) -> str:
+    # Takes a question id and returns the question type from the question types table by joining the questions table
+    # appropriately
     sql: str = 'SELECT question_types.type FROM question_types INNER JOIN questions ' \
                'ON question_types.id = questions.type_id WHERE questions.id = ?'
     c.execute(sql, (question_id,))
@@ -372,9 +380,11 @@ def get_question_type(question_id: int) -> str:
 
 
 def get_question_graph(question_id: int) -> list:
+    # Takes a question id and returns the function, minimum x and maximum x values from the graphs table
     sql: str = 'SELECT function, minimum_x, maximum_x FROM graphs WHERE question_id = ?'
     c.execute(sql, (question_id,))
     result = c.fetchall()
+    # If no graph is stored for the given question, nothing is returned
     if result:
         return result[0]
     else:
@@ -382,11 +392,16 @@ def get_question_graph(question_id: int) -> list:
 
 
 def set_question_graph(question_id: int, function: str, minimum_x: float, maximum_x: float):
+    # Inserts required data (question id, function, minimum x, maximum x) into graphs table to create new graph
+    # instance for the given question id
     sql: str = 'INSERT INTO graphs(question_id, function, minimum_x, maximum_x) VALUES(?,?,?,?)'
     c.execute(sql, (question_id, function, minimum_x, maximum_x))
     conn.commit()
 
 
 if __name__ == '__main__':
-    qid = 100117
-    print(get_question_graph(qid))
+    qid: int = input("Enter question id: ")
+    function = input("Enter function: ")
+    minx = input("Enter min x: ")
+    maxx = input("Enter max x: ")
+    set_question_graph(qid, function, minx, maxx)
