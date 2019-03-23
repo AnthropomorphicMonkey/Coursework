@@ -287,6 +287,65 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
     # </editor-fold>
 
     # <editor-fold desc="Create Account Page">
+    def create_account_reset_page(self):
+        # Sets radios to default selection
+        self.create_account_radio_student.setChecked(True)
+        # Sets input boxes to blank
+        self.create_account_first_name_input.setText("")
+        self.create_account_last_name_input.setText("")
+        self.create_account_username_input.setText("")
+        self.create_account_password_input.setText("")
+        self.create_account_password_verify_input.setText("")
+        # Sets output labels to blank
+        self.create_account_success_output.setText("")
+
+    def create_account_create_account(self):
+        # Various error checks before creating account (error type is outputted in a label):
+        # Error if username field is blank
+        if self.create_account_username_input.text() == '':
+            self.create_account_success_output.setText("Invalid username")
+        # Error if username already taken
+        elif db_scripts.check_user_exists(self.create_account_username_input.text().casefold()):
+            self.create_account_success_output.setText("User already exists")
+        # Error if no first name entered
+        elif self.create_account_first_name_input.text() == '' or len(
+                self.create_account_first_name_input.text()) > 100:
+            self.create_account_success_output.setText("Invalid first name")
+        # Error if no last name is entered
+        elif self.create_account_last_name_input.text() == '' or len(self.create_account_last_name_input.text()) > 100:
+            self.create_account_success_output.setText("Invalid last name")
+        # Error if password too short
+        elif len(self.create_account_password_input.text()) < 8:
+            self.create_account_success_output.setText("Invalid password (Must be at least 8 characters)")
+        # Error if different password entered into second password box
+        elif self.create_account_password_input.text() != self.create_account_password_verify_input.text():
+            self.create_account_success_output.setText("Passwords do not match")
+        # Error if account type not selected
+        elif not ((self.create_account_get_account_type_selected() == 's') or (
+                self.create_account_get_account_type_selected() == 't')):
+            self.create_account_success_output.setText("Account type not selected")
+        # If passes all validation, account is created
+        else:
+            # Passes all relevant data into create account function
+            db_scripts.create_account(self.create_account_username_input.text().casefold(),
+                                      self.create_account_password_input.text(),
+                                      self.create_account_first_name_input.text(),
+                                      self.create_account_last_name_input.text(),
+                                      self.create_account_get_account_type_selected())
+            # Resets create account page once account successfully created
+            self.reset_page(self.page_dictionary['create_account_page'])
+            # Account creation success outputted
+            self.create_account_success_output.setText("Account created")
+
+    def create_account_get_account_type_selected(self) -> str:
+        # Returns whether student or teacher is selected (or neither, though this should never occur)
+        if self.create_account_radio_student.isChecked():
+            return 's'
+        elif self.create_account_radio_teacher.isChecked():
+            return 't'
+        else:
+            return ''
+
     def create_account_page_button_setup(self):
         # If create account submit button clicked runs scripts to create account
         self.create_account_submit_button.clicked.connect(self.create_account_create_account)
@@ -611,67 +670,6 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         self.set_homework_homework_change()
         self.set_homework_auto_question_added_output.setText("Question Added")
         return
-
-    # </editor-fold>
-
-    # <editor-fold desc="Create Account Page">
-    def create_account_reset_page(self):
-        # Sets radios to default selection
-        self.create_account_radio_student.setChecked(True)
-        # Sets input boxes to blank
-        self.create_account_first_name_input.setText("")
-        self.create_account_last_name_input.setText("")
-        self.create_account_username_input.setText("")
-        self.create_account_password_input.setText("")
-        self.create_account_password_verify_input.setText("")
-        # Sets output labels to blank
-        self.create_account_success_output.setText("")
-
-    def create_account_create_account(self):
-        # Various error checks before creating account (error type is outputted in a label):
-        # Error if username field is blank
-        if self.create_account_username_input.text() == '':
-            self.create_account_success_output.setText("Invalid username")
-        # Error if username already taken
-        elif db_scripts.check_user_exists(self.create_account_username_input.text().casefold()):
-            self.create_account_success_output.setText("User already exists")
-        # Error if no first name entered
-        elif self.create_account_first_name_input.text() == '' or len(
-                self.create_account_first_name_input.text()) > 100:
-            self.create_account_success_output.setText("Invalid first name")
-        # Error if no last name is entered
-        elif self.create_account_last_name_input.text() == '' or len(self.create_account_last_name_input.text()) > 100:
-            self.create_account_success_output.setText("Invalid last name")
-        # Error if password too short
-        elif len(self.create_account_password_input.text()) < 8:
-            self.create_account_success_output.setText("Invalid password (Must be at least 8 characters)")
-        # Error if different password entered into second password box
-        elif self.create_account_password_input.text() != self.create_account_password_verify_input.text():
-            self.create_account_success_output.setText("Passwords do not match")
-        # Error if account type not selected
-        elif not ((self.get_account_type_selected() == 's') or (self.get_account_type_selected() == 't')):
-            self.create_account_success_output.setText("Account type not selected")
-        # If passes all validation, account is created
-        else:
-            # Passes all relevant data into create account function
-            db_scripts.create_account(self.create_account_username_input.text().casefold(),
-                                      self.create_account_password_input.text(),
-                                      self.create_account_first_name_input.text(),
-                                      self.create_account_last_name_input.text(),
-                                      self.get_account_type_selected())
-            # Resets create account page once account successfully created
-            self.reset_page(self.page_dictionary['create_account_page'])
-            # Account creation success outputted
-            self.create_account_success_output.setText("Account created")
-
-    def get_account_type_selected(self) -> str:
-        # Returns whether student or teacher is selected (or neither, though this should never occur)
-        if self.create_account_radio_student.isChecked():
-            return 's'
-        elif self.create_account_radio_teacher.isChecked():
-            return 't'
-        else:
-            return ''
 
     # </editor-fold>
 
