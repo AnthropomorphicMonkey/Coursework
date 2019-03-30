@@ -62,7 +62,7 @@ def sin(value: float) -> float:
         value -= 2 * pi * (value // (2 * pi))
     else:
         value += 2 * pi * (value // (-2 * pi))
-    final_equation: sympy.add.Add = 0
+    final_equation: sympy.add.Add = sympy.add.Add(0)
     for n in range(0, precision):
         final_equation += (-1) ** n / integer_factorial(2 * n + 1) * (x ** (2 * n + 1))
     return final_equation.subs(x, value)
@@ -75,7 +75,7 @@ def cos(value: float) -> float:
         value -= 2 * pi * (value // (2 * pi))
     else:
         value += 2 * pi * (value // (-2 * pi))
-    final_equation: sympy.add.Add = 1
+    final_equation: sympy.add.Add = sympy.add.Add(1)
     for n in range(0, precision - 1):
         final_equation += (-1) ** (n + 1) / integer_factorial(2 * (n + 1)) * (x ** (2 * (n + 1)))
     return final_equation.subs(x, value)

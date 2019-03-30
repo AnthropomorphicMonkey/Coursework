@@ -38,7 +38,7 @@ def get_homework_name_and_due_date(homework_id: int, class_id: int) -> tuple:
     return c.fetchall()[0]
 
 
-def get_homework_score(user_id: int, homework_id: int, class_id: int) -> tuple:
+def get_homework_score(user_id: int, homework_id: int, class_id: int) -> list:
     # Takes a user, class and homework id, finds the results for all questions in the given homework for the given user,
     # and for each question returns a boolean value for if the question has been correctly answered and the number of
     # times that question has been attempted from the question_results table by joining all relevant tables
@@ -49,7 +49,7 @@ def get_homework_score(user_id: int, homework_id: int, class_id: int) -> tuple:
                'INNER JOIN question_results ON questions.id = question_results.question_id ' \
                'WHERE question_results.user_id = ? AND homework.id = ?;'
     c.execute(sql, (user_id, homework_id))
-    score_list: tuple = c.fetchall()
+    score_list: list = c.fetchall()
     # Iterates through each question result stored in the score list and increments the score for the homework by 1
     # divided by the number of attempts if the question was correctly answered (has 'True' in the first position of the
     # tuple). This value is rounded to the nearest integer
@@ -174,7 +174,7 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
                    'ON question_results.user_id = users.id ' \
                    'WHERE class_homework.class_id = ? AND class_homework.homework_id = ? AND users.id = ?'
         c.execute(sql, (class_id, homework_id, user_id))
-        results: tuple = c.fetchall()
+        results: list = c.fetchall()
         # Gets the first and last names for the given user
         first_name: str = db_scripts.get_first_name(user_id)
         last_name: str = db_scripts.get_last_name(user_id)
@@ -197,7 +197,7 @@ def get_results_of_homework(class_id: int, homework_id: int) -> list:
             if question[1] > attempts:
                 attempts = question[1]
         try:
-            percentage: str = round(score / question_count * 100)
+            percentage: str = str(round(score / question_count * 100))
         except ZeroDivisionError:
             percentage: str = "N/A"
         # Appends entry for given student to scores list as a tuple of the appropriate format
@@ -232,7 +232,7 @@ def get_scores_of_student_in_class(class_id: int, student_id: int) -> list:
                    'ON question_results.user_id = users.id ' \
                    'WHERE class_homework.class_id = ? AND class_homework.homework_id = ? AND users.id = ?'
         c.execute(sql, (class_id, homework_id, student_id))
-        results: tuple = c.fetchall()
+        results: list = c.fetchall()
         # Gets the name of the current homework being analysed
         homework_name: str = get_name_of_homework(homework_id)
         # Calculates the score as a percentage for the current homework by taking the sum of the number of questions
@@ -254,7 +254,7 @@ def get_scores_of_student_in_class(class_id: int, student_id: int) -> list:
             if question[1] > attempts:
                 attempts = question[1]
         try:
-            percentage: str = round(score / question_count * 100)
+            percentage: str = str(round(score / question_count * 100))
         except ZeroDivisionError:
             percentage: str = "N/A"
         # Appends entry for given homework to scores list as a tuple of the appropriate format
@@ -400,8 +400,8 @@ def set_question_graph(question_id: int, function: str, minimum_x: float, maximu
 
 
 if __name__ == '__main__':
-    qid: int = input("Enter question id: ")
-    function = input("Enter function: ")
+    qid = input("Enter question id: ")
+    f = input("Enter function: ")
     minx = input("Enter min x: ")
-    maxx = input("Enter max x: ")
-    set_question_graph(qid, function, minx, maxx)
+    max_x = input("Enter max x: ")
+    set_question_graph(qid, f, minx, max_x)

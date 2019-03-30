@@ -12,7 +12,7 @@ class Taylor:
 
     def equation_in_x(self, precision: int) -> sympy.add.Add:
         x = sympy.symbols('x')
-        final_equation: sympy.add.Add = 0
+        final_equation: sympy.add.Add = sympy.add.Add(0)
         function: sympy.add.Add = self.function
         for n in range(0, precision):
             f: float = function.subs(x, self.centre)
