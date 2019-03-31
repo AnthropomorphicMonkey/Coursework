@@ -38,7 +38,7 @@ def get_homework_name_and_due_date(homework_id: int, class_id: int) -> tuple:
     return c.fetchall()[0]
 
 
-def get_homework_score(user_id: int, homework_id: int, class_id: int) -> list:
+def get_homework_score(user_id: int, homework_id: int, class_id: int) -> tuple:
     # Takes a user, class and homework id, finds the results for all questions in the given homework for the given user,
     # and for each question returns a boolean value for if the question has been correctly answered and the number of
     # times that question has been attempted from the question_results table by joining all relevant tables
@@ -66,7 +66,7 @@ def get_homework_score(user_id: int, homework_id: int, class_id: int) -> list:
     try:
         result: int = round(score / question_count * 100)
     except ZeroDivisionError:
-        result = "N/A"
+        result: str = "N/A"
     # Function to be returned to in UI also requires homework name and due date so this data is found and returned with
     # the homework result
     name_and_due_date: tuple = get_homework_name_and_due_date(homework_id, class_id)
@@ -270,7 +270,7 @@ def get_question_text_of_question(question_id: int) -> str:
     return c.fetchall()[0][0]
 
 
-def get_correct_answer_of_question(question_id: int) -> int:
+def get_correct_answer_of_question(question_id: int) -> str:
     # Returns correct answer from database for given question id
     sql: str = 'SELECT correct_answer FROM questions WHERE id = ?;'
     c.execute(sql, (question_id,))
@@ -397,11 +397,3 @@ def set_question_graph(question_id: int, function: str, minimum_x: float, maximu
     sql: str = 'INSERT INTO graphs(question_id, function, minimum_x, maximum_x) VALUES(?,?,?,?)'
     c.execute(sql, (question_id, function, minimum_x, maximum_x))
     conn.commit()
-
-
-if __name__ == '__main__':
-    qid = input("Enter question id: ")
-    f = input("Enter function: ")
-    minx = input("Enter min x: ")
-    max_x = input("Enter max x: ")
-    set_question_graph(qid, f, minx, max_x)

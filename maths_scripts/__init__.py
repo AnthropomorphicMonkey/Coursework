@@ -56,28 +56,42 @@ def integer_factorial(number: int) -> int:
 
 
 def sin(value: float) -> float:
-    precision = 100
+    # Defines the precision of the function
+    precision = 20
+    # Sets up x as a variable in SymPy
     x = sympy.symbols('x')
+    # Brings value within a range of increased accuracy (sine is a repeating function so all values will have an
+    # equivalent value within the range 0 to 2pi)
     if value > 0:
         value -= 2 * pi * (value // (2 * pi))
     else:
         value += 2 * pi * (value // (-2 * pi))
+    # Calculates the Maclaurin series for sin x to the required level in a similar way to the previously developed
+    # function
     final_equation: sympy.add.Add = sympy.add.Add(0)
     for n in range(0, precision):
         final_equation += (-1) ** n / integer_factorial(2 * n + 1) * (x ** (2 * n + 1))
+    # Substitutes given value of x and returns the approximate value of sin x
     return final_equation.subs(x, value)
 
 
 def cos(value: float) -> float:
-    precision = 100
+    # Defines the precision of the function
+    precision = 20
+    # Sets up x as a variable in SymPy
     x = sympy.symbols('x')
+    # Brings value within a range of increased accuracy (cosine is a repeating function so all values will have an
+    # equivalent value within the range 0 to 2pi)
     if value > 0:
         value -= 2 * pi * (value // (2 * pi))
     else:
         value += 2 * pi * (value // (-2 * pi))
+    # Calculates the Maclaurin series for cos x to the required level in a similar way to the previously developed
+    # function
     final_equation: sympy.add.Add = sympy.add.Add(1)
     for n in range(0, precision - 1):
         final_equation += (-1) ** (n + 1) / integer_factorial(2 * (n + 1)) * (x ** (2 * (n + 1)))
+    # Substitutes given value of x and returns the approximate value of cos x
     return final_equation.subs(x, value)
 
 
@@ -86,23 +100,5 @@ def tan(value: float) -> float:
 
 
 if __name__ == '__main__':
-    print(sin(-5))
-    print(cos(-5))
-    print(tan(5))
-    x1 = sympy.symbols('x')
-    fn = 30 * x1 ** 4 + x1 ** 3 + 4 * x1
-    upper = 0 * (pi / 2)
-    lower = upper
-    print(check_divergent(upper, lower, fn))
-    upper = 1 * (pi / 2)
-    lower = upper
-    print(check_divergent(upper, lower, fn))
-    upper = 2 * (pi / 2)
-    lower = upper
-    print(check_divergent(upper, lower, fn))
-    upper = 3 * (pi / 2)
-    lower = upper
-    print(check_divergent(upper, lower, fn))
-    upper = 4 * (pi / 2)
-    lower = upper
-    print(check_divergent(upper, lower, fn))
+    print("x=", 999, "Sin(x)=", sin(999))
+    print("x=", -999, "Sin(x)=", sin(-999))

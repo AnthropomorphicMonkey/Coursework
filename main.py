@@ -387,20 +387,28 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
 
     # <editor-fold desc="Question Page">
     def question_reset_page(self):
+        # Gets the id of the question being loaded
         question_id = self.questions[self.current_question][0]
+        # Sets selection of answer to initial position as a default
         self.question_radio_a.setChecked(True)
+        # Sets all inputs to blank and outputs to what is required for the current question
         self.question_topic_output.setText("")
         self.question_topic_output.setText(ui_scripts.get_question_type(question_id))
         self.question_question_output.setText(ui_scripts.get_question_text_of_question(question_id))
+        self.question_feedback_output.setText("")
+        # Ensures all inputs are enabled
         self.question_submit_button.setEnabled(True)
         self.question_radio_a.setEnabled(True)
         self.question_radio_b.setEnabled(True)
         self.question_radio_c.setEnabled(True)
         self.question_radio_d.setEnabled(True)
-        self.question_feedback_output.setText("")
+        # Gets the correct answer and stores it
         correct_answer: str = ui_scripts.get_correct_answer_of_question(question_id)
+        # Gets the incorrect answers and shuffles the order so if question is reloaded, answer order is fully randomised
         incorrect_answers: list = ui_scripts.get_incorrect_answers_of_question(question_id)
         random.shuffle(list(incorrect_answers))
+        # Randomly selects which radio button will be labelled with the correct answer and stores it's index. Other
+        # radios are labelled with the incorrect answers
         self.correct_answer_location: int = random.randint(1, 4)
         if self.correct_answer_location == 1:
             self.question_radio_a.setText(correct_answer)
@@ -422,7 +430,8 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             self.question_radio_b.setText(incorrect_answers[0])
             self.question_radio_c.setText(incorrect_answers[1])
             self.question_radio_a.setText(incorrect_answers[2])
-        self.question_feedback_output.setText("")
+        # Checks if user has already answered question correctly. If so, disables all inputs so user cannot resubmit an
+        # answer, sets the question feedback to "Correct" and selects the correct answer's radio
         if ui_scripts.get_correct_status_of_question(self.current_user, question_id):
             if self.correct_answer_location == 1:
                 self.question_radio_a.setChecked(True)
@@ -438,19 +447,25 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             self.question_radio_c.setEnabled(False)
             self.question_radio_d.setEnabled(False)
             self.question_feedback_output.setText("Correct")
+        # If current question is first in homework, disables previous page button (as there is none). Otherwise,
+        # enables it
         if self.current_question == 0:
             self.question_previous_question_button.setEnabled(False)
             self.question_previous_question_button.setVisible(False)
         else:
             self.question_previous_question_button.setEnabled(True)
             self.question_previous_question_button.setVisible(True)
+        # If current question is last in homework, disables next page button (as there is none). Otherwise,
+        # enables it
         if self.current_question >= len(self.questions) - 1:
             self.question_next_question_button.setEnabled(False)
             self.question_next_question_button.setVisible(False)
         else:
             self.question_next_question_button.setEnabled(True)
             self.question_next_question_button.setVisible(True)
+        # Fetches details of graph for given question
         graph_details = ui_scripts.get_question_graph(question_id)
+        # If no graph, class function to set up and output graph, otherwise hides graph output area
         if graph_details:
             self.chart_setup(required=True, function=graph_details[0], min_x=graph_details[1], max_x=graph_details[2])
         else:
@@ -470,9 +485,12 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         self.question_reset_page()
 
     def question_page_submit_response(self):
+        # Gets id of current question
         question_id = self.questions[self.current_question][0]
+        # Adds 1 to number fo attempts as an attempt has been made
         ui_scripts.increment_user_attempts_at_question(self.current_user, question_id)
-
+        # If radio button currently selected is the index of the correct answer, sets correct status in database to
+        # True, disables ability to submit another answer and outputs that user was correct
         if (self.correct_answer_location == 1 and self.question_radio_a.isChecked()) or (
                 self.correct_answer_location == 2 and self.question_radio_b.isChecked()) or (
                 self.correct_answer_location == 3 and self.question_radio_c.isChecked()) or (
@@ -480,32 +498,44 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             ui_scripts.mark_question_as_correct(self.current_user, question_id)
             self.question_submit_button.setEnabled(False)
             self.question_feedback_output.setText("Correct")
+        # If radio button currently selected is not the index of the correct answer, outputs user incorrect
         else:
             self.question_submit_button.setEnabled(True)
             self.question_feedback_output.setText("Incorrect")
 
     def chart_setup(self, required=False, function=None, min_x=0, max_x=10):
+        # Sets up x as a variable in SymPy
         x = sympy.symbols('x')
+        # Converts stores string equation to SymPy function
         function = sympy.sympify(function)
+        # If no function required or a function is not passed, disables and hides output box
         if not required or function is None:
             self.question_chart.setEnabled(False)
             self.question_chart.setVisible(False)
+        # If graph equation given:
         else:
+            # Enables and shows output box
             self.question_chart.setEnabled(True)
             self.question_chart.setVisible(True)
+            # Defines structure of data to be added to graph using generic code. A spline series will interpolate values
+            # between given points as a curve rather than simply drawing straight lines
             series: QtChart.QSplineSeries = QtChart.QSplineSeries()
+            # Iterates through and finds values for the y axis for 100 x values spread evenly between the specified
+            # minimum an maximum x values
             x_value: float = min_x
             precision: int = 100
             for counter in range(0, precision):
                 y_value: float = function.subs(x, x_value)
                 series.append(x_value, y_value)
                 x_value: float = min_x + (((max_x - min_x) / precision) * counter)
+            # Defines instance of chart and specifies axis ranges and inserts all data
             # noinspection PyArgumentList
             chart: QtChart.QChart = QtChart.QChart()
             chart.legend().hide()
             chart.addSeries(series)
             chart.createDefaultAxes()
             chart.axisX(series).setRange(min_x, max_x)
+            # Sets chart output area to the generated chart
             self.question_chart.setChart(chart)
 
     # </editor-fold>
