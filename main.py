@@ -164,7 +164,7 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         self.question_page_button_setup()
 
     def reset_page(self, target_page):
-        # Runs all page reset scripts
+        # Takes a page index and runs the relevant page reset function for that page
         if target_page == self.page_dictionary['login_page']:
             self.login_reset_page()
         elif target_page == self.page_dictionary['create_account_page']:
@@ -221,6 +221,7 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
     def navigation_button_setup(self):
         # If logout button clicked runs logout scripts
         self.logout_button.clicked.connect(self.logout)
+        # If main menu button clicked runs scripts to load main menu
         self.main_menu_button.clicked.connect(self.go_to_main_menu)
 
     def go_to_main_menu(self):
