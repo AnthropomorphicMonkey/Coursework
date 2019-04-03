@@ -101,7 +101,7 @@
     <item>
      <widget class="QStackedWidget" name="main_widget">
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="login_page">
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1562,6 +1562,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="set_homework_remove_question_button">
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 0, 0);</string>
+                  </property>
                   <property name="text">
                    <string>REMOVE QUESTION</string>
                   </property>
@@ -1804,6 +1807,9 @@
                   </item>
                   <item>
                    <widget class="QPushButton" name="admin_remove_user_button">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 0, 0);</string>
+                    </property>
                     <property name="text">
                      <string>REMOVE</string>
                     </property>
@@ -1981,6 +1987,9 @@
                   </item>
                   <item>
                    <widget class="QPushButton" name="admin_remove_homework_button">
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 0, 0);</string>
+                    </property>
                     <property name="text">
                      <string>REMOVE</string>
                     </property>
@@ -2079,6 +2088,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="admin_remove_class_button">
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 0, 0);</string>
+                </property>
                 <property name="text">
                  <string>REMOVE</string>
                 </property>
