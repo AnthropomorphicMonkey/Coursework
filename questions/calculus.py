@@ -53,7 +53,7 @@ def definite_integral(difficulty: int) -> [question_scripts.Question, str, float
     return question, function, lower_limit, upper_limit
 
 
-def generate_polynomials_check_range(difficulty: int):
+def generate_polynomials_check_range(difficulty: int) -> list:
     x = sympy.symbols('x')
     while True:
         function_type = random.choice([1, 2])
@@ -62,7 +62,7 @@ def generate_polynomials_check_range(difficulty: int):
             lower_limit = random.randint(1, upper_limit - 1)
             function = maths_scripts.generate_polynomial(random.randint(1, difficulty))
             if not maths_scripts.check_divergent(upper_limit, lower_limit, function):
-                return upper_limit, lower_limit, function
+                return [upper_limit, lower_limit, function]
         elif function_type == 2 and difficulty >= 3:
             function = maths_scripts.generate_compound_trig_function(random.randint(1, difficulty))
             if str(sympy.tan(x)) in str(function) or str(sympy.sec(x)) in str(function):
@@ -78,15 +78,6 @@ def generate_polynomials_check_range(difficulty: int):
             upper_limit = (upper_limit + offset) * (sympy.pi / 2)
             lower_limit = (lower_limit + offset) * (sympy.pi / 2)
             if not maths_scripts.check_divergent(upper_limit, lower_limit, function):
-                return upper_limit, lower_limit, function
+                return [upper_limit, lower_limit, function]
         else:
             raise ValueError
-
-
-if __name__ == '__main__':
-    q: question_scripts.Question = definite_integral(4)
-    print(q.question_text)
-    print(q.correct_answer)
-    print(q.answer_b)
-    print(q.answer_c)
-    print(q.answer_d)

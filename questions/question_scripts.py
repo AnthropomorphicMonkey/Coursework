@@ -17,9 +17,9 @@ class Question:
         self.difficulty: int = difficulty
         self.question_text: str = question_text
         self.correct_answer: str = correct_answer
-        self.answer_b: str = ()
-        self.answer_c: str = ()
-        self.answer_d: str = ()
+        self.answer_b: str = ""
+        self.answer_c: str = ""
+        self.answer_d: str = ""
         try:
             self.correct_answer: float = float(self.correct_answer)
             self.set_incorrect_numerical_answers()
@@ -85,6 +85,3 @@ def round_to_decimal_places_as_string(value: float, decimal_places: int) -> str:
     rounded_value: str = str(rounded_value) + '0' * (decimal_places - get_decimal_place_count(rounded_value))
     return str(rounded_value)
 
-
-if __name__ == '__main__':
-    pass

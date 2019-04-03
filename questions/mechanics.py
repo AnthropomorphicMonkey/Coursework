@@ -77,6 +77,3 @@ def projectile(difficulty: int) -> [question_scripts.Question, str, float, float
     upper_limit: float = upper_limit * (random.uniform(1.1, 1.5))
     return question, function, lower_limit, upper_limit
 
-
-if __name__ == '__main__':
-    print(projectile(3))

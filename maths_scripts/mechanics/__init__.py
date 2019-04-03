@@ -44,6 +44,3 @@ def velocity_calc(initial_velocity: float, acceleration: float, time: float) -> 
 def displacement_calc(initial_velocity: float, acceleration: float, time: float) -> float:
     return (initial_velocity * time) + (0.5 * (acceleration * (time ** 2)))
 
-
-if __name__ == '__main__':
-    print(resultant_direction_calc(-1, -1))

@@ -78,17 +78,3 @@ class DefiniteIntegral(SimpsonsRule):
     def __init__(self, upper_limit: float, lower_limit: float, function):
         number_of_strips: int = 100
         super().__init__(number_of_strips, upper_limit, lower_limit, function)
-
-
-if __name__ == '__main__':
-    x1 = sympy.symbols('x')
-    f = sympy.exp(x1)
-    true_value = 147.41315910257660342111558004055
-    upper_limit = 5
-    lower_limit = 0
-    for n in range(1, 26):
-        strip_count = n * 2
-        trapezium = TrapeziumRule(strip_count, upper_limit, lower_limit, f)
-        simpson = SimpsonsRule(strip_count, upper_limit, lower_limit, f)
-        print("Strip count:", strip_count, "Trapezium Rule:", 100 * (trapezium.integral() - true_value) / true_value,
-              "Simpson's Rule:", 100 * (simpson.integral() - true_value) / true_value)

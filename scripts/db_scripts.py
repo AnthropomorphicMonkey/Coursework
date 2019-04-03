@@ -130,7 +130,3 @@ def update_password(user_id: int, password: str):
     # Generates a new password hash to be inserted from salt stored for given username
     c.execute(sql, (generate_hash(password, find_salt(user_id)), user_id))
     conn.commit()
-
-
-if __name__ == '__main__':
-    pass

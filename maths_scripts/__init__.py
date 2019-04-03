@@ -98,7 +98,3 @@ def cos(value: float) -> float:
 def tan(value: float) -> float:
     return sin(value) / cos(value)
 
-
-if __name__ == '__main__':
-    print("x=", 999, "Sin(x)=", sin(999))
-    print("x=", -999, "Sin(x)=", sin(-999))

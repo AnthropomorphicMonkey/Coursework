@@ -50,9 +50,3 @@ class Maclaurin(Taylor):
         # centre of expansion 0. Centre of expansion is therefore not required to be passed when declaring instance of
         # class as it can always be passed to parent class as 0
         super().__init__(function, 0)
-
-
-if __name__ == '__main__':
-    x = sympy.symbols('x')
-    f = Taylor(sympy.ln(1 + x), 0)
-    print(float(f.evaluate(4, 500)))
