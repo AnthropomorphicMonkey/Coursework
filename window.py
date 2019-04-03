@@ -2,11 +2,12 @@
 
 # Form implementation generated from reading ui file 'window.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.12
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -1158,6 +1159,7 @@ class Ui_MainWindow(object):
         self.view_classes_display_type_output.setText(_translate("MainWindow", "Homework/Student:"))
         self.view_classes_score_table.setSortingEnabled(True)
         self.label_2.setText(_translate("MainWindow", "Joe Down"))
+
 
 from PyQt5.QtChart import QChartView
 import window_rc
