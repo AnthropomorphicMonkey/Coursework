@@ -585,12 +585,18 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             self.set_homework_answer_label.setText("")
 
     def set_homework_remove_question(self):
+        # If homework contains questions:
         if len(self.questions) > 0:
+            # Gets the ids of the currently selected homework and question
             question_id = self.questions[self.set_homework_question_combo_box.currentIndex()][0]
             homework_id = self.homework[self.set_homework_homework_combo_box.currentIndex()][0]
+            # Calls function to remove question from homework from class
             ui_scripts.remove_question_from_homework(question_id, homework_id)
+            # Runs function to reload question list
             self.set_homework_homework_change()
             self.set_homework_removed_output.setText("Question removed")
+        # If homework contains no questions, outputs error message to tell user there are no questions which can be
+        # removed
         else:
             self.set_homework_removed_output.setText("No question to remove")
 
@@ -617,64 +623,81 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             self.set_homework_class_combo_box.addItem(each_class[1])
 
     def set_homework_add_custom_question(self):
+        # Clears status output for adding question
+        self.set_homework_custom_question_added_output.setText("")
+        # If no homework or class selected, informs user question cannot be added
         if len(self.current_classes) == 0 or len(self.homework) == 0:
             self.set_homework_custom_question_added_output.setText("No homework selected")
             return
-        self.set_homework_custom_question_added_output.setText("")
+        # If no question name given, informs user question cannot be added
         if self.set_homework_question_name_input.text() == "":
             self.set_homework_custom_question_added_output.setText("No question name entered")
             return
+        # If no question text given, informs user question cannot be added
         if self.set_homework_question_input.toPlainText() == "":
             self.set_homework_custom_question_added_output.setText("No question text entered")
             return
+        # If no correct answer given, informs user question cannot be added
         if self.set_homework_correct_answer_input.toPlainText() == "":
             self.set_homework_custom_question_added_output.setText("Correct answer required")
             return
+        # If no first incorrect answer given, informs user question cannot be added
         if self.set_homework_answer_b_input.toPlainText() == "":
             self.set_homework_custom_question_added_output.setText("Incorrect answer 1 required")
             return
+        # If first incorrect answer is not unique from correct answer, informs user question cannot be added
         if self.set_homework_answer_b_input.toPlainText() == self.set_homework_correct_answer_input.toPlainText():
             self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
             return
+        # If second incorrect answer not given, sets it to none
         if self.set_homework_answer_c_input.toPlainText() == "":
             answer_c = None
+        # If second incorrect answer given:
         else:
+            # If incorrect answer is not unique from correct answer or other incorrect answers, informs user
+            # question cannot be added
             if self.set_homework_answer_c_input.toPlainText() in [self.set_homework_correct_answer_input.toPlainText(),
                                                                   self.set_homework_answer_b_input.toPlainText()]:
                 self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
                 return
+            # If incorrect answer valid, stores it
             answer_c = self.set_homework_answer_c_input.toPlainText()
+        # If second incorrect answer not given, sets it to none
         if self.set_homework_answer_d_input.toPlainText() == "":
             answer_d = None
         else:
+            # If incorrect answer is not unique from correct answer or other incorrect answers, informs user
+            # question cannot be added
             if self.set_homework_answer_d_input.toPlainText() in [self.set_homework_correct_answer_input.toPlainText(),
                                                                   self.set_homework_answer_b_input.toPlainText(),
                                                                   self.set_homework_answer_c_input.toPlainText()]:
                 self.set_homework_custom_question_added_output.setText("Answer choices cannot match")
                 return
+            # If incorrect answer valid, stores it
             answer_d = self.set_homework_answer_d_input.toPlainText()
-        if len(self.current_classes) <= 0:
-            self.set_homework_custom_question_added_output.setText("No class selected")
-            return
-        if len(self.homework) <= 0:
-            self.set_homework_custom_question_added_output.setText("No homework selected")
-            return
+        # Creates instance of question class from given question data
         question = question_scripts.Question(self.set_homework_question_name_input.text().casefold(), 1, 1,
                                              self.set_homework_question_input.toPlainText(),
                                              self.set_homework_correct_answer_input.toPlainText(),
                                              self.set_homework_answer_b_input.toPlainText(), answer_c, answer_d)
+        # Saves question to database and stores it's index in a variable
         question_position: int = (question.save_question())
+        # Inserts reference to question in database to homework data
         ui_scripts.insert_question_into_homework(
             self.current_classes[self.set_homework_class_combo_box.currentIndex()][0],
             self.homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+        # Resets page and informs user attempt was a success
         self.set_homework_homework_change()
         self.set_homework_custom_question_added_output.setText("Question Added")
 
     def set_homework_add_automatic_question(self):
+        # Clears status output for adding question
+        self.set_homework_auto_question_added_output.setText("")
+        # If no homework or class selected, informs user question cannot be added
         if len(self.current_classes) == 0 or len(self.homework) == 0:
             self.set_homework_auto_question_added_output.setText("No homework selected")
             return
-        self.set_homework_auto_question_added_output.setText("")
+        # Depending on index selected, runs scripts to generate a question of the selected type:
         if self.set_homework_type_combo_box.currentIndex() == 0:
             data: list = [questions.mechanics.find_resultant_of_two_forces(
                 self.set_homework_difficulty_combo_box.currentIndex() + 1), None, None, None]
@@ -687,17 +710,23 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         elif self.set_homework_type_combo_box.currentIndex() == 4:
             data: list = questions.mechanics.projectile(self.set_homework_difficulty_combo_box.currentIndex() + 1)
         else:
+            # Program errors if invalid index selected, though nature of a dropdown menu means this cannot ever occur
             raise IndexError
+        # Gets back data needed to set up graph and link question to homew0rk
         question: question_scripts.Question = data[0]
         function: str = data[1]
         minimum_x: float = data[2]
         maximum_x: float = data[3]
         question_position: int = (question.save_question())
+        # Inserts reference to question in database to homework data
         ui_scripts.insert_question_into_homework(
             self.current_classes[self.set_homework_class_combo_box.currentIndex()][0],
             self.homework[self.set_homework_homework_combo_box.currentIndex()][0], question_position)
+        # If graph details were returned during question generation, inserts an entry into the graph table to give
+        # graph data for question added
         if function is not None and minimum_x is not None and maximum_x is not None:
             ui_scripts.set_question_graph(question_position, str(function), float(minimum_x), float(maximum_x))
+        # Resets page and informs user attempt was a success
         self.set_homework_homework_change()
         self.set_homework_auto_question_added_output.setText("Question Added")
         return
