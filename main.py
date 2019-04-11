@@ -712,7 +712,7 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         else:
             # Program errors if invalid index selected, though nature of a dropdown menu means this cannot ever occur
             raise IndexError
-        # Gets back data needed to set up graph and link question to homew0rk
+        # Gets back data needed to set up graph and link question to homework
         question: question_scripts.Question = data[0]
         function: str = data[1]
         minimum_x: float = data[2]
