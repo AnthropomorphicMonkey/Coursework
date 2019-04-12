@@ -910,21 +910,29 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
             self.admin_delete_class_status_label.setText("No class selected")
 
     def admin_create_homework(self):
+        # If class selected:
         if len(self.current_classes) > 0:
+            # Creates a datetime formatted due date from the items selected in the calendar widget
             due_date: datetime.date = datetime.date(self.admin_due_date_calendar.selectedDate().year(),
                                                     self.admin_due_date_calendar.selectedDate().month(),
                                                     self.admin_due_date_calendar.selectedDate().day())
+            # If no homework name given, outputs error and does not commit changes
             if self.admin_homework_name_input.text() == "":
                 self.admin_add_homework_status_output.setText("Homework name required")
+            # If no homework description given, outputs error and does not commit changes
             elif self.admin_homework_description_input.toPlainText() == "":
                 self.admin_add_homework_status_output.setText("Homework description required")
+            # If due date is in the past, outputs error and does not commit changes
             elif due_date <= datetime.date.today():
                 self.admin_add_homework_status_output.setText("Homework due date must be in the future")
             else:
+                # Creates homework entry in database and stores id in variable
                 homework_id: int = ui_scripts.insert_new_homework(self.admin_homework_name_input.text(),
                                                                   self.admin_homework_description_input.toPlainText())
+                # Creates class to homework relationship in database
                 ui_scripts.add_homework_to_class(
                     self.current_classes[self.admin_class_user_combo_box.currentIndex()][0], homework_id, due_date)
+                # Outputs success message and resets page
                 self.admin_add_homework_status_output.setText("Homework Added")
                 self.admin_homework_name_input.setText("")
                 self.admin_homework_description_input.setText("")
@@ -932,14 +940,17 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                 self.admin_due_date_calendar.setMinimumDate(QtCore.QDate.currentDate().addDays(1))
                 # noinspection PyArgumentList
                 self.admin_due_date_calendar.setSelectedDate(QtCore.QDate.currentDate().addDays(1))
+        # If no class selected, outputs error and makes no changes
         else:
             self.admin_add_homework_status_output.setText("Class must be selected")
 
     def admin_remove_homework(self):
+        # If homework selected runs functions to remove selected homework and outputs success message
         if len(self.homework) > 0:
             ui_scripts.remove_homework(self.homework[self.admin_remove_homework_combo_box.currentIndex()][0])
             self.admin_update_remove_homework_combo_box()
             self.admin_remove_homework_status_label.setText("Homework removed")
+        # If no homework selected, outputs error and makes no changes
         else:
             self.admin_remove_homework_status_label.setText("Class has no homework")
 
@@ -1056,16 +1067,23 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                     self.view_classes_homework_or_student_combo_box.addItem(each_student[1])
 
     def view_classes_update_table(self):
+        # Resets table to blank state
         self.view_classes_score_table.clear()
+        # Gets the current class id
         current_class: int = self.current_classes[self.view_classes_class_combo_box.currentIndex()][0]
+        # Gets the id of the selected homework or student
         current_student_or_homework: int = self.view_classes_students_or_homework[
             self.view_classes_homework_or_student_combo_box.currentIndex()]
+        # If view homework scores selected:
         if self.view_classes_view_type_combo_box.currentIndex() == 0:
+            # Sets required column headers
             self.view_classes_score_table.setColumnCount(5)
             self.view_classes_score_table.setHorizontalHeaderLabels(
                 ["First Name", "Last Name", "Score", "Percentage", "Attempts"])
+            # Gets all scores from database (see function for more detail)
             scores: list = ui_scripts.get_results_of_homework(current_class, current_student_or_homework)
             self.view_classes_score_table.setRowCount(len(scores))
+            # Inserts each set of score data into the database
             if len(scores) != 0:
                 row_counter: int = -1
                 for each_score in scores:
@@ -1078,11 +1096,15 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                                                           QtWidgets.QTableWidgetItem(str(each_score[3])))
                     self.view_classes_score_table.setItem(row_counter, 4,
                                                           QtWidgets.QTableWidgetItem(str(each_score[4])))
+        # If view student scores selected:
         else:
+            # Sets required column headers
             self.view_classes_score_table.setColumnCount(4)
             self.view_classes_score_table.setHorizontalHeaderLabels(["Homework", "Score", "Percentage", "Attempts"])
+            # Gets all scores from database (see function for more detail)
             scores: list = ui_scripts.get_scores_of_student_in_class(current_class, current_student_or_homework)
             self.view_classes_score_table.setRowCount(len(scores))
+            # Inserts each set of score data into the database
             if len(scores) != 0:
                 row_counter: int = -1
                 for each_score in scores:
@@ -1115,13 +1137,18 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
         self.homework_select_table.doubleClicked.connect(self.homework_select_table_clicked)
 
     def homework_select_update_table(self):
+        # Resets and clears table
         self.homework_select_table.clearContents()
+        # Unless there is no class selected:
         if len(self.current_classes) != 0:
+            # Gets all homework ids for given class and stores them
             homework_ids: list = []
             self.homework_ids: list = []
             for each_homework in ui_scripts.get_homework_of_class(
                     self.current_classes[self.homework_select_class_combo_box.currentIndex()][0]):
                 homework_ids.append(each_homework[0])
+            # Gets homework data for each homework id, converts date stored to datetime and compares to current date. If
+            # due date has not passed, appends homework data to homework list
             for each_homework in homework_ids:
                 data: tuple = ui_scripts.get_homework_name_and_due_date(each_homework, self.current_classes[
                     self.homework_select_class_combo_box.currentIndex()][0])
@@ -1130,6 +1157,7 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                                                         int(due_year_month_day[2]))
                 if datetime.date.today() < due_date:
                     self.homework_ids.append([each_homework, data[0], data[1]])
+            # Sets up table and inserts all stored homework data with valid due date
             self.homework_select_table.setRowCount(len(self.homework_ids))
             row_counter: int = -1
             for each_homework in self.homework_ids:
@@ -1138,10 +1166,14 @@ class Window(QtWidgets.QMainWindow, window.Ui_MainWindow):
                 self.homework_select_table.setItem(row_counter, 1, QtWidgets.QTableWidgetItem(each_homework[2]))
 
     def homework_select_table_clicked(self):
+        # Gets the id of the selected homework
         homework_id = self.homework_ids[self.homework_select_table.currentRow()][0]
+        # Stores all questions for the selected homework in a list
         self.questions: list = ui_scripts.get_questions_of_homework(homework_id)
+        # If homework contains questions, goes to question page
         if len(self.questions) > 0:
             self.change_page(self.page_dictionary['question_page'])
+        # If homework is empty does nothing
         else:
             return
 
